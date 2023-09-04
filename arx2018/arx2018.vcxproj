@@ -182,6 +182,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="highlight_subentity.cpp" />
+    <ClCompile Include="test.cpp" />
     <Text Include="README.md">
       <FileType>Document</FileType>
     </Text>

@@ -26,7 +26,8 @@ Acad::ErrorStatus change_color(AcDbObjectId entId, Adesk::UInt16 newColor);
 
 
 
-
+// 其余函数, 若无必要, 不要改动. 皆为标准使用. 需要临时修改, 使用下面这个
+void test();
 
 
 
@@ -53,3 +54,6 @@ void tessellate();
 // Medium
 // 统计命令运行
 void cmd_count();
+
+// 选择一个对象进行高亮. 可以是block的中对象. 使用acedSSGet(_T("_:s:n")...)或者acedNEntSelP
+void highlight_subentity();

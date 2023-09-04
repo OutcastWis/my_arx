@@ -867,19 +867,21 @@ namespace wzj {
         AcRxDictionaryIterator* iter;
 
         // Loop over current session stats, and merge them into cumulative stats.
-        for (iter = sessionStats->newIterator(); !iter->done(); iter->next()) {
-            MyCommandRecord* sessionCmdRcd = (MyCommandRecord*)iter->object();
-            MyCommandRecord* cumulativeCmdRcd = (MyCommandRecord*) cumulativeStats->at(iter->key());
-            if (!cumulativeCmdRcd) {
-                // First time, add it.
-                cumulativeCmdRcd = new MyCommandRecord();
-                cumulativeStats->atPut(iter->key(), cumulativeCmdRcd);
+        if (sessionStats) {
+            for (iter = sessionStats->newIterator(); !iter->done(); iter->next()) {
+                MyCommandRecord* sessionCmdRcd = (MyCommandRecord*)iter->object();
+                MyCommandRecord* cumulativeCmdRcd = (MyCommandRecord*)cumulativeStats->at(iter->key());
+                if (!cumulativeCmdRcd) {
+                    // First time, add it.
+                    cumulativeCmdRcd = new MyCommandRecord();
+                    cumulativeStats->atPut(iter->key(), cumulativeCmdRcd);
+                }
+                // add the values
+                cumulativeCmdRcd->add(sessionCmdRcd);
             }
-            // add the values
-            cumulativeCmdRcd->add(sessionCmdRcd);
-        }
 
-        delete iter;
+            delete iter;
+        }
 
         // Now that it has been added in, wipe out the current session Stats;
         delete sessionStats;

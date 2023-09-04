@@ -62,6 +62,12 @@
     <ClCompile Include="cmd_count.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="highlight_subentity.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="test.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="module_default.def" />

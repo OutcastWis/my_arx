@@ -44,6 +44,9 @@ void init_app() {
 
     register_class();
 
+    acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_TEST"), _T("LOCAL_TEST"), 
+        ACRX_CMD_MODAL | ACRX_CMD_REDRAW, test);
+
     acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_CURVES"), _T("LOCAL_CURVES"), ACRX_CMD_MODAL, curves);
 
     acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_MKENTS"), _T("LOCAL_MKENTS"), ACRX_CMD_MODAL, mk_ents);
@@ -56,6 +59,10 @@ void init_app() {
     acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_CUSTOM_TEXT"), _T("LOCAL_CUSTOM_TEXT"), ACRX_CMD_MODAL, custom_text);
 
     acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_COMPLEX_LAYER"), _T("LOCAL_COMPLEX_LAYER"), ACRX_CMD_MODAL, complex_layer);
+
+    acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_CMD_COUNT"), _T("LOCAL_CMD_COUNT"), ACRX_CMD_MODAL, cmd_count);
+
+    acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_HLSUB"), _T("LOCAL_HLSUB"), ACRX_CMD_MODAL, highlight_subentity);
 }
 
 
@@ -335,7 +342,7 @@ void tessellate() {
     t->close();
 }
 
-
 void cmd_count() {
     wzj::cmd_count::instance()->init();
 }
+
