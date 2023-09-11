@@ -10,7 +10,7 @@
 // common 
 void register_class();
 void unregister_class();
-void init_app();
+void init_app(void* appId);
 void unload_app();
 // pEntity需要手动关闭
 Acad::ErrorStatus add_to_model_space(AcDbObjectId& objId, AcDbEntity* pEntity);
@@ -52,8 +52,13 @@ void tessellate();
 
 
 // Medium
-// 统计命令运行
+// 统计命令运行, 文档状态. 本质是AcEditorReactor和AcApDocManagerReactor的使用
 void cmd_count();
-
 // 选择一个对象进行高亮. 可以是block的中对象. 使用acedSSGet(_T("_:s:n")...)或者acedNEntSelP
-void highlight_subentity();
+void highlight();
+// 使用对象的扩展字典, 存储一个自定义对象MyInventoryData
+void ex_dict();
+// 光栅图形的使用
+void raster_image();
+// 自定义菜单
+void context_menu(void* appId);

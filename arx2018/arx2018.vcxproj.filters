@@ -16,6 +16,15 @@
     <Filter Include="custom entity">
       <UniqueIdentifier>{edf76672-b459-4a45-afad-22ba03c4a1e7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="dialog">
+      <UniqueIdentifier>{d26a9361-ad58-4330-9e80-1c99ff8154a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="medium">
+      <UniqueIdentifier>{5315e438-eb62-4053-b4ea-f8803547af02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="context">
+      <UniqueIdentifier>{ab6fb01b-70c6-4854-856a-e6de628bb56d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -30,14 +39,41 @@
     <ClInclude Include="resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="MyAcUiDialog.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="MyTxtStyle.h">
       <Filter>custom entity</Filter>
     </ClInclude>
+    <ClInclude Include="MyInventoryData.h">
+      <Filter>custom entity</Filter>
+    </ClInclude>
+    <ClInclude Include="MyAcUiDialog.h">
+      <Filter>dialog</Filter>
+    </ClInclude>
     <ClInclude Include="cmd_count.h">
+      <Filter>medium</Filter>
+    </ClInclude>
+    <ClInclude Include="ex_dict.h">
+      <Filter>medium</Filter>
+    </ClInclude>
+    <ClInclude Include="highlight_subentity.h">
+      <Filter>medium</Filter>
+    </ClInclude>
+    <ClInclude Include="icmd.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="raster_image.h">
+      <Filter>medium</Filter>
+    </ClInclude>
+    <ClInclude Include="context_menu.h">
+      <Filter>medium</Filter>
+    </ClInclude>
+    <ClInclude Include="MyCmdContext.h">
+      <Filter>context</Filter>
+    </ClInclude>
+    <ClInclude Include="MyEditContext.h">
+      <Filter>context</Filter>
+    </ClInclude>
+    <ClInclude Include="MyDefaultContext.h">
+      <Filter>context</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -50,23 +86,47 @@
     <ClCompile Include="command.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="MyAcUiDialog.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="MyTxtStyle.cpp">
       <Filter>custom entity</Filter>
     </ClCompile>
     <ClCompile Include="MyTessellate.cpp">
       <Filter>custom entity</Filter>
     </ClCompile>
-    <ClCompile Include="cmd_count.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="highlight_subentity.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="test.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="MyInventoryData.cpp">
+      <Filter>custom entity</Filter>
+    </ClCompile>
+    <ClCompile Include="MyAcUiDialog.cpp">
+      <Filter>dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="cmd_count.cpp">
+      <Filter>medium</Filter>
+    </ClCompile>
+    <ClCompile Include="ex_dict.cpp">
+      <Filter>medium</Filter>
+    </ClCompile>
+    <ClCompile Include="highlight_subentity.cpp">
+      <Filter>medium</Filter>
+    </ClCompile>
+    <ClCompile Include="icmd.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="raster_image.cpp">
+      <Filter>medium</Filter>
+    </ClCompile>
+    <ClCompile Include="context_menu.cpp">
+      <Filter>medium</Filter>
+    </ClCompile>
+    <ClCompile Include="MyCmdContext.cpp">
+      <Filter>context</Filter>
+    </ClCompile>
+    <ClCompile Include="MyEditContext.cpp">
+      <Filter>context</Filter>
+    </ClCompile>
+    <ClCompile Include="MyDefaultContext.cpp">
+      <Filter>context</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -28,5 +28,40 @@
 6. **eAcGiRegenTypeInvalid** 无效
 
 
+### 嵌套对象, nested entity
+* 嵌套对象的格式是: block ref -> block ref -> ... -> entity
+* 嵌套对象的操作需要使用AcDbFullSubentPath. 否则使用的坐标是用户坐标, 而不是世界坐标, 会产生奇怪的BUG. 例如高亮时, 会在其他位置生成无法操作的高亮块.
+* 对于face, edge, vertex等, 在此基础上, 需要使用getSubentPathsAtGsMarker
+* 详见highlight_subentity
+
+
+### 快捷菜单, AcEdUiContext
+* 有5种:
+1. **Hot Grip Cursor** 右键选中对象的grip
+2. **Object Snap Cursor** 按住shift并且右键
+3. **Default Mode** 既无对象选中, 也不在命令中时, 右键
+4. **Command Mode** 在命令中时右键
+5. **Edit Mode** 不在命令中, 选中对象后, 但没有选中grip, 右键
+
+* 快捷菜单在cui里面有对应的别名
+1. 默认菜单: POP501, CMDEFAULT
+2. 编辑菜单: POP502, CMEDIT
+3. 命令菜单: POP503, CMCOMMAND
+上述三者必须存在, 否则对应的命令模式无法使用. 例如, cui中不存在POP501, CMDEFAULT时, Default Mode便不能使用, 即使在程序中进行了注册
+* 详见context_menu
+
+* 命令模式能否正确显示还依赖于右键的配置. 在options->用户系统配置->自定义右键单击->命令模式 中, 如果选择的是"快捷菜单: 命令选项存在时可用", 则在没有可用的选项时，右键与按 Enter 键的效果一样。. 选择"快捷菜单: 总是启用"则可以.
+* "命令选项存在时可用"需要在使用acedget*中, 对参数prompt进行设定. prompt格式如下:
+```
+Description: 
+Current instruction (descriptive info) or 
+[Option1/oPtion2/opTion3/...] <default option>:
+```
+> 主要是第3行中, 对option的设置. 其他的可以随意. 注意每行不要超80个字符, 不要超过3行.
+* 详见context_menu.cpp中detail::cmd函数
+
+
 ### 注意点
 * 宏ACRX_DXF_DEFINE_MEMBERS的倒数第二项一定要大写
+* AcFile::fprintf存在BUG. 64位下, 不能正确输出wchar_t. fprintf(L"%s", L"ABC"), 只会显示A. 设置setCharFormat为UTF8后依旧无效, 或者使用已有的FILE*进行attach依旧不行
+* 

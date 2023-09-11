@@ -3,8 +3,9 @@
 #include <map>
 
 #include <aced.h>
-#include <AcCrtFILEWrappers.h>
 #include <AcApDMgr.h>
+
+#include "icmd.h"
 
 
 namespace wzj {
@@ -31,12 +32,13 @@ namespace wzj {
         void add(int flags, int count, double time);
         void add(const MyCommandRecord* record);
 
-        void write(LPCTSTR cmd_name, AcFILE& stat_file);
+        void write(LPCTSTR cmd_name, FILE* stat_file);
 
         int count() const;
         double elapsedTime() const;
 
     protected:
+        // {stat, record}. stat是命令行状态, 由detail::getCurrentStateFlags()所得
         std::map<int, MyCommandSubRecord> m_subRecords;
     };
 
@@ -80,17 +82,21 @@ namespace wzj {
         long               lispFlags;
     };
 
-    class cmd_count {
+    class cmd_count : public icmd {
     public:
         static cmd_count* instance() {
             static cmd_count one;
             return &one;
         }
 
-        void stop();
+        const TCHAR* name() const override {
+            return _T("cmd_count");
+        }
 
-        void init();
+        void stop_impl() override;
 
+        void init_impl() override;
+        // 在docData中寻找pDoc, 若不存在, 则加入. 返回索引
         int lookupDoc(AcApDocument* pDoc);
 
         void recordCommandDuration(const TCHAR* pszCmdStr);
@@ -98,7 +104,6 @@ namespace wzj {
         Adesk::Boolean updateCumulativeStats();
 
         Adesk::Boolean readCumulativeStats();
-
 
 
     private:

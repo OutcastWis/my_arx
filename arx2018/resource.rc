@@ -113,6 +113,89 @@ BEGIN
     0
 END
 
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Menu
+//
+
+IDR_ENTITY1_MENU MENU
+BEGIN
+    POPUP "Entity1"
+    BEGIN
+        MENUITEM "Entity1 Item1",               ID_ENTITY1_ITEM1
+        MENUITEM "Entity1 Item2",               ID_ENTITY1_ITEM2
+    END
+END
+
+IDR_CIRCLE_MENU MENU
+BEGIN
+    POPUP "CircleMenu"
+    BEGIN
+        MENUITEM "Circle Item 1",               ID_CIRCLE_ITEM1
+        MENUITEM "Circle Item 2",               ID_CIRCLE_ITEM2
+        POPUP "Circle Cascading"
+        BEGIN
+            MENUITEM "Circle Sub Item 1",           ID_CIRCLE_SUB_ITEM1
+            MENUITEM "Circle Sub Item 2",           ID_CIRCLE_SUB_ITEM2
+        END
+    END
+END
+
+IDR_LINE_MENU MENU
+BEGIN
+    POPUP "LineMenu"
+    BEGIN
+        MENUITEM "Line Item 1",                 ID_LINE_ITEM1
+        MENUITEM "Line Item 2",                 ID_LINE_ITEM2
+        POPUP "Line Cascading"
+        BEGIN
+            MENUITEM "Line Sub Item 1",             ID_LINE_SUB_ITEM1
+            MENUITEM "Line Sub Item 2",             ID_LINE_SUB_ITEM2
+        END
+    END
+END
+
+IDR_CMD_MENU MENU
+BEGIN
+    POPUP "CmdMenu"
+    BEGIN
+        MENUITEM "Item 1",                      ID_CMD_ITEM1
+        MENUITEM SEPARATOR
+        MENUITEM "Item 2",                      ID_CMD_ITEM2
+        POPUP "Cascading 1"
+        BEGIN
+            MENUITEM "Sub Item 1",                  ID_CMD_SUB_ITEM1
+            POPUP "Cascading 2"
+            BEGIN
+                MENUITEM "Sub Sub Item1",               ID_CMD_SUBSUB_ITEM1
+            END
+            MENUITEM SEPARATOR
+            MENUITEM "Sub Item 2",                  ID_CMD_SUB_ITEM2
+        END
+    END
+END
+
+IDR_DEFAULT_MENU MENU
+BEGIN
+    POPUP "Default Menu"
+    BEGIN
+        MENUITEM "Default Item 1",              ID_DEFAULT_ITEM1
+        MENUITEM SEPARATOR
+        MENUITEM "Default Item 2",              ID_DEFAULT_ITEM2
+        POPUP "Cascading 1"
+        BEGIN
+            MENUITEM "Default Sub Item 1",          ID_DEFAULT_SUB_ITEM1
+            POPUP "Cascading 2"
+            BEGIN
+                MENUITEM "Default Sub Sub Item1",       ID_DEFAULT_SUBSUB_ITEM1
+            END
+            MENUITEM SEPARATOR
+            MENUITEM "Default Sub Item 2",          ID_DEFAULT_SUB_ITEM2
+        END
+    END
+END
+
 #endif    // 中文(简体，中国) resources
 /////////////////////////////////////////////////////////////////////////////
 

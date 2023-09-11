@@ -14,13 +14,14 @@
 #include <appinfo.h>
 #include <rxmfcapi.h>
 
+
 // defined in rxmfcapi.cpp - (exported but not published)
 DWORD       acedCommandActive();         // direct access to CMDACTIVE sysvar (avoided getvar for speed reasons)
 //BOOL        acedManualInputProvided(AcApDocument* pAcTargetDocument); // last token was provided by a carbon based life form
 BOOL        acedMenuInputProvided();
 
 
-// ÔÚObject2013¼°ÒÔºó, acrxProductKeyÕâ¸öÈ«¾Öº¯ÊıÃ»ÁË, ËùÒÔÓÃÏÂÃæºêÌæ»»
+// åœ¨Object2013åŠä»¥å, acrxProductKeyè¿™ä¸ªå…¨å±€å‡½æ•°æ²¡äº†, æ‰€ä»¥ç”¨ä¸‹é¢å®æ›¿æ¢
 #define acrxProductKey acdbHostApplicationServices()->getMachineRegistryProductRootKey
 
 // cmd active flags
@@ -46,7 +47,7 @@ BOOL        acedMenuInputProvided();
 
 
 #define PRODUCTL 21
-static ACHAR product[PRODUCTL] = { NULL };  // MDI-Safe. »º´æ²úÆ·Ãû³Æ
+static ACHAR product[PRODUCTL] = { NULL };  // MDI-Safe. ç¼“å­˜äº§å“åç§°
 static ACHAR abort_msg[255];              // MDI-Safe
 
 namespace wzj {
@@ -62,7 +63,7 @@ namespace wzj {
         AcRxDictionary* initStatDictionary() {
             return acrxKernel->newAcRxDictionary(0, Adesk::kTrue, Adesk::kTrue);
         }
-        // »ñÈ¡µ±Ç°ÃüÁîĞĞ×´Ì¬
+        // è·å–å½“å‰å‘½ä»¤è¡ŒçŠ¶æ€
         int getCurrentStateFlags() {
             int flags = acedCommandActive();
 
@@ -142,14 +143,14 @@ namespace wzj {
             }
             return retval;
         }
-        // ¶ÁÈ¡ÊÇ·ñ×Ô¶¯¼ÓÔØµÄ±êÖ¾Î». true±íÊ¾×Ô¶¯¼ÓÔØ
+        // è¯»å–æ˜¯å¦è‡ªåŠ¨åŠ è½½çš„æ ‡å¿—ä½. trueè¡¨ç¤ºè‡ªåŠ¨åŠ è½½
         bool getStartUpLoad()
         {
             ACHAR appKey[1024];
             wsprintf(appKey, ACRX_T(/*MSGO*/"%s\\Applications\\%s"), acrxProductKey(), gAppSubKey);
             return (0 != (AcadApp::kOnAutoCADStartup & RegGetInt(HKEY_CURRENT_USER, appKey, ACRX_T(/*MSGO*/"LOADCTRLS"))));
         }
-        // ½«ÊÇ·ñ×Ô¶¯¼ÓÔØµÄ±êÖ¾Î»Ğ´Èë×¢²á±í
+        // å°†æ˜¯å¦è‡ªåŠ¨åŠ è½½çš„æ ‡å¿—ä½å†™å…¥æ³¨å†Œè¡¨
         void setStartUpLoad(bool loadOnStartUp)
         {
             ACHAR appKey[1024];
@@ -196,8 +197,8 @@ namespace wzj {
                 printStats(global_one->sessionStats);
             }
         }
-
-        void cmdCommandCount() {
+        // è®©ç”¨æˆ·å†³å®šæ˜¯å¦å¼€å¯æ—¶è‡ªåŠ¨åŠ è½½. å†™å…¥æ³¨å†Œè¡¨ä¸­
+        void cmdStartupLoad() {
             ACHAR reply[50];
             ACHAR prompt[255];
             _stprintf(prompt, ACRX_T("\nLoad CmdCount on start up? <%s>: "), getStartUpLoad() ? _T("Y") : _T("N"));
@@ -206,7 +207,7 @@ namespace wzj {
             if (acedGetKword(prompt, reply) == RTNORM)
                 setStartUpLoad(!_tcscmp(reply, ACRX_T("Yes")));
         }
-        // ¿ÉÒÔÀí½âÎªÈÕÖ¾. ¶ÔcmdStr±íÊ¾µÄĞĞÎª½øĞĞ¼ÆÊı. flags±íÊ¾ÃüÁîĞĞ×´Ì¬. positiveÈ·¶¨¼ÆÊıÎª+1»¹ÊÇ-1
+        // å¯ä»¥ç†è§£ä¸ºæ—¥å¿—. å¯¹cmdStrè¡¨ç¤ºçš„è¡Œä¸ºè¿›è¡Œè®¡æ•°. flagsè¡¨ç¤ºå‘½ä»¤è¡ŒçŠ¶æ€. positiveç¡®å®šè®¡æ•°ä¸º+1è¿˜æ˜¯-1
         MyCommandRecord* bumpCount(const TCHAR* cmdStr, int flags, Adesk::Boolean positive) {
             MyCommandRecord* cmdRcd = (MyCommandRecord*)global_one->sessionStats->at(cmdStr);
             if (cmdRcd == NULL) {
@@ -291,7 +292,7 @@ namespace wzj {
             return ((endTime - startTime) * SECONDS_PER_DAY); 
         }
 
-        // ¼ÇÂ¼ÃüÁîÔËĞĞÊ±³¤
+        // è®°å½•å‘½ä»¤è¿è¡Œæ—¶é•¿
         void recordElapsedCmdTime(MyCommandRecord*& commandRecord, double startTime, int flags) {
             commandRecord->add(flags,0, elapsedTimeInSeconds(getCurTime(), startTime));
         }
@@ -390,7 +391,7 @@ namespace wzj {
 
         }
 
-        void printCurrentDateTime(AcFILE& statFile)
+        void printCurrentDateTime(FILE* statFile)
         {
             resbuf tempRes;
             int jtd_day;
@@ -433,7 +434,7 @@ namespace wzj {
             ctd_second = (short)(rem * 60);
 
             // print current date and time
-            statFile.fprintf(ACRX_T("%0*d/%0*d/%0*d %0*d:%0*d:%0*d"),
+            _ftprintf(statFile, ACRX_T("%0*d/%0*d/%0*d %0*d:%0*d:%0*d"),
                 2, ctd_month,
                 2, ctd_day,
                 4, ctd_year,
@@ -441,7 +442,14 @@ namespace wzj {
                 2, ctd_minute,
                 2, ctd_second);
         }
-        // ½«×¢²áµÄÃüÁîĞÅÏ¢Ğ´Èë×¢²á±í. ÓÃÓÚdemand load»úÖÆ
+        /* å°†æ³¨å†Œçš„å‘½ä»¤ä¿¡æ¯å†™å…¥æ³¨å†Œè¡¨. ç”¨äºdemand loadæœºåˆ¶. 
+         * å†™å…¥åä¸º:
+         *      è®¡ç®—æœº\\HKEY_CURRENT_USER\\SOFTWARE\\Autodesk\\AutoCAD\\R22.0\\ACAD-1001:804\\Applications
+         *          cmd_count       å¯¹åº”setAppName
+         *              Commands   å¯¹åº”writeCommandNameToRegistry
+         *              Groups      å¯¹åº”writeGroupNameToRegistry
+         * 
+         */
         void updateRegistry()
         {
             AcadAppInfo appInfo;
@@ -460,9 +468,9 @@ namespace wzj {
 
             appInfo.setLoadReason(AcadApp::LoadReasons(nLoadReasons));
 
-            appInfo.writeToRegistry(); // ÒªĞ´ÔÚwriteCommandNameToRegistryÇ°
-            appInfo.writeCommandNameToRegistry(_T("GLOBAL_CMDSTAT"), _T("LOCAL_CMDSTAT"));
-            appInfo.writeCommandNameToRegistry(_T("GLOBAL_CMDCOUNT"), _T("LOCAL_CMDCOUNT"));
+            appInfo.writeToRegistry(); // è¦å†™åœ¨writeCommandNameToRegistryå‰
+            appInfo.writeCommandNameToRegistry(_T("GLOBAL_CMD_STAT"), _T("LOCAL_CMD_STAT"));
+            appInfo.writeCommandNameToRegistry(_T("GLOBAL_CMD_LOAD"), _T("LOCAL_CMD_LOAD"));
 
 
             CString groupName = ACRX_T(/*MSG0*/"WZJ_COMMAND_CMD_COUNT");
@@ -574,16 +582,16 @@ namespace wzj {
         }
     }
 
-    void MyCommandRecord::write(LPCTSTR cmd_name, AcFILE& stat_file)
+    void MyCommandRecord::write(LPCTSTR cmd_name, FILE* stat_file)
     {
-        if (!stat_file.isOpen() || (cmd_name == NULL) || (cmd_name[0] == _T('\0')))
+        if (!stat_file || (cmd_name == NULL) || (cmd_name[0] == _T('\0')))
             return;
 
         for (auto iter = m_subRecords.begin(); iter != m_subRecords.end(); iter++) {
             int flags = iter->first;
             MyCommandSubRecord& subRecord = iter->second;
             // Write out the command string.
-            stat_file.fprintf(_T(/*MSG0*/"%s\t%d\t%7i\t%12.2f\n"), cmd_name, flags, subRecord.count, subRecord.elapsedTime);
+            _ftprintf(stat_file, _T(/*MSG0*/"%s\t%d\t%7i\t%12.2f\n"), cmd_name, flags, subRecord.count, subRecord.elapsedTime);
         }
     }
 
@@ -726,7 +734,7 @@ namespace wzj {
 
     //##################################################################################
 
-    void cmd_count::stop() {
+    void cmd_count::stop_impl() {
         // If the current document is still valid, record what it was
         // last doing.  It should be gone, however.
         if (curDocGlobals.doc != NULL)
@@ -743,17 +751,20 @@ namespace wzj {
         delete cmdr;
 
         acedRegCmds->removeGroup(ACRX_T(/*NOXLATE*/"WZJ_COMMAND_CMD_COUNT"));
+
     }
 
-    void cmd_count::init() {
+    void cmd_count::init_impl() {
+
         cmdr = new MyCommandReactor;
+        acedEditor->addReactor(cmdr);
+
         statFileName[0] = EOS;
-        
+
         sessionStats = detail::initStatDictionary();
 
-        acedEditor->addReactor(cmdr);
-        acedRegCmds->addCommand(_T("WZJ_COMMAND_CMD_COUNT"),_T("GLOBAL_CMDSTAT"), _T("LOCAL_CMDSTAT"), ACRX_CMD_MODAL, &detail::commandStats);
-        acedRegCmds->addCommand(_T("WZJ_COMMAND_CMD_COUNT"),_T("GLOBAL_CMDCOUNT"),_T("LOCAL_CMDCOUNT"),ACRX_CMD_MODAL, &detail::cmdCommandCount);
+        acedRegCmds->addCommand(_T("WZJ_COMMAND_CMD_COUNT"),_T("GLOBAL_CMD_STAT"), _T("LOCAL_CMD_STAT"), ACRX_CMD_MODAL, &detail::commandStats);
+        acedRegCmds->addCommand(_T("WZJ_COMMAND_CMD_COUNT"),_T("GLOBAL_CMD_LOAD"),_T("LOCAL_CMD_LOAD"),ACRX_CMD_MODAL, &detail::cmdStartupLoad);
 
         bStatsFileUpdatePending = Adesk::kFalse;
 
@@ -762,11 +773,9 @@ namespace wzj {
 
         // Fill array from existing documents
         AcApDocumentIterator* pDocIter = acDocManager->newAcApDocumentIterator();
-
         for (; !pDocIter->done(); pDocIter->step())
             // add an entry for the document, if some other notification hasn't already done so.
             lookupDoc(pDocIter->document());
-
         delete pDocIter;
 
         // Establish current document, if there is one yet.
@@ -778,7 +787,7 @@ namespace wzj {
         pDocReactor = new MyDocReactor;
         acDocManager->addReactor(pDocReactor);
 
-        detail::updateRegistry(); // Ğ´×¢²á±í, ÓÃÓÚdemand load»úÖÆ
+        detail::updateRegistry(); // å†™æ³¨å†Œè¡¨, ç”¨äºdemand loadæœºåˆ¶
     }
 
     int cmd_count::lookupDoc(AcApDocument* pDoc) {
@@ -894,31 +903,31 @@ namespace wzj {
         assert(_tcslen(statFilePath) > 0);//this should always succeed
 
         // Open the file
-        AcFILE statFile;
-        statFile.fopen(statFilePath, ACRX_T(/*NOXLATE*/"w"));
+        FILE* statFile = nullptr;
+        _wfopen_s(&statFile, statFilePath, ACRX_T(/*NOXLATE*/"w"));
 
-        if (!statFile.isOpen()) {
+        if (!statFile) {
             // Bad permission in our chosen directory.  Give up.
             acedAlert(ACRX_T(/*MSGO*/"Warning: Could not create Command Statistics file."));
             return Adesk::kTrue;
         }
 
         // Print version number of STATFILE
-        statFile.fprintf(ACRX_T(/*MSGO*/"v%04.1f\n"), STAT_FILENAME_VERSION);
+        _ftprintf(statFile, _T("v%04.1f\n"), STAT_FILENAME_VERSION);
 
         // Print create date of STATFILE
         if (!*createDate) {
-            statFile.fprintf(ACRX_T(/*MSGO*/"Created:               "));
+            _ftprintf(statFile,ACRX_T(/*MSGO*/"Created:               "));
             detail::printCurrentDateTime(statFile);
-            statFile.fprintf(ACRX_T(/*MSGO*/"\n"));
+            _ftprintf(statFile,ACRX_T(/*MSGO*/"\n"));
         }
         else
-            statFile.fprintf(ACRX_T(/*MSGO*/"%s\n"), createDate);
+            _ftprintf(statFile,ACRX_T(/*MSGO*/"%s\n"), createDate);
 
         // Print date last modified for STATFILE
-        statFile.fprintf(ACRX_T(/*MSGO*/"Last Modified:         "));
+        _ftprintf(statFile,ACRX_T(/*MSGO*/"Last Modified:         "));
         detail::printCurrentDateTime(statFile);
-        statFile.fprintf(ACRX_T(/*MSGO*/"\n"));
+        _ftprintf(statFile,ACRX_T(/*MSGO*/"\n"));
 
         resbuf tempRes;
         // Print LOGINNAME
@@ -927,17 +936,17 @@ namespace wzj {
                 PRODUCTL, detail::getProductName());
             acrx_abort(abort_msg);
         }
-        statFile.fprintf(ACRX_T(/*NOXLATE*/"LOGINNAME:             %s\n"), tempRes.resval.rstring);
-        acdbFree(tempRes.resval.rstring);
+        auto c = _ftprintf(statFile,ACRX_T(/*NOXLATE*/"LOGINNAME:             %s\n"), tempRes.resval.rstring);
+        free(tempRes.resval.rstring);
         // Print ACAD serial number
         if (acedGetVar(ACRX_T(/*NOXLATE*/"_PKSER"), &tempRes) != RTNORM) {
             _stprintf(abort_msg, ACRX_T("%.*s Command\nStatistics Gatherer\nFailure 1"),
                 PRODUCTL, detail::getProductName());
             acrx_abort(abort_msg);
         }
-        statFile.fprintf(ACRX_T(/*NOXLATE*/"%.*s Serial Number: %s\n"), PRODUCTL, detail::getProductName(),
+        _ftprintf(statFile,ACRX_T(/*NOXLATE*/"%.*s Serial Number: %s\n"), PRODUCTL, detail::getProductName(),
             tempRes.resval.rstring);
-        acdbFree(tempRes.resval.rstring);
+        free(tempRes.resval.rstring);
 
         // Print ACAD version
         if (acedGetVar(ACRX_T(/*NOXLATE*/"_VERNUM"), &tempRes) != RTNORM) {
@@ -945,9 +954,9 @@ namespace wzj {
                 PRODUCTL, detail::getProductName());
             acrx_abort(abort_msg);
         }
-        statFile.fprintf(ACRX_T(/*NOXLATE*/"%.*s version:       %s\n"), PRODUCTL, detail::getProductName(),
+        _ftprintf(statFile,ACRX_T(/*NOXLATE*/"%.*s version:       %s\n"), PRODUCTL, detail::getProductName(),
             tempRes.resval.rstring);
-        acdbFree(tempRes.resval.rstring);
+        free(tempRes.resval.rstring);
 
 
         for (iter = cumulativeStats->newIterator(AcRx::kDictSorted); !iter->done(); iter->next()) {
@@ -956,7 +965,7 @@ namespace wzj {
                 pRec->write(iter->key(), statFile);
         }
 
-        statFile.fclose();
+        fclose(statFile);
 
         delete iter;
         return Adesk::kTrue;
@@ -969,10 +978,11 @@ namespace wzj {
 
         cumulativeStats = detail::initStatDictionary();
 
+        
         // Open the file
-        AcFILE statFile;
-        statFile.fopen(detail::cmdcount_filename(), ACRX_T(/*NOXLATE*/"r"));
-        if (!statFile.isOpen()) {
+        FILE* statFile = nullptr;
+        _tfopen_s(&statFile, detail::cmdcount_filename(), _T("w"));
+        if (!statFile) {
             *createDate = NULL;
             return Adesk::kFalse; // Most likely, it hasn't been created yet.
                                   // one other likely reason is 
@@ -980,54 +990,52 @@ namespace wzj {
                                   // but we're talkin' a millisecond window...
         }
 
-        ACHAR cmdName[MAX_CMD_LENGTH + 1 /*for the EOS*/];
+        ACHAR cmdName[MAX_CMD_LENGTH + 1 /*for the EOS*/] = {};
         int cmdCount;
         double cmdElapsedTime;
 
-        ACHAR dummyString[MAX_STR_LENGTH + 1];
-        ACHAR newline[MAX_STR_LENGTH + 1];
+        ACHAR dummyString[MAX_STR_LENGTH + 1] = {};
+        ACHAR newline[MAX_STR_LENGTH + 1] = {};
 
-        ACHAR versionString[VERSION_LENGTH + 1];
+        ACHAR versionString[VERSION_LENGTH + 1] = {};
 
         // Read line containing STAT_FILENAME_VERSION
-        statFile.fgets(newline, MAX_STR_LENGTH);
+        _fgetts(newline, MAX_STR_LENGTH, statFile);
         _stscanf_s(newline, ACRX_T("%s"), versionString);
-
 
 
         ACHAR stat_buf[10];
         _stprintf(stat_buf, ACRX_T("v0%1.1f"), STAT_FILENAME_VERSION);
         if (_tcscmp(versionString, stat_buf) != 0)
         {
-
             // Whoops, you've got an old version of the statfile...
             acutPrintf(ACRX_T("\nWarning: Incompatible version of STATFILE.\n"));
-            statFile.fclose();
+            fclose(statFile);
             return Adesk::kFalse;
         }
 
         // Read line containing Date File Created
-        statFile.fgets(newline, MAX_STR_LENGTH);
+        _fgetts(newline, MAX_STR_LENGTH, statFile);
         _stscanf_s(newline, ACRX_T("\n%[^\n]"), createDate);
 
         // Read line containing Date File Last Modified
-        statFile.fgets(newline, MAX_STR_LENGTH);
+        _fgetts(newline, MAX_STR_LENGTH, statFile);
         _stscanf_s(newline, ACRX_T("\n%[^\n]"), dummyString);
 
         // Read line containing LOGINNAME 
-        statFile.fgets(newline, MAX_STR_LENGTH);
+        _fgetts(newline, MAX_STR_LENGTH, statFile);
         _stscanf_s(newline, ACRX_T("\n%[^\n]"), dummyString);
 
         // Read line containing AutoCAD serial number
-        statFile.fgets(newline, MAX_STR_LENGTH);
+        _fgetts(newline, MAX_STR_LENGTH, statFile);
         _stscanf_s(newline, ACRX_T("\n%[^\n]"), dummyString);
 
         // Read line containing AutoCAD version
-        statFile.fgets(newline, MAX_STR_LENGTH);
+        _fgetts(newline, MAX_STR_LENGTH, statFile);
         _stscanf_s(newline, ACRX_T("\n%[^\n]"), dummyString);
 
         int flags;
-        while (statFile.fgets(newline, MAX_STR_LENGTH) != NULL)
+        while (_fgetts(newline, MAX_STR_LENGTH, statFile) != NULL)
         {
             _stscanf_s(newline, ACRX_T("%s %i %i %le"), cmdName, &flags, &cmdCount, &cmdElapsedTime);
 
@@ -1042,7 +1050,8 @@ namespace wzj {
             }
             pRecord->add(flags, cmdCount, cmdElapsedTime);
         }
-        statFile.fclose();
+        fclose(statFile);
+        
         return Adesk::kTrue;
     }
 

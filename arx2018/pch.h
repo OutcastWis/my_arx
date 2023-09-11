@@ -22,5 +22,7 @@
 #include <adslib.h>
 #include <dbents.h>
 #include <dbapserv.h>
+#include <dbobjptr.h> // AcDbObjectPointer
+#include <axobjref.h> // AcAxObjectRefPtr
 
 #endif //PCH_H

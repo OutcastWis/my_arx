@@ -163,17 +163,33 @@
   <ItemGroup>
     <ClInclude Include="cmd_count.h" />
     <ClInclude Include="command.h" />
+    <ClInclude Include="context_menu.h" />
+    <ClInclude Include="ex_dict.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="highlight_subentity.h" />
+    <ClInclude Include="icmd.h" />
     <ClInclude Include="MyAcUiDialog.h" />
+    <ClInclude Include="MyCmdContext.h" />
+    <ClInclude Include="MyDefaultContext.h" />
+    <ClInclude Include="MyEditContext.h" />
+    <ClInclude Include="MyInventoryData.h" />
     <ClInclude Include="MyTxtStyle.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="raster_image.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cmd_count.cpp" />
     <ClCompile Include="command.cpp" />
+    <ClCompile Include="context_menu.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="ex_dict.cpp" />
+    <ClCompile Include="icmd.cpp" />
     <ClCompile Include="MyAcUiDialog.cpp" />
+    <ClCompile Include="MyCmdContext.cpp" />
+    <ClCompile Include="MyDefaultContext.cpp" />
+    <ClCompile Include="MyEditContext.cpp" />
+    <ClCompile Include="MyInventoryData.cpp" />
     <ClCompile Include="MyTessellate.cpp" />
     <ClCompile Include="MyTxtStyle.cpp" />
     <ClCompile Include="pch.cpp">
@@ -183,6 +199,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="highlight_subentity.cpp" />
+    <ClCompile Include="raster_image.cpp" />
     <ClCompile Include="test.cpp" />
     <Text Include="README.md">
       <FileType>Document</FileType>

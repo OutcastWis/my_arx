@@ -20,7 +20,12 @@
 #include "MyAcUiDialog.h"
 #include "MyTxtStyle.h"
 #include "MyTessellate.h"
+#include "MyInventoryData.h"
 #include "cmd_count.h"
+#include "ex_dict.h"
+#include "highlight_subentity.h"
+#include "raster_image.h"
+#include "context_menu.h"
 
 extern CAcExtensionModule theArxDLL;
 
@@ -28,7 +33,7 @@ extern CAcExtensionModule theArxDLL;
 void register_class() {
     MyTxtStyle::rxInit();
     MyTessellate::rxInit();
-
+    MyInventoryData::rxInit();
 
     acrxBuildClassHierarchy();
 }
@@ -36,16 +41,21 @@ void register_class() {
 void unregister_class() {
     deleteAcRxClass(MyTxtStyle::desc());
     deleteAcRxClass(MyTessellate::desc());
+    deleteAcRxClass(MyInventoryData::desc());
 
     wzj::cmd_count::instance()->stop();
+    wzj::ex_dict::instance()->stop();
+    wzj::highlight_subentity::instance()->stop();
+    wzj::raster_image::instance()->stop();
+    wzj::context_menu::instance()->stop();
 }
 
-void init_app() {
+void init_app(void* appId) {
 
     register_class();
 
     acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_TEST"), _T("LOCAL_TEST"), 
-        ACRX_CMD_MODAL | ACRX_CMD_REDRAW, test);
+        ACRX_CMD_MODAL | ACRX_CMD_REDRAW , test);
 
     acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_CURVES"), _T("LOCAL_CURVES"), ACRX_CMD_MODAL, curves);
 
@@ -62,7 +72,14 @@ void init_app() {
 
     acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_CMD_COUNT"), _T("LOCAL_CMD_COUNT"), ACRX_CMD_MODAL, cmd_count);
 
-    acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_HLSUB"), _T("LOCAL_HLSUB"), ACRX_CMD_MODAL, highlight_subentity);
+    acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_HIGHLIGHT"), _T("LOCAL_HIGHLIGHT"), ACRX_CMD_MODAL, highlight);
+
+    acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_EXDICT"), _T("LOCAL_EXDICT"), ACRX_CMD_MODAL, ex_dict);
+    
+    acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_RASTER"), _T("LOCAL_RASTER"), ACRX_CMD_MODAL, raster_image);
+
+    context_menu(appId);
+
 }
 
 
@@ -343,6 +360,35 @@ void tessellate() {
 }
 
 void cmd_count() {
-    wzj::cmd_count::instance()->init();
+    if (wzj::cmd_count::instance()->is_start())
+        wzj::cmd_count::instance()->stop();
+    else
+        wzj::cmd_count::instance()->init();
 }
 
+void ex_dict() {
+    if (wzj::ex_dict::instance()->is_start())
+        wzj::ex_dict::instance()->stop();
+    else
+        wzj::ex_dict::instance()->init();
+}
+
+void highlight() {
+    if (wzj::highlight_subentity::instance()->is_start())
+        wzj::highlight_subentity::instance()->stop();
+    else
+        wzj::highlight_subentity::instance()->init();
+}
+
+void raster_image() {
+    if (wzj::raster_image::instance()->is_start())
+        wzj::raster_image::instance()->stop();
+    else
+        wzj::raster_image::instance()->init();
+}
+
+void context_menu(void* appId) {
+
+    wzj::context_menu::instance()->set_data(appId);
+    wzj::context_menu::instance()->init();
+}
