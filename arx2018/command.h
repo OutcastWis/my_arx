@@ -19,7 +19,7 @@ AcDbObjectId create_line();
 AcDbObjectId create_circle();
 void create_group(AcDbObjectIdArray& objIds, const TCHAR* pGroupName);
 Acad::ErrorStatus change_color(AcDbObjectId entId, Adesk::UInt16 newColor);
-
+Adesk::Boolean get_yorno(const TCHAR* pStr);
 
 
 
@@ -62,3 +62,9 @@ void ex_dict();
 void raster_image();
 // 自定义菜单
 void context_menu(void* appId);
+
+
+
+// High
+// MDI下, 打开, 关闭, 激活等文档操作
+void docman();

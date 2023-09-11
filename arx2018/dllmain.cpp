@@ -25,10 +25,13 @@ BOOL APIENTRY DllMain( HMODULE hModule,
     {
     case DLL_PROCESS_ATTACH: {
         theArxDLL.AttachInstance(hModule);
-        if (!AfxInitExtensionModule(arxmfcDLL, hModule)) // 初始化MFC扩展模块
-            return 0;
-        // Insert this DLL into the resource chain
-        new CDynLinkLibrary(arxmfcDLL);
+
+        // 初始化MFC扩展模块. 其实已在theArxDLL.AttachInstance进行了. 这里可以不需要
+        /*{
+            if (!AfxInitExtensionModule(arxmfcDLL, hModule))
+                return 0;
+            new CDynLinkLibrary(arxmfcDLL);
+        }*/
         break;
     }
     case DLL_THREAD_ATTACH:
@@ -37,7 +40,7 @@ BOOL APIENTRY DllMain( HMODULE hModule,
         break;
     case DLL_PROCESS_DETACH:
         theArxDLL.DetachInstance();
-        AfxTermExtensionModule(arxmfcDLL);
+        // AfxTermExtensionModule(arxmfcDLL); // 已在theArxDLL.DetachInstance进行了
         break;
     }
     return TRUE;

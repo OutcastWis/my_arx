@@ -26,8 +26,9 @@
 #include "highlight_subentity.h"
 #include "raster_image.h"
 #include "context_menu.h"
+#include "docman.h"
 
-extern CAcExtensionModule theArxDLL;
+AC_DECLARE_EXTENSION_MODULE(theArxDll);
 
 
 void register_class() {
@@ -43,11 +44,17 @@ void unregister_class() {
     deleteAcRxClass(MyTessellate::desc());
     deleteAcRxClass(MyInventoryData::desc());
 
+
+    // Medium
     wzj::cmd_count::instance()->stop();
     wzj::ex_dict::instance()->stop();
     wzj::highlight_subentity::instance()->stop();
     wzj::raster_image::instance()->stop();
     wzj::context_menu::instance()->stop();
+
+
+    // High
+    wzj::docman::instance->stop();
 }
 
 void init_app(void* appId) {
@@ -206,6 +213,30 @@ Acad::ErrorStatus change_color(AcDbObjectId entId, Adesk::UInt16 newColor)
     pEntity->close();
 
     return Acad::eOk;
+}
+
+Adesk::Boolean getYorN(const TCHAR* pStr)
+{
+    TCHAR yorn_str[132];
+
+    // specific prompt.
+    acutPrintf(_T("\n%s"), pStr);
+
+    acedInitGet(0, _T("·ñ ÊÇ _No Yes"));
+
+    yorn_str[0] = _T('Y');
+    yorn_str[1] = _T('\0');
+
+    switch (acedGetString(Adesk::kFalse, _T(" -- No/<Yes>:  "),
+        yorn_str)) {
+    case RTKWORD:
+        acedGetInput(yorn_str);
+        /* Deliberate fallthrough */
+    default:
+        break;
+    }
+
+    return (!((yorn_str[0] == _T('N')) || (yorn_str[0] == _T('n'))));
 }
 
 
@@ -391,4 +422,13 @@ void context_menu(void* appId) {
 
     wzj::context_menu::instance()->set_data(appId);
     wzj::context_menu::instance()->init();
+}
+
+
+
+void docman() {
+    if (wzj::docman::instance()->is_start())
+        wzj::docman::instance()->stop();
+    else
+        wzj::docman::instance()->init();
 }

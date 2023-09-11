@@ -164,6 +164,7 @@
     <ClInclude Include="cmd_count.h" />
     <ClInclude Include="command.h" />
     <ClInclude Include="context_menu.h" />
+    <ClInclude Include="docman.h" />
     <ClInclude Include="ex_dict.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="highlight_subentity.h" />
@@ -183,6 +184,7 @@
     <ClCompile Include="command.cpp" />
     <ClCompile Include="context_menu.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="docman.cpp" />
     <ClCompile Include="ex_dict.cpp" />
     <ClCompile Include="icmd.cpp" />
     <ClCompile Include="MyAcUiDialog.cpp" />
