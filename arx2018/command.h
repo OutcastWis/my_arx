@@ -62,7 +62,8 @@ void ex_dict();
 void raster_image();
 // 自定义菜单
 void context_menu(void* appId);
-
+// 向option对话框中添加tab
+void extend_tabs(void* appId);
 
 
 // High

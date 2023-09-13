@@ -165,6 +165,7 @@
     <ClInclude Include="command.h" />
     <ClInclude Include="context_menu.h" />
     <ClInclude Include="docman.h" />
+    <ClInclude Include="extend_tabs.h" />
     <ClInclude Include="ex_dict.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="highlight_subentity.h" />
@@ -172,6 +173,7 @@
     <ClInclude Include="MyAcUiDialog.h" />
     <ClInclude Include="MyCmdContext.h" />
     <ClInclude Include="MyDefaultContext.h" />
+    <ClInclude Include="MyOptionsTab.h" />
     <ClInclude Include="MySimpleDocReactor.h" />
     <ClInclude Include="MyEditContext.h" />
     <ClInclude Include="MySimpleEditReactor.h" />
@@ -187,11 +189,13 @@
     <ClCompile Include="context_menu.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="docman.cpp" />
+    <ClCompile Include="extend_tabs.cpp" />
     <ClCompile Include="ex_dict.cpp" />
     <ClCompile Include="icmd.cpp" />
     <ClCompile Include="MyAcUiDialog.cpp" />
     <ClCompile Include="MyCmdContext.cpp" />
     <ClCompile Include="MyDefaultContext.cpp" />
+    <ClCompile Include="MyOptionsTab.cpp" />
     <ClCompile Include="MySimpleDocReactor.cpp" />
     <ClCompile Include="MyEditContext.cpp" />
     <ClCompile Include="MySimpleEditReactor.cpp" />

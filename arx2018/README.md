@@ -79,3 +79,4 @@ Current instruction (descriptive info) or
 * 宏ACRX_DXF_DEFINE_MEMBERS的倒数第二项一定要大写
 * AcFile::fprintf存在BUG. 64位下, 不能正确输出wchar_t. fprintf(L"%s", L"ABC"), 只会显示A. 设置setCharFormat为UTF8后依旧无效, 或者使用已有的FILE*进行attach依旧不行
 * acedSSGet中"C"和"W"模式, 需要框选对象在视图中, 否则返回RTERROR, 即不能选中对象
+* 当你的命令需要使用MFC资源时, 确保用addCommand添加命令时, 用AC_DECLARE_EXTENSION_MODULE. 或者在命令实现中, 用CAcModuleResourceOverride

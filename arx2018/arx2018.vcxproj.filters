@@ -90,6 +90,12 @@
     <ClInclude Include="MySimpleEditReactor.h">
       <Filter>reactor</Filter>
     </ClInclude>
+    <ClInclude Include="MyOptionsTab.h">
+      <Filter>dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="extend_tabs.h">
+      <Filter>medium</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -151,6 +157,12 @@
     </ClCompile>
     <ClCompile Include="MySimpleEditReactor.cpp">
       <Filter>reactor</Filter>
+    </ClCompile>
+    <ClCompile Include="MyOptionsTab.cpp">
+      <Filter>dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="extend_tabs.cpp">
+      <Filter>medium</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -27,6 +27,8 @@
 #include "raster_image.h"
 #include "context_menu.h"
 #include "docman.h"
+#include "extend_tabs.h"
+
 
 AC_DECLARE_EXTENSION_MODULE(theArxDLL);
 
@@ -84,10 +86,13 @@ void init_app(void* appId) {
     acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_EXDICT"), _T("LOCAL_EXDICT"), ACRX_CMD_MODAL, ex_dict);
     
     acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_RASTER"), _T("LOCAL_RASTER"), ACRX_CMD_MODAL, raster_image);
+    // 为option对话框注册. 这边的第一个参数会写入注册表中当前配置下OptionsDialog\TabExtensions中. 但除此之外不知道有何作用, 似乎可以任意取名
+    acedRegisterExtendedTab(_T("arx2018.arx"), _T("OptionsDialog"));
 
     acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_DOCMAN"), _T("LOCAL_DOCMAN"), ACRX_CMD_MODAL, docman);
 
-    context_menu(appId);
+
+    context_menu(appId); // 注册用户自己的快捷菜单
 
 }
 
@@ -426,8 +431,9 @@ void context_menu(void* appId) {
     wzj::context_menu::instance()->init();
 }
 
-
-
+void extend_tabs(void* appId) {
+    wzj::extend_tabs::instance()->add_tab(appId);
+}
 
 
 void docman() {

@@ -7,6 +7,7 @@
 #define IDR_LINE_MENU                   106
 #define IDR_CMD_MENU                    107
 #define IDR_DEFAULT_MENU                108
+#define IDD_OPTIONS_TAB                 108
 #define IDD_DIALOG1                     129
 #define IDC_EDIT_XPT                    1000
 #define IDC_EDIT_ANGLE                  1001
@@ -60,7 +61,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        108
+#define _APS_NEXT_RESOURCE_VALUE        110
 #define _APS_NEXT_COMMAND_VALUE         40035
 #define _APS_NEXT_CONTROL_VALUE         1001
 #define _APS_NEXT_SYMED_VALUE           101

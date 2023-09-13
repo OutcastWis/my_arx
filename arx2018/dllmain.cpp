@@ -8,7 +8,6 @@
 #include <aced.h>
 #include <AcExtensionModule.h>
 
-
 #include "command.h"
 
 // 用到了MFC资源, 需要进行维护. 不能和CAD的冲突
@@ -58,6 +57,10 @@ extern "C" AcRx::AppRetCode acrxEntryPoint(AcRx::AppMsgCode msg, void* appId)
         break;
     case AcRx::kUnloadAppMsg:
         unload_app();
+        break;
+    case AcRx::kInitDialogMsg:
+        extend_tabs(appId);
+        break;
     }
     return AcRx::kRetOK;
 }
