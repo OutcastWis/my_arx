@@ -1,6 +1,8 @@
 #pragma once
 
 #include "icmd.h"
+#include "MySimpleDocReactor.h"
+#include "MySimpleEditReactor.h"
 
 namespace wzj {
 
@@ -21,6 +23,11 @@ namespace wzj {
 
         void stop_impl() override;
 
+        void clear();
+
+    public:
+        MySimpleDocReactor* doc_reactor_;
+        MySimpleEditReactor* edit_reactor_;
     };
 }
 

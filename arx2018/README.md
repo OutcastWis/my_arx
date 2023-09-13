@@ -3,6 +3,7 @@
 #include <rxobject.h>
 #include <rxregsvc.h>
 #include <aced.h>
+#include <acedads.h>	// aced全局函数
 #include <dbelipse.h>
 #include <dbsymtb.h>
 #include <adslib.h>		// RTNORM, acdb, acut全局函数
@@ -61,7 +62,20 @@ Current instruction (descriptive info) or
 * 详见context_menu.cpp中detail::cmd函数
 
 
+### CTRL+C work as cancel or copy ?
+* CTRL+C在cad2018上的表现是复制. 在cui中取消改键盘快捷方式后, CTRL+C无任何效果. 不知道如何实现帮助文档中CTRL+C等于cancel的效果. 但公司软件可以用CTRL+C进行取消, 其效果和ESC不同. CTRL+C取消后, 需要用acedUsrBrk来擦除, 否则会影响同命令的下一个acedget*, 导致直接返回RTCAN. 而ESC则不会, 即不需要acedUsrBrk进行擦除
+
+
+### 文档上下文的切换
+* 旧版本CAD是fiber, 切换文档会导致原文档的命令挂起. 但近期的版本不是, 起码2018不是, 即当前文档命令不再挂起, 而是执行完成后, 在进行实际的文档切换. 
+* 所有新建, 打开, 激活等都可视为文档上下文的切换
+* **current document**指的是正在操作的上下文所属文档, 通过curDocument获取
+* **activated document**指的是界面上最上层的文档, 通过mdiActiveDocument获取
+* 上述二者可以不同. 但激活一个文档时, 它一定是current document. 后续可以通过setCurDocument进行改变, 从而使二者不同. 退出命令时, 确保二者统一
+
+
+
 ### 注意点
 * 宏ACRX_DXF_DEFINE_MEMBERS的倒数第二项一定要大写
 * AcFile::fprintf存在BUG. 64位下, 不能正确输出wchar_t. fprintf(L"%s", L"ABC"), 只会显示A. 设置setCharFormat为UTF8后依旧无效, 或者使用已有的FILE*进行attach依旧不行
-* 
+* acedSSGet中"C"和"W"模式, 需要框选对象在视图中, 否则返回RTERROR, 即不能选中对象

@@ -172,7 +172,9 @@
     <ClInclude Include="MyAcUiDialog.h" />
     <ClInclude Include="MyCmdContext.h" />
     <ClInclude Include="MyDefaultContext.h" />
+    <ClInclude Include="MySimpleDocReactor.h" />
     <ClInclude Include="MyEditContext.h" />
+    <ClInclude Include="MySimpleEditReactor.h" />
     <ClInclude Include="MyInventoryData.h" />
     <ClInclude Include="MyTxtStyle.h" />
     <ClInclude Include="pch.h" />
@@ -190,7 +192,9 @@
     <ClCompile Include="MyAcUiDialog.cpp" />
     <ClCompile Include="MyCmdContext.cpp" />
     <ClCompile Include="MyDefaultContext.cpp" />
+    <ClCompile Include="MySimpleDocReactor.cpp" />
     <ClCompile Include="MyEditContext.cpp" />
+    <ClCompile Include="MySimpleEditReactor.cpp" />
     <ClCompile Include="MyInventoryData.cpp" />
     <ClCompile Include="MyTessellate.cpp" />
     <ClCompile Include="MyTxtStyle.cpp" />

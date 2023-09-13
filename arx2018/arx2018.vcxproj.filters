@@ -28,6 +28,9 @@
     <Filter Include="high">
       <UniqueIdentifier>{5989006c-fd08-476d-99b5-12a381554875}</UniqueIdentifier>
     </Filter>
+    <Filter Include="reactor">
+      <UniqueIdentifier>{6f7a60c9-98c3-4724-a642-9efd6a7fa817}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -80,6 +83,12 @@
     </ClInclude>
     <ClInclude Include="docman.h">
       <Filter>high</Filter>
+    </ClInclude>
+    <ClInclude Include="MySimpleDocReactor.h">
+      <Filter>reactor</Filter>
+    </ClInclude>
+    <ClInclude Include="MySimpleEditReactor.h">
+      <Filter>reactor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +145,12 @@
     </ClCompile>
     <ClCompile Include="docman.cpp">
       <Filter>high</Filter>
+    </ClCompile>
+    <ClCompile Include="MySimpleDocReactor.cpp">
+      <Filter>reactor</Filter>
+    </ClCompile>
+    <ClCompile Include="MySimpleEditReactor.cpp">
+      <Filter>reactor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

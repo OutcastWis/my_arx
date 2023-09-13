@@ -19,6 +19,7 @@
 
 // AUTOCAD
 #include <aced.h>
+#include <acedads.h>  // aced全局函数
 #include <adslib.h>
 #include <dbents.h>
 #include <dbapserv.h>

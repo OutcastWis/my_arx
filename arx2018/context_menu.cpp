@@ -9,12 +9,12 @@ namespace wzj {
             TCHAR buf[100] = {};
             CString str = _T("Right click to get context menu or hit Escape or Enter to exit. ");
             CString str_with_options = _T("Right click to get context menu or hit Escape or Enter to exit or \n "
-            "[Op1/Op2]<Op1>:");
+                "[Op1/Op2]<Op1>:");
             // wait for user input.
             ads_point pt = {};
             auto r = acedGetPoint(NULL, str, pt);
             while (r != RTCAN) {
-                ads_initget(0, _T("Op1 Op2 _ Dummy1 Dummy2"));
+                ads_initget(RSG_OTHER, _T("Op1 Op2 _ Dummy1 Dummy2"));
                 ads_point pt2 = {};
                 if ((r = acedGetPoint(pt, str_with_options, pt2)) == RTKWORD) {
                     TCHAR keyword[16] = {};

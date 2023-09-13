@@ -28,7 +28,7 @@
 #include "context_menu.h"
 #include "docman.h"
 
-AC_DECLARE_EXTENSION_MODULE(theArxDll);
+AC_DECLARE_EXTENSION_MODULE(theArxDLL);
 
 
 void register_class() {
@@ -54,7 +54,7 @@ void unregister_class() {
 
 
     // High
-    wzj::docman::instance->stop();
+    wzj::docman::instance()->stop();
 }
 
 void init_app(void* appId) {
@@ -84,6 +84,8 @@ void init_app(void* appId) {
     acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_EXDICT"), _T("LOCAL_EXDICT"), ACRX_CMD_MODAL, ex_dict);
     
     acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_RASTER"), _T("LOCAL_RASTER"), ACRX_CMD_MODAL, raster_image);
+
+    acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_DOCMAN"), _T("LOCAL_DOCMAN"), ACRX_CMD_MODAL, docman);
 
     context_menu(appId);
 
@@ -423,6 +425,8 @@ void context_menu(void* appId) {
     wzj::context_menu::instance()->set_data(appId);
     wzj::context_menu::instance()->init();
 }
+
+
 
 
 
