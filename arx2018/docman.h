@@ -25,6 +25,8 @@ namespace wzj {
 
         void clear();
 
+        void make_reactor();
+
     public:
         MySimpleDocReactor* doc_reactor_;
         MySimpleEditReactor* edit_reactor_;

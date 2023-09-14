@@ -3,6 +3,7 @@
 
 #include <thread>
 #include <chrono>
+#include <tuple>
 
 #include <AcExtensionModule.h>
 #include <acdocman.h>
@@ -19,6 +20,26 @@ namespace wzj {
     static docman* global_one = docman::instance();
 
     namespace detail {
+
+        const TCHAR* modeStr(AcAp::DocLockMode mode)
+        {
+            switch (mode) {
+            case AcAp::kNotLocked:
+                return _T("AcAp::kNotLocked");
+            case AcAp::kRead:
+                return _T("AcAp::kRead");
+            case AcAp::kWrite:
+                return _T("AcAp::kWrite");
+            case AcAp::kAutoWrite:
+                return _T("AcAp::kAutoWrite");
+            case AcAp::kProtectedAutoWrite:
+                return _T("AcAp::kProtectedAutoWrite");
+            case AcAp::kXWrite:
+                return _T("AcAp::kXWrite");
+            }
+            return _T("ERROR");
+        }
+
         void openSyncDocHelper(void* pData)
         {
             AcApDocument* pDoc = acDocManager->curDocument();
@@ -77,8 +98,7 @@ namespace wzj {
         void watchDocuments()
         {
             if (getYorN(_T("Start watching Documents"))) {
-                global_one->doc_reactor_ = new MySimpleDocReactor();
-                global_one->edit_reactor_= new MySimpleEditReactor();
+                global_one->make_reactor();
                 acutPrintf(_T("  Added reactor to the Document Manager.\n"));
             }
             else {
@@ -91,6 +111,8 @@ namespace wzj {
         *   1. 默认情况下, 即bActivate=true, bWrapUpInactiveDoc=false. 此时pDoc被激活, 并开始运行LOCAL_PAUSE. 见send()
         *   2. bActivate=false, bWrapUpInactiveDoc=true. pDoc不被激活, 但也运行, 等价于后台同步运行. 见send2()
         *   3. bActivate=false, bWrapUpInactiveDoc=false, pDoc不被激活, 也不运行. 下次手动激活pDoc时运行, 等价于延后运行. 见send3()
+        *  sendStringToExecute可以触发对应database下的dbreactor. 和一般一样, 在实际命令运行时就能触发. 即除了send3由于是延后运行, 
+        *    send1, send2都能立马触发dbreactor
         */
         // 停顿10s后, 自动切换到pDoc
         void send() {
@@ -108,6 +130,8 @@ namespace wzj {
             // document being in a quiescent state. If not call both  isQuiescent() and inputPending()
             // 此时inputPending应该返回 _T("LOCAL_LISTDOCS\n")的长度, 为12, 不包含\0
             acutPrintf(_T("\nSent String to Doc: %s Pending Input %d\n"), pDoc->fileName(), acDocManager->inputPending(pDoc));
+
+            acDocManager->sendStringToExecute(pDoc, _T("LOCAL_MKENTS\n"), false, true); // 为了触发AcDbDatabaseReactor
         }
         // 停顿10s后, 才可以操作. 不自动切换到pDoc
         void send2() {
@@ -120,6 +144,8 @@ namespace wzj {
 
             acDocManager->sendStringToExecute(pDoc, _T("LOCAL_PAUSE\n"), false, true);
             acutPrintf(_T("\nSent String to Doc: %s Pending Input %d\n"), pDoc->fileName(), acDocManager->inputPending(pDoc));
+
+            acDocManager->sendStringToExecute(pDoc, _T("LOCAL_MKENTS\n"), false, true);  // 为了触发AcDbDatabaseReactor
         }
         // 可以直接操作. 手动切换到pDoc时, 停顿10s
         void send3() {
@@ -132,6 +158,8 @@ namespace wzj {
 
             acDocManager->sendStringToExecute(pDoc, _T("LOCAL_PAUSE\n"), false, false);
             acutPrintf(_T("\nSent String to Doc: %s Pending Input %d\n"), pDoc->fileName(), acDocManager->inputPending(pDoc));
+
+            acDocManager->sendStringToExecute(pDoc, _T("LOCAL_MKENTS\n"), false, false);  // 为了触发AcDbDatabaseReactor
         }
 
 
@@ -193,9 +221,9 @@ namespace wzj {
                 if (!(acDocManager->isDocumentActivationEnabled())) {
                     Acad::ErrorStatus st = acDocManager->enableDocumentActivation();
                     if (st == Acad::eOk)
-                        acutPrintf(_T(/*NOXLATE*/"==== Acad::eOk ====\n"));
+                        acutPrintf(_T("==== Acad::eOk ====\n"));
                     else if (st == Acad::eInvalidContext)
-                        acutPrintf(_T(/*NOXLATE*/" ==== Acad::eInvalidContext ====\n"));
+                        acutPrintf(_T(" ==== Acad::eInvalidContext ====\n"));
                     else
                         acutPrintf(_T(" ==== I have no clue what's going on.... ====\n"));
                 }
@@ -290,6 +318,62 @@ namespace wzj {
 
         delete edit_reactor_;
         edit_reactor_ = nullptr;
+    }
+
+    void docman::make_reactor() {
+        doc_reactor_ = new MySimpleDocReactor;
+        doc_reactor_->ops_[_T("documentCreated")] = [](const TCHAR*, void* data) {
+            if (data)
+                acutPrintf(_T("DOCUMENT: Created %s\n"), ((AcApDocument*)data)->fileName());
+        };
+        doc_reactor_->ops_[_T("documentToBeDestroyed")] = [](const TCHAR*, void* data) {
+            if (!acDocManager)
+                return;
+            if (acDocManager->documentCount() == 1)
+            {
+                // Last document destroyed going to zero document state or quitting
+                acutPrintf(_T("LAST DOCUMENT: To be destroyed %s\n"), ((AcApDocument*)data)->fileName());
+            }
+            else {
+                acutPrintf(_T("DOCUMENT: To be destroyed %s\n"), ((AcApDocument*)data)->fileName());
+            }
+        };
+        doc_reactor_->ops_[_T("documentLockModeChanged")] = [](const TCHAR*, void* data) {
+            typedef std::tuple< AcApDocument*, AcAp::DocLockMode, AcAp::DocLockMode, AcAp::DocLockMode, const TCHAR* > td_type;
+            const td_type* td = static_cast<td_type*>(data);
+            if (std::get<0>(*td) == nullptr)
+                return;
+            acutPrintf(_T("%s %sLOCK %s CHANGED TO %s FOR %s\n"), std::get<0>(*td)->fileName(),
+                acDocManager->isApplicationContext() ? _T("APP ") : _T(""),
+                detail::modeStr(std::get<1>(*td)),
+                detail::modeStr(std::get<2>(*td)),
+                std::get<4>(*td)
+            );
+        };
+        doc_reactor_->ops_[_T("documentBecameCurrent")] = [](const TCHAR*, void* data) {
+            if (data)
+                acutPrintf(_T("DOCUMENT: Became current %s\n"), ((AcApDocument*)data)->fileName());
+        };
+        doc_reactor_->ops_[_T("documentToBeActivated")] = [](const TCHAR*, void* data) {
+            if (data)
+                acutPrintf(_T("DOCUMENT: To be Activated %s\n"), ((AcApDocument*)data)->fileName());
+        }; 
+        doc_reactor_->ops_[_T("documentToBeDeactivated")] = [](const TCHAR*, void* data) {
+            if (data)
+                acutPrintf(_T("DOCUMENT: To be Deactivated %s\n"), ((AcApDocument*)data)->fileName());
+        };
+        doc_reactor_->ops_[_T("documentActivationModified")] = [](const TCHAR*, void* data) {
+            acutPrintf(_T("DOCUMENT Activation is %s. \n"), *static_cast<bool*>(data) ? _T("ON") : _T("OFF"));
+        };
+
+
+
+        edit_reactor_ = new MySimpleEditReactor;
+        edit_reactor_->ops_[_T("saveComplete")] = [](const TCHAR*, void*) {
+            AcApDocument* pDoc = acDocManager->curDocument();
+            if (pDoc)
+                acutPrintf(_T("DOCUMENT: Save complete %s\n"), pDoc->fileName());
+        };
     }
 
 }

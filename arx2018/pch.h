@@ -25,5 +25,6 @@
 #include <dbapserv.h>
 #include <dbobjptr.h> // AcDbObjectPointer
 #include <axobjref.h> // AcAxObjectRefPtr
+#include <rxmfcapi.h> // 和MFC相关的接口. 例如获取App, View, Frame等
 
 #endif //PCH_H

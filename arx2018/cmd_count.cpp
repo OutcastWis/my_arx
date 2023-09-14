@@ -254,9 +254,9 @@ namespace wzj {
                to actually get it the first time we execute. */
             if (product[0] == NULL) {
                 struct resbuf result;
-                if (acedGetVar(ACRX_T(/*NOXLATE*/"PRODUCT"), &result) != RTNORM) {
+                if (acedGetVar(ACRX_T("PRODUCT"), &result) != RTNORM) {
                     /* If we can't get the "PRODUCT" name, assume "AutoCAD" */
-                    _tcscpy(product, ACRX_T(/*NOXLATE*/"My_ARX2018"));
+                    _tcscpy(product, ACRX_T("My_ARX2018"));
                 }
                 else {
                     _tcscpy(product, result.resval.rstring);
@@ -272,7 +272,7 @@ namespace wzj {
         double getCurTime()
         {
             resbuf currentTime;
-            if (acedGetVar(ACRX_T(/*NOXLATE*/"DATE"), &currentTime) != RTNORM) {
+            if (acedGetVar(ACRX_T("DATE"), &currentTime) != RTNORM) {
                 // This should never happen.
                 _stprintf(abort_msg, ACRX_T("%.*s Command\nStatistics Gatherer\nFailure 1"),
                     PRODUCTL, getProductName());
@@ -310,13 +310,13 @@ namespace wzj {
             CString csLogin;
             resbuf tempRes;
             tempRes.rbnext = NULL;
-            if (acedGetVar(ACRX_T(/*NOXLATE*/"LOGINNAME"), &tempRes) == RTNORM) {
+            if (acedGetVar(ACRX_T("LOGINNAME"), &tempRes) == RTNORM) {
                 csLogin = tempRes.resval.rstring;
-                csLogin.Replace(ACRX_T(/*NOXLATE*/" "), ACRX_T(/*NOXLATE*/"")); // remove spaces and tabs.
-                csLogin.Replace(ACRX_T(/*NOXLATE*/"\t"), ACRX_T(/*NOXLATE*/""));
+                csLogin.Replace(ACRX_T(" "), ACRX_T("")); // remove spaces and tabs.
+                csLogin.Replace(ACRX_T("\t"), ACRX_T(""));
             }
             else
-                csLogin = ACRX_T(/*NOXLATE*/"Unknown");
+                csLogin = ACRX_T("Unknown");
 
             CString csDate;
             tempRes.restype = RTREAL;
@@ -339,32 +339,32 @@ namespace wzj {
                 int m = (int)(e - ((e < 14) ? 1 : 13));
                 int day = (int)(b - d - ((int)(30.6001 * e)));
                 int y = (int)(c - ((m > 2) ? 4716 : 4715));
-                csDate.Format(ACRX_T(/*NOXLATE*/"%0*d-%0*d-%0*d"), 4, y, 2, m, 2, day);
+                csDate.Format(ACRX_T("%0*d-%0*d-%0*d"), 4, y, 2, m, 2, day);
             }
 
             CString csFilePath;
             CString csRegPath;
-            csRegPath.Format(ACRX_T(/*NOXLATE*/"%s\\Applications\\AcadCmdCount"), acrxProductKey());
+            csRegPath.Format(ACRX_T("%s\\Applications\\AcadCmdCount"), acrxProductKey());
             HKEY hKey;
             if (ERROR_SUCCESS == RegOpenKeyEx(HKEY_CURRENT_USER, csRegPath, 0, KEY_QUERY_VALUE, &hKey)) {
 
                 DWORD dwType = 0;
                 DWORD dwDataSize = MAX_STR_LENGTH * sizeof(TCHAR);
-                RegQueryValueEx(hKey, ACRX_T(/*NOXLATE*/"StatPath"), NULL, &dwType, (LPBYTE)csFilePath.GetBuffer(dwDataSize / sizeof(TCHAR)), &dwDataSize);
+                RegQueryValueEx(hKey, ACRX_T("StatPath"), NULL, &dwType, (LPBYTE)csFilePath.GetBuffer(dwDataSize / sizeof(TCHAR)), &dwDataSize);
                 csFilePath.ReleaseBuffer();
                 RegCloseKey(hKey);
             }
             if (csFilePath.IsEmpty()) {
                 //nothing found in reg so use "My Documents"
                 resbuf rb;
-                if (acedGetVar(ACRX_T(/*NOXLATE*/"MYDOCUMENTSPREFIX"), &rb) == RTNORM) {
+                if (acedGetVar(ACRX_T("MYDOCUMENTSPREFIX"), &rb) == RTNORM) {
                     csFilePath = rb.resval.rstring;
                     acdbFree(rb.resval.rstring);
                 }
             }
-            csFilePath.TrimRight(ACRX_T(/*NOXLATE*/"\\"));
+            csFilePath.TrimRight(ACRX_T("\\"));
 
-            csFilename.Format(ACRX_T(/*NOXLATE*/"%s\\%s_%s.txt"), csFilePath, csLogin, csDate);
+            csFilename.Format(ACRX_T("%s\\%s_%s.txt"), csFilePath, csLogin, csDate);
             return csFilename;
         }
 
@@ -403,7 +403,7 @@ namespace wzj {
             // Get Julian date and convert it to calendar time and date
             // As in Calendar Time and Date, in case you were wondering what
             // the "ctd_" prefix used pervasively in this routine stands for.
-            if (acedGetVar(ACRX_T(/*NOXLATE*/"DATE"), &tempRes) != RTNORM) {
+            if (acedGetVar(ACRX_T("DATE"), &tempRes) != RTNORM) {
                 _stprintf(abort_msg, ACRX_T("%.*s Command\nStatistics Gatherer\nFailure 2"),
                     PRODUCTL, getProductName());
                 acrx_abort(abort_msg);
@@ -487,7 +487,7 @@ namespace wzj {
     {
         // Log document creations, for the heck of it..
         // Note that bumpCount is independent of document-specific data.
-        detail::bumpCount(ACRX_T(/*NOXLATE*/"#DOC_CREATED"), detail::getCurrentStateFlags(), Adesk::kTrue);
+        detail::bumpCount(ACRX_T("#DOC_CREATED"), detail::getCurrentStateFlags(), Adesk::kTrue);
 
         // add an entry for the document, if some other notification hasn't
         // already done so.
@@ -500,7 +500,7 @@ namespace wzj {
         auto& docData = global_one->docData;
 
         if (pDoc == curDocGlobals.doc)
-            detail::bumpCount(ACRX_T(/*NOXLATE*/"#DOC_ACTIVATED(SAME)"), detail::getCurrentStateFlags(), Adesk::kTrue);
+            detail::bumpCount(ACRX_T("#DOC_ACTIVATED(SAME)"), detail::getCurrentStateFlags(), Adesk::kTrue);
         else {
             // If switching documents, record the time spent on the
             // current document's active command/lisp and reset the
@@ -517,7 +517,7 @@ namespace wzj {
                 // This isn't supposed to happen...
                 assert(pDoc != NULL);
                 // But in production, just log it and keep going...
-                detail::bumpCount(ACRX_T(/*NOXLATE*/"#NULL_DOC_ACTIVATED"), detail::getCurrentStateFlags(), Adesk::kTrue);
+                detail::bumpCount(ACRX_T("#NULL_DOC_ACTIVATED"), detail::getCurrentStateFlags(), Adesk::kTrue);
                 curDocGlobals.doc = NULL;
                 return;
             }
@@ -526,7 +526,7 @@ namespace wzj {
             if ((i = curDocGlobals.cmdIndex - 1) >= 0)
                 curDocGlobals.cmdStartTime[i] = currentTime;
             curDocGlobals.lispStartTime = currentTime;
-            detail::bumpCount(ACRX_T(/*NOXLATE*/"#DOC_SWITCHED"), detail::getCurrentStateFlags(), Adesk::kTrue);
+            detail::bumpCount(ACRX_T("#DOC_SWITCHED"), detail::getCurrentStateFlags(), Adesk::kTrue);
         }
     }
 
@@ -539,7 +539,7 @@ namespace wzj {
             // This isn't supposed to happen...
             assert(pDoc != NULL);
             // But in production, just log it and keep going...
-            detail::bumpCount(ACRX_T(/*NOXLATE*/"#NULL_DOC_DESTROYED"), detail::getCurrentStateFlags(), Adesk::kTrue);
+            detail::bumpCount(ACRX_T("#NULL_DOC_DESTROYED"), detail::getCurrentStateFlags(), Adesk::kTrue);
             return;
         }
         int i = global_one->lookupDoc(pDoc);
@@ -750,7 +750,7 @@ namespace wzj {
         acedEditor->removeReactor(cmdr);
         delete cmdr;
 
-        acedRegCmds->removeGroup(ACRX_T(/*NOXLATE*/"WZJ_COMMAND_CMD_COUNT"));
+        acedRegCmds->removeGroup(ACRX_T("WZJ_COMMAND_CMD_COUNT"));
 
     }
 
@@ -904,7 +904,7 @@ namespace wzj {
 
         // Open the file
         FILE* statFile = nullptr;
-        _wfopen_s(&statFile, statFilePath, ACRX_T(/*NOXLATE*/"w"));
+        _wfopen_s(&statFile, statFilePath, ACRX_T("w"));
 
         if (!statFile) {
             // Bad permission in our chosen directory.  Give up.
@@ -931,30 +931,30 @@ namespace wzj {
 
         resbuf tempRes;
         // Print LOGINNAME
-        if (acedGetVar(ACRX_T(/*NOXLATE*/"LOGINNAME"), &tempRes) != RTNORM) {
+        if (acedGetVar(ACRX_T("LOGINNAME"), &tempRes) != RTNORM) {
             _stprintf(abort_msg, ACRX_T("%.*s Command\nStatistics Gatherer\nFailure 1"),
                 PRODUCTL, detail::getProductName());
             acrx_abort(abort_msg);
         }
-        auto c = _ftprintf(statFile,ACRX_T(/*NOXLATE*/"LOGINNAME:             %s\n"), tempRes.resval.rstring);
+        auto c = _ftprintf(statFile,ACRX_T("LOGINNAME:             %s\n"), tempRes.resval.rstring);
         free(tempRes.resval.rstring);
         // Print ACAD serial number
-        if (acedGetVar(ACRX_T(/*NOXLATE*/"_PKSER"), &tempRes) != RTNORM) {
+        if (acedGetVar(ACRX_T("_PKSER"), &tempRes) != RTNORM) {
             _stprintf(abort_msg, ACRX_T("%.*s Command\nStatistics Gatherer\nFailure 1"),
                 PRODUCTL, detail::getProductName());
             acrx_abort(abort_msg);
         }
-        _ftprintf(statFile,ACRX_T(/*NOXLATE*/"%.*s Serial Number: %s\n"), PRODUCTL, detail::getProductName(),
+        _ftprintf(statFile,ACRX_T("%.*s Serial Number: %s\n"), PRODUCTL, detail::getProductName(),
             tempRes.resval.rstring);
         free(tempRes.resval.rstring);
 
         // Print ACAD version
-        if (acedGetVar(ACRX_T(/*NOXLATE*/"_VERNUM"), &tempRes) != RTNORM) {
+        if (acedGetVar(ACRX_T("_VERNUM"), &tempRes) != RTNORM) {
             _stprintf(abort_msg, ACRX_T("%.*s Command\nStatistics Gatherer\nFailure 1"),
                 PRODUCTL, detail::getProductName());
             acrx_abort(abort_msg);
         }
-        _ftprintf(statFile,ACRX_T(/*NOXLATE*/"%.*s version:       %s\n"), PRODUCTL, detail::getProductName(),
+        _ftprintf(statFile,ACRX_T("%.*s version:       %s\n"), PRODUCTL, detail::getProductName(),
             tempRes.resval.rstring);
         free(tempRes.resval.rstring);
 

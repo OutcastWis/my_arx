@@ -96,6 +96,15 @@
     <ClInclude Include="extend_tabs.h">
       <Filter>medium</Filter>
     </ClInclude>
+    <ClInclude Include="modeless_dialog.h">
+      <Filter>medium</Filter>
+    </ClInclude>
+    <ClInclude Include="MySimpleModelessDialog.h">
+      <Filter>dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="MySimpleDbReactor.h">
+      <Filter>reactor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -163,6 +172,15 @@
     </ClCompile>
     <ClCompile Include="extend_tabs.cpp">
       <Filter>medium</Filter>
+    </ClCompile>
+    <ClCompile Include="modeless_dialog.cpp">
+      <Filter>medium</Filter>
+    </ClCompile>
+    <ClCompile Include="MySimpleModelessDialog.cpp">
+      <Filter>dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="MySimpleDbReactor.cpp">
+      <Filter>reactor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -64,6 +64,9 @@ void raster_image();
 void context_menu(void* appId);
 // 向option对话框中添加tab
 void extend_tabs(void* appId);
+//
+void modeless_dialog();
+
 
 
 // High

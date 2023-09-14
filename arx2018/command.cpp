@@ -28,6 +28,7 @@
 #include "context_menu.h"
 #include "docman.h"
 #include "extend_tabs.h"
+#include "modeless_dialog.h"
 
 
 AC_DECLARE_EXTENSION_MODULE(theArxDLL);
@@ -53,7 +54,8 @@ void unregister_class() {
     wzj::highlight_subentity::instance()->stop();
     wzj::raster_image::instance()->stop();
     wzj::context_menu::instance()->stop();
-
+    wzj::extend_tabs::instance()->stop();
+    wzj::modeless_dialog::instance()->stop();
 
     // High
     wzj::docman::instance()->stop();
@@ -86,8 +88,10 @@ void init_app(void* appId) {
     acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_EXDICT"), _T("LOCAL_EXDICT"), ACRX_CMD_MODAL, ex_dict);
     
     acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_RASTER"), _T("LOCAL_RASTER"), ACRX_CMD_MODAL, raster_image);
-    // 为option对话框注册. 这边的第一个参数会写入注册表中当前配置下OptionsDialog\TabExtensions中. 但除此之外不知道有何作用, 似乎可以任意取名
+    // 函数extend_tabs,的前提. 为option对话框注册. 这边的第一个参数会写入注册表中当前配置下OptionsDialog\TabExtensions中. 但除此之外不知道有何作用, 似乎可以任意取名
     acedRegisterExtendedTab(_T("arx2018.arx"), _T("OptionsDialog"));
+
+    acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_MODELESS"), _T("LOCAL_MODELESS"), ACRX_CMD_MODAL, modeless_dialog);
 
     acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_DOCMAN"), _T("LOCAL_DOCMAN"), ACRX_CMD_MODAL, docman);
 
@@ -433,6 +437,13 @@ void context_menu(void* appId) {
 
 void extend_tabs(void* appId) {
     wzj::extend_tabs::instance()->add_tab(appId);
+}
+
+void modeless_dialog() {
+    if (wzj::modeless_dialog::instance()->is_start())
+        wzj::modeless_dialog::instance()->stop();
+    else
+        wzj::modeless_dialog::instance()->init();
 }
 
 

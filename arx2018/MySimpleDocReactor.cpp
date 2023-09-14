@@ -1,26 +1,9 @@
 #include "pch.h"
 #include "MySimpleDocReactor.h"
 
-namespace detail {
-    const TCHAR* modeStr(AcAp::DocLockMode mode)
-    {
-        switch (mode) {
-        case AcAp::kNotLocked:
-            return _T(/*NOXLATE*/"AcAp::kNotLocked");
-        case AcAp::kRead:
-            return _T(/*NOXLATE*/"AcAp::kRead");
-        case AcAp::kWrite:
-            return _T(/*NOXLATE*/"AcAp::kWrite");
-        case AcAp::kAutoWrite:
-            return _T(/*NOXLATE*/"AcAp::kAutoWrite");
-        case AcAp::kProtectedAutoWrite:
-            return _T(/*NOXLATE*/"AcAp::kProtectedAutoWrite");
-        case AcAp::kXWrite:
-            return _T(/*NOXLATE*/"AcAp::kXWrite");
-        }
-        return _T("ERROR");
-    }
-}
+#include <tuple>
+
+
 
 
 MySimpleDocReactor::MySimpleDocReactor() {
@@ -33,61 +16,61 @@ MySimpleDocReactor::~MySimpleDocReactor() {
 }
 
 void MySimpleDocReactor::documentCreated(AcApDocument* pDocCreating) {
-    if (pDocCreating)
-        acutPrintf(_T("DOCUMENT: Created %s\n"), pDocCreating->fileName());
+    auto it = ops_.find(_T("documentCreated"));
+    if (it != ops_.end()) {
+        ops_[_T("documentCreated")](_T(""), (void*)pDocCreating);
+    }
 }
 
 void MySimpleDocReactor::documentToBeDestroyed(AcApDocument* pDocToDestroy) {
-    if (!acDocManager)
-        return;
-
-    if (acDocManager->documentCount() == 1)
-    {
-        // Last document destroyed going to zero document state or quitting
-        acutPrintf(_T("LAST DOCUMENT: To be destroyed %s\n"), pDocToDestroy->fileName());
-    }
-    else {
-        acutPrintf(_T("DOCUMENT: To be destroyed %s\n"), pDocToDestroy->fileName());
+    auto it = ops_.find(_T("documentToBeDestroyed"));
+    if (it != ops_.end()) {
+        ops_[_T("documentToBeDestroyed")](_T(""), (void*)pDocToDestroy);
     }
 }
 
 void MySimpleDocReactor::documentLockModeChanged(AcApDocument* pDoc, AcAp::DocLockMode myPreviousMode, AcAp::DocLockMode myCurrentMode,
     AcAp::DocLockMode currentMode, const TCHAR* pCommandName) {
-    if (!pDoc)
-        return;
 
-    acutPrintf(_T("%s %sLOCK %s CHANGED TO %s FOR %s\n"), pDoc->fileName(),
-        acDocManager->isApplicationContext() ? _T("APP ") : _T(""),
-        detail::modeStr(myPreviousMode),
-        detail::modeStr(myCurrentMode),
-        pCommandName
-    );
+    auto it = ops_.find(_T("documentLockModeChanged"));
+    if (it != ops_.end()) {
+        typedef std::tuple< AcApDocument*, AcAp::DocLockMode, AcAp::DocLockMode, AcAp::DocLockMode, const TCHAR* > td_type;
+        td_type data{ pDoc ,myPreviousMode,  myCurrentMode , currentMode,pCommandName };
+        ops_[_T("documentLockModeChanged")](_T(""), (void*)&data);
+    }
 }
 
 
 void MySimpleDocReactor::documentBecameCurrent(AcApDocument* pDoc)
 {
-    if (pDoc)
-        acutPrintf(_T("DOCUMENT: Became current %s\n"), pDoc->fileName());
+    auto it = ops_.find(_T("documentBecameCurrent"));
+    if (it != ops_.end()) {
+        ops_[_T("documentBecameCurrent")](_T(""), (void*)pDoc);
+    }
 }
 
-void MySimpleDocReactor::documentToBeActivated(AcApDocument* pActivatingDoc)
-{
-    if (pActivatingDoc)
-        acutPrintf(_T("DOCUMENT: To be Activated %s\n"), pActivatingDoc->fileName());
-}
+
 
 void MySimpleDocReactor::documentToBeDeactivated(AcApDocument* pDeactivatingDoc)
 {
-    if (pDeactivatingDoc)
-        acutPrintf(_T("DOCUMENT: To be DEActivated %s\n"), pDeactivatingDoc->fileName());
+    auto it = ops_.find(_T("documentToBeDeactivated"));
+    if (it != ops_.end()) {
+        ops_[_T("documentToBeDeactivated")](_T(""), (void*)pDeactivatingDoc);
+    }
 }
 
 void MySimpleDocReactor::documentActivationModified(bool bActivation)
 {
-    if (bActivation)
-        acutPrintf(_T("DOCUMENT Activation is ON. \n"));
-    else
-        acutPrintf(_T("DOCUMENT Activation is OFF. \n"));
+    auto it = ops_.find(_T("documentActivationModified"));
+    if (it != ops_.end()) {
+        ops_[_T("documentActivationModified")](_T(""), (void*)&bActivation);
+    }
 }
 
+void MySimpleDocReactor::documentActivated(AcApDocument* pActivatingDoc)
+{
+    auto it = ops_.find(_T("documentActivated"));
+    if (it != ops_.end()) {
+        ops_[_T("documentActivated")](_T(""), (void*)pActivatingDoc);
+    }
+}

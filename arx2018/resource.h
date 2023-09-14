@@ -8,8 +8,11 @@
 #define IDR_CMD_MENU                    107
 #define IDR_DEFAULT_MENU                108
 #define IDD_OPTIONS_TAB                 108
+#define IDD_SIMPLE_MODELESS_DIALOG      110
 #define IDD_DIALOG1                     129
 #define IDC_EDIT_XPT                    1000
+#define IDC_BUTTON1                     1000
+#define IDC_UNDO                        1000
 #define IDC_EDIT_ANGLE                  1001
 #define IDC_BUTTON_POINT                1002
 #define IDC_EDIT_YPT                    1004
@@ -22,6 +25,12 @@
 #define IDC_STATIC_GROUP3               1016
 #define IDC_STATIC_TEXT3                1017
 #define IDC_STATIC_TEXT2                1018
+#define IDC_WHAT                        1019
+#define IDC_EDIT_CLASS                  1020
+#define IDC_EDIT_OBJID                  1021
+#define IDC_EDIT_HANDLE                 1022
+#define IDC_DRAW_CIRCLE                 1023
+#define IDC_EDIT_FILE                   1023
 #define ID_ENTITY1_ENTITY1ITEM1         40001
 #define ID_ENTITY1_ENTITY1ITEM2         40002
 #define ID_ENTITY1_ITEM1                40003
@@ -61,9 +70,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        110
+#define _APS_NEXT_RESOURCE_VALUE        130
 #define _APS_NEXT_COMMAND_VALUE         40035
-#define _APS_NEXT_CONTROL_VALUE         1001
+#define _APS_NEXT_CONTROL_VALUE         1024
 #define _APS_NEXT_SYMED_VALUE           101
 #endif
 #endif
