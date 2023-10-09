@@ -15,6 +15,7 @@
 #include <dbapserv.h>
 #include <dbgroup.h>
 #include <acestext.h>
+
 #include <AcExtensionModule.h>
 
 #include "MyAcUiDialog.h"
@@ -29,6 +30,8 @@
 #include "docman.h"
 #include "extend_tabs.h"
 #include "modeless_dialog.h"
+#include "block_order.h"
+
 
 
 AC_DECLARE_EXTENSION_MODULE(theArxDLL);
@@ -59,6 +62,7 @@ void unregister_class() {
 
     // High
     wzj::docman::instance()->stop();
+    wzj::block_order::instance()->stop();
 }
 
 void init_app(void* appId) {
@@ -95,9 +99,9 @@ void init_app(void* appId) {
 
     acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_DOCMAN"), _T("LOCAL_DOCMAN"), ACRX_CMD_MODAL, docman);
 
-
     context_menu(appId); // 注册用户自己的快捷菜单
 
+    acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_BLOCK_ORDER"), _T("LOCAL_BLOCK_ORDER"), ACRX_CMD_MODAL, block_order);
 }
 
 
@@ -452,4 +456,11 @@ void docman() {
         wzj::docman::instance()->stop();
     else
         wzj::docman::instance()->init();
+}
+
+void block_order() {
+    if (wzj::block_order::instance()->is_start())
+        wzj::block_order::instance()->stop();
+    else
+        wzj::block_order::instance()->init();
 }

@@ -72,3 +72,5 @@ void modeless_dialog();
 // High
 // MDI下, 打开, 关闭, 激活等文档操作. 和一些application context和document context的解释
 void docman();
+// 使用block_order.dbx, 实现块中对象遍历顺序的改变
+void block_order();

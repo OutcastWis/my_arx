@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.33328.57
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "arx2018", "arx2018\arx2018.vcxproj", "{6CE4FE68-6B0E-4298-A732-A0475A337530}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "block_order", "block_order\block_order.vcxproj", "{302E871F-4B8B-454F-9F04-171A46035EA4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{6CE4FE68-6B0E-4298-A732-A0475A337530}.Release|x64.Build.0 = Release|x64
 		{6CE4FE68-6B0E-4298-A732-A0475A337530}.Release|x86.ActiveCfg = Release|Win32
 		{6CE4FE68-6B0E-4298-A732-A0475A337530}.Release|x86.Build.0 = Release|Win32
+		{302E871F-4B8B-454F-9F04-171A46035EA4}.Debug|x64.ActiveCfg = Debug|x64
+		{302E871F-4B8B-454F-9F04-171A46035EA4}.Debug|x64.Build.0 = Debug|x64
+		{302E871F-4B8B-454F-9F04-171A46035EA4}.Debug|x86.ActiveCfg = Debug|Win32
+		{302E871F-4B8B-454F-9F04-171A46035EA4}.Debug|x86.Build.0 = Debug|Win32
+		{302E871F-4B8B-454F-9F04-171A46035EA4}.Release|x64.ActiveCfg = Release|x64
+		{302E871F-4B8B-454F-9F04-171A46035EA4}.Release|x64.Build.0 = Release|x64
+		{302E871F-4B8B-454F-9F04-171A46035EA4}.Release|x86.ActiveCfg = Release|Win32
+		{302E871F-4B8B-454F-9F04-171A46035EA4}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

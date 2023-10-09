@@ -105,6 +105,9 @@
     <ClInclude Include="MySimpleDbReactor.h">
       <Filter>reactor</Filter>
     </ClInclude>
+    <ClInclude Include="block_order.h">
+      <Filter>high</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -181,6 +184,9 @@
     </ClCompile>
     <ClCompile Include="MySimpleDbReactor.cpp">
       <Filter>reactor</Filter>
+    </ClCompile>
+    <ClCompile Include="block_order.cpp">
+      <Filter>high</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -21,8 +21,8 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{6ce4fe68-6b0e-4298-a732-a0475a337530}</ProjectGuid>
-    <RootNamespace>arx2018</RootNamespace>
+    <ProjectGuid>{302e871f-4b8b-454f-9f04-171a46035ea4}</ProjectGuid>
+    <RootNamespace>blockorder</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -77,8 +77,8 @@
     <LinkIncremental>false</LinkIncremental>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LinkIncremental>false</LinkIncremental>
-    <TargetExt>.arx</TargetExt>
+    <LinkIncremental>true</LinkIncremental>
+    <TargetExt>.dbx</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -87,7 +87,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;_DEBUG;ARX2018_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;BLOCKORDER_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -104,7 +104,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>WIN32;NDEBUG;ARX2018_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;BLOCKORDER_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -121,24 +121,21 @@
     <ClCompile>
       <WarningLevel>Level4</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_ALLOW_RTCc_IN_STL;_WIN32_IE=0x0600;WIN;WIN32;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES_COUNT=1;_AFXDLL;UNICODE;_UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BLOCKORDER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <AdditionalIncludeDirectories>E:\ObjectARX2018\inc;E:\ObjectARX2018\inc-x64;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <DisableSpecificWarnings>4456;4457;</DisableSpecificWarnings>
-      <AdditionalIncludeDirectories>E:\ObjectARX2018\inc;E:\ObjectARX2018\inc-x64;E:\ObjectARX2018\utils\brep\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
-      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>ac1st22.lib;acdb22.lib;acdbmgd.lib;acge22.lib;acgiapi.lib;acismobj22.lib;axdb.lib;rxapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>E:\ObjectARX2018\lib-x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>accore.lib;acad.lib;acui22.lib;adui22.lib;ac1st22.lib;acdb22.lib;acge22.lib;acgiapi.lib;acISMobj22.lib;rxapi.lib;..\x64\Debug\block_order.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>module_default.def</ModuleDefinitionFile>
-      <EnableCOMDATFolding>true</EnableCOMDATFolding>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -147,7 +144,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;ARX2018_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;BLOCKORDER_EXPORTS;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -161,74 +158,27 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="block_order.h" />
-    <ClInclude Include="cmd_count.h" />
-    <ClInclude Include="command.h" />
-    <ClInclude Include="context_menu.h" />
-    <ClInclude Include="docman.h" />
-    <ClInclude Include="extend_tabs.h" />
-    <ClInclude Include="ex_dict.h" />
+    <ClInclude Include="config.h" />
     <ClInclude Include="framework.h" />
-    <ClInclude Include="highlight_subentity.h" />
-    <ClInclude Include="icmd.h" />
-    <ClInclude Include="modeless_dialog.h" />
-    <ClInclude Include="MyAcUiDialog.h" />
-    <ClInclude Include="MyCmdContext.h" />
-    <ClInclude Include="MyDefaultContext.h" />
-    <ClInclude Include="MyOptionsTab.h" />
-    <ClInclude Include="MySimpleDbReactor.h" />
-    <ClInclude Include="MySimpleDocReactor.h" />
-    <ClInclude Include="MyEditContext.h" />
-    <ClInclude Include="MySimpleEditReactor.h" />
-    <ClInclude Include="MyInventoryData.h" />
-    <ClInclude Include="MySimpleModelessDialog.h" />
-    <ClInclude Include="MyTxtStyle.h" />
+    <ClInclude Include="MyBlockOrderFilter.h" />
+    <ClInclude Include="MyBlockOrderIndex.h" />
+    <ClInclude Include="MyBlockOrderIterator.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="raster_image.h" />
-    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="block_order.cpp" />
-    <ClCompile Include="cmd_count.cpp" />
-    <ClCompile Include="command.cpp" />
-    <ClCompile Include="context_menu.cpp" />
     <ClCompile Include="dllmain.cpp" />
-    <ClCompile Include="docman.cpp" />
-    <ClCompile Include="extend_tabs.cpp" />
-    <ClCompile Include="ex_dict.cpp" />
-    <ClCompile Include="icmd.cpp" />
-    <ClCompile Include="modeless_dialog.cpp" />
-    <ClCompile Include="MyAcUiDialog.cpp" />
-    <ClCompile Include="MyCmdContext.cpp" />
-    <ClCompile Include="MyDefaultContext.cpp" />
-    <ClCompile Include="MyOptionsTab.cpp" />
-    <ClCompile Include="MySimpleDbReactor.cpp" />
-    <ClCompile Include="MySimpleDocReactor.cpp" />
-    <ClCompile Include="MyEditContext.cpp" />
-    <ClCompile Include="MySimpleEditReactor.cpp" />
-    <ClCompile Include="MyInventoryData.cpp" />
-    <ClCompile Include="MySimpleModelessDialog.cpp" />
-    <ClCompile Include="MyTessellate.cpp" />
-    <ClCompile Include="MyTxtStyle.cpp" />
+    <ClCompile Include="MyBlockOrderFilter.cpp" />
+    <ClCompile Include="MyBlockOrderIndex.cpp" />
+    <ClCompile Include="MyBlockOrderIterator.cpp" />
     <ClCompile Include="pch.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="highlight_subentity.cpp" />
-    <ClCompile Include="raster_image.cpp" />
-    <ClCompile Include="test.cpp" />
-    <Text Include="README.md">
-      <FileType>Document</FileType>
-    </Text>
   </ItemGroup>
   <ItemGroup>
     <None Include="module_default.def" />
-    <None Include="MyTessellate.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="resource.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
