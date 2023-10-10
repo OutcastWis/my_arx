@@ -321,59 +321,61 @@ namespace wzj {
     }
 
     void docman::make_reactor() {
-        doc_reactor_ = new MySimpleDocReactor;
-        doc_reactor_->ops_[_T("documentCreated")] = [](const TCHAR*, void* data) {
-            if (data)
-                acutPrintf(_T("DOCUMENT: Created %s\n"), ((AcApDocument*)data)->fileName());
-        };
-        doc_reactor_->ops_[_T("documentToBeDestroyed")] = [](const TCHAR*, void* data) {
-            if (!acDocManager)
-                return;
-            if (acDocManager->documentCount() == 1)
-            {
-                // Last document destroyed going to zero document state or quitting
-                acutPrintf(_T("LAST DOCUMENT: To be destroyed %s\n"), ((AcApDocument*)data)->fileName());
-            }
-            else {
-                acutPrintf(_T("DOCUMENT: To be destroyed %s\n"), ((AcApDocument*)data)->fileName());
-            }
-        };
-        doc_reactor_->ops_[_T("documentLockModeChanged")] = [](const TCHAR*, void* data) {
-            typedef std::tuple< AcApDocument*, AcAp::DocLockMode, AcAp::DocLockMode, AcAp::DocLockMode, const TCHAR* > td_type;
-            const td_type* td = static_cast<td_type*>(data);
-            if (std::get<0>(*td) == nullptr)
-                return;
-            acutPrintf(_T("%s %sLOCK %s CHANGED TO %s FOR %s\n"), std::get<0>(*td)->fileName(),
-                acDocManager->isApplicationContext() ? _T("APP ") : _T(""),
-                detail::modeStr(std::get<1>(*td)),
-                detail::modeStr(std::get<2>(*td)),
-                std::get<4>(*td)
-            );
-        };
-        doc_reactor_->ops_[_T("documentBecameCurrent")] = [](const TCHAR*, void* data) {
-            if (data)
-                acutPrintf(_T("DOCUMENT: Became current %s\n"), ((AcApDocument*)data)->fileName());
-        };
-        doc_reactor_->ops_[_T("documentToBeActivated")] = [](const TCHAR*, void* data) {
-            if (data)
-                acutPrintf(_T("DOCUMENT: To be Activated %s\n"), ((AcApDocument*)data)->fileName());
-        }; 
-        doc_reactor_->ops_[_T("documentToBeDeactivated")] = [](const TCHAR*, void* data) {
-            if (data)
-                acutPrintf(_T("DOCUMENT: To be Deactivated %s\n"), ((AcApDocument*)data)->fileName());
-        };
-        doc_reactor_->ops_[_T("documentActivationModified")] = [](const TCHAR*, void* data) {
-            acutPrintf(_T("DOCUMENT Activation is %s. \n"), *static_cast<bool*>(data) ? _T("ON") : _T("OFF"));
-        };
+        if (doc_reactor_ == nullptr) {
+            doc_reactor_ = new MySimpleDocReactor;
+            doc_reactor_->ops_[_T("documentCreated")] = [](const TCHAR*, void* data) {
+                if (data)
+                    acutPrintf(_T("DOCUMENT: Created %s\n"), ((AcApDocument*)data)->fileName());
+            };
+            doc_reactor_->ops_[_T("documentToBeDestroyed")] = [](const TCHAR*, void* data) {
+                if (!acDocManager)
+                    return;
+                if (acDocManager->documentCount() == 1)
+                {
+                    // Last document destroyed going to zero document state or quitting
+                    acutPrintf(_T("LAST DOCUMENT: To be destroyed %s\n"), ((AcApDocument*)data)->fileName());
+                }
+                else {
+                    acutPrintf(_T("DOCUMENT: To be destroyed %s\n"), ((AcApDocument*)data)->fileName());
+                }
+            };
+            doc_reactor_->ops_[_T("documentLockModeChanged")] = [](const TCHAR*, void* data) {
+                typedef std::tuple< AcApDocument*, AcAp::DocLockMode, AcAp::DocLockMode, AcAp::DocLockMode, const TCHAR* > td_type;
+                const td_type* td = static_cast<td_type*>(data);
+                if (std::get<0>(*td) == nullptr)
+                    return;
+                acutPrintf(_T("%s %sLOCK %s CHANGED TO %s FOR %s\n"), std::get<0>(*td)->fileName(),
+                    acDocManager->isApplicationContext() ? _T("APP ") : _T(""),
+                    detail::modeStr(std::get<1>(*td)),
+                    detail::modeStr(std::get<2>(*td)),
+                    std::get<4>(*td)
+                );
+            };
+            doc_reactor_->ops_[_T("documentBecameCurrent")] = [](const TCHAR*, void* data) {
+                if (data)
+                    acutPrintf(_T("DOCUMENT: Became current %s\n"), ((AcApDocument*)data)->fileName());
+            };
+            doc_reactor_->ops_[_T("documentToBeActivated")] = [](const TCHAR*, void* data) {
+                if (data)
+                    acutPrintf(_T("DOCUMENT: To be Activated %s\n"), ((AcApDocument*)data)->fileName());
+            };
+            doc_reactor_->ops_[_T("documentToBeDeactivated")] = [](const TCHAR*, void* data) {
+                if (data)
+                    acutPrintf(_T("DOCUMENT: To be Deactivated %s\n"), ((AcApDocument*)data)->fileName());
+            };
+            doc_reactor_->ops_[_T("documentActivationModified")] = [](const TCHAR*, void* data) {
+                acutPrintf(_T("DOCUMENT Activation is %s. \n"), *static_cast<bool*>(data) ? _T("ON") : _T("OFF"));
+            };
+        }
 
-
-
-        edit_reactor_ = new MySimpleEditReactor;
-        edit_reactor_->ops_[_T("saveComplete")] = [](const TCHAR*, void*) {
-            AcApDocument* pDoc = acDocManager->curDocument();
-            if (pDoc)
-                acutPrintf(_T("DOCUMENT: Save complete %s\n"), pDoc->fileName());
-        };
+        if (edit_reactor_ == nullptr) {
+            edit_reactor_ = new MySimpleEditReactor;
+            edit_reactor_->ops_[_T("saveComplete")] = [](const TCHAR*, void*) {
+                AcApDocument* pDoc = acDocManager->curDocument();
+                if (pDoc)
+                    acutPrintf(_T("DOCUMENT: Save complete %s\n"), pDoc->fileName());
+            };
+        }
     }
 
 }

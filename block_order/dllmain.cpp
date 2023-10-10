@@ -21,7 +21,7 @@ AcRx::AppRetCode acrxEntryPoint(AcRx::AppMsgCode msg, void* pkt)
 
         break;
     }
-    case AcRx::kUnloadDwgMsg:
+    case AcRx::kUnloadAppMsg:
 
         deleteAcRxClass(MyBlockOrderFilter::desc());
         deleteAcRxClass(MyBlockOrderIndex::desc());
