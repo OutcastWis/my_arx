@@ -12,14 +12,21 @@ void register_class();
 void unregister_class();
 void init_app(void* appId);
 void unload_app();
-// pEntity需要手动关闭
-Acad::ErrorStatus add_to_model_space(AcDbObjectId& objId, AcDbEntity* pEntity);
+/**
+* @param objId [out]
+* @param *pEntity [in]
+* @param *pDb [in]
+* @remark pEntity需要手动关闭. 
+*/
+Acad::ErrorStatus add_to_model_space(AcDbObjectId& objId, AcDbEntity* pEntity, AcDbDatabase* pDb = nullptr);
 void create_layer(const TCHAR* layer_name);
 AcDbObjectId create_line();
 AcDbObjectId create_circle();
 void create_group(AcDbObjectIdArray& objIds, const TCHAR* pGroupName);
 Acad::ErrorStatus change_color(AcDbObjectId entId, Adesk::UInt16 newColor);
 Adesk::Boolean getYorN(const TCHAR* pStr);
+// 获取桌面的路径
+CString desktop_url();
 
 
 
@@ -60,11 +67,11 @@ void highlight();
 void ex_dict();
 // 光栅图形的使用
 void raster_image();
-// 自定义菜单
+// 自定义右键菜单
 void context_menu(void* appId);
 // 向option对话框中添加tab
 void extend_tabs(void* appId);
-//
+// 非模态对话框
 void modeless_dialog();
 
 
@@ -74,3 +81,5 @@ void modeless_dialog();
 void docman();
 // 使用block_order.dbx, 实现块中对象遍历顺序的改变
 void block_order();
+// 浅拷贝和深拷贝
+void clone_work();

@@ -108,6 +108,9 @@
     <ClInclude Include="block_order.h">
       <Filter>high</Filter>
     </ClInclude>
+    <ClInclude Include="clone_work.h">
+      <Filter>high</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -186,6 +189,9 @@
       <Filter>reactor</Filter>
     </ClCompile>
     <ClCompile Include="block_order.cpp">
+      <Filter>high</Filter>
+    </ClCompile>
+    <ClCompile Include="clone_work.cpp">
       <Filter>high</Filter>
     </ClCompile>
   </ItemGroup>

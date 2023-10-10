@@ -136,7 +136,7 @@
       <EnableUAC>false</EnableUAC>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>E:\ObjectARX2018\lib-x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>accore.lib;acad.lib;acui22.lib;adui22.lib;ac1st22.lib;acdb22.lib;acge22.lib;acgiapi.lib;acISMobj22.lib;rxapi.lib;..\x64\Debug\block_order.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>accore.lib;acad.lib;acui22.lib;adui22.lib;ac1st22.lib;acdb22.lib;acge22.lib;acgiapi.lib;acISMobj22.lib;rxapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>module_default.def</ModuleDefinitionFile>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
     </Link>
@@ -162,6 +162,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="block_order.h" />
+    <ClInclude Include="clone_work.h" />
     <ClInclude Include="cmd_count.h" />
     <ClInclude Include="command.h" />
     <ClInclude Include="context_menu.h" />
@@ -189,6 +190,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="block_order.cpp" />
+    <ClCompile Include="clone_work.cpp" />
     <ClCompile Include="cmd_count.cpp" />
     <ClCompile Include="command.cpp" />
     <ClCompile Include="context_menu.cpp" />
@@ -229,6 +231,11 @@
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\block_order\block_order.vcxproj">
+      <Project>{302e871f-4b8b-454f-9f04-171a46035ea4}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

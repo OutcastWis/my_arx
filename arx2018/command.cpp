@@ -1,10 +1,6 @@
 #include "pch.h"
 #include "command.h"
 
-
-#include <tchar.h>
-
-
 #include <rxobject.h>
 #include <rxregsvc.h>
 #include <rxmfcapi.h>
@@ -15,6 +11,8 @@
 #include <dbapserv.h>
 #include <dbgroup.h>
 #include <acestext.h>
+
+#include <tchar.h>
 
 #include <AcExtensionModule.h>
 
@@ -31,6 +29,7 @@
 #include "extend_tabs.h"
 #include "modeless_dialog.h"
 #include "block_order.h"
+#include "clone_work.h"
 
 
 
@@ -63,6 +62,7 @@ void unregister_class() {
     // High
     wzj::docman::instance()->stop();
     wzj::block_order::instance()->stop();
+    wzj::clone_work::instance()->stop();
 }
 
 void init_app(void* appId) {
@@ -102,6 +102,8 @@ void init_app(void* appId) {
     context_menu(appId); // 注册用户自己的快捷菜单
 
     acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_BLOCK_ORDER"), _T("LOCAL_BLOCK_ORDER"), ACRX_CMD_MODAL, block_order);
+
+    acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_CLONE_WORK"), _T("LOCAL_CLONE_WORK"), ACRX_CMD_MODAL, clone_work);
 }
 
 
@@ -112,19 +114,22 @@ void unload_app() {
 }
 
 
-Acad::ErrorStatus add_to_model_space(AcDbObjectId& objId, AcDbEntity* pEntity) {
+Acad::ErrorStatus add_to_model_space(AcDbObjectId& objId, AcDbEntity* pEntity, AcDbDatabase* pDb) {
     AcDbBlockTable* pBlockTable;
     AcDbBlockTableRecord* pSpaceRecord;
 
-    acdbHostApplicationServices()->workingDatabase()->getSymbolTable(pBlockTable, AcDb::kForRead);
+    if (pDb == nullptr)
+        acdbHostApplicationServices()->workingDatabase()->getSymbolTable(pBlockTable, AcDb::kForRead);
+    else
+        pDb->getSymbolTable(pBlockTable, AcDb::kForRead);
 
     pBlockTable->getAt(ACDB_MODEL_SPACE, pSpaceRecord, AcDb::kForWrite);
     pBlockTable->close();
 
-    pSpaceRecord->appendAcDbEntity(objId, pEntity);
+    auto es = pSpaceRecord->appendAcDbEntity(objId, pEntity);
     pSpaceRecord->close();
 
-    return Acad::eOk;
+    return es;
 }
 
 
@@ -135,13 +140,13 @@ void create_layer(const TCHAR* layer_name) {
         ads_printf(_T("\n[ERROR] Failed to open symbol table. Error: %s"), acadErrorStatusText(es));
     }
 
-    AcDbLayerTableRecord* pLayerTableRecord =new AcDbLayerTableRecord;
-    pLayerTableRecord->setName(layer_name);
+    AcDbLayerTableRecord* pLayerTableRecord = nullptr;
+    if (pLayerTable->getAt(layer_name, pLayerTableRecord, AcDb::kForRead) != Acad::eOk) {
+        pLayerTableRecord = new AcDbLayerTableRecord;
+        pLayerTableRecord->setName(layer_name);
+        pLayerTable->add(pLayerTableRecord);
+    }
 
-    // Defaults are used for other properties of 
-    // the layer if they are not otherwise specified.
-
-    pLayerTable->add(pLayerTableRecord);
     pLayerTable->close();
     pLayerTableRecord->close();
 }
@@ -254,6 +259,12 @@ Adesk::Boolean getYorN(const TCHAR* pStr)
     return (!((yorn_str[0] == _T('N')) || (yorn_str[0] == _T('n'))));
 }
 
+CString desktop_url() {
+    TCHAR szDesktopPath[MAX_PATH] = {};
+    if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_DESKTOPDIRECTORY, NULL, SHGFP_TYPE_CURRENT, szDesktopPath))) {
+        return szDesktopPath;
+    }
+}
 
 void curves() {
     ads_name en = {};
@@ -463,4 +474,11 @@ void block_order() {
         wzj::block_order::instance()->stop();
     else
         wzj::block_order::instance()->init();
+}
+
+void clone_work() {
+    if (wzj::clone_work::instance()->is_start())
+        wzj::clone_work::instance()->stop();
+    else
+        wzj::clone_work::instance()->init();
 }

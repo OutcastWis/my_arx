@@ -74,6 +74,39 @@ Current instruction (descriptive info) or
 * 上述二者可以不同. 但激活一个文档时, 它一定是current document. 后续可以通过setCurDocument进行改变, 从而使二者不同. 退出命令时, 确保二者统一
 
 
+### Objectarx Reference
+* 有2种:
+1. **ownership reference**, 父子关系, 或者说包含关系
+2. **pointer reference**, 普通引用关系
+* 上述2种都存在hard和soft的区别. 
+*
+||soft|hard|
+|-|-|-|
+|ownership||owner死, 自身也死|
+|pointer|类比C中的指针|类比引用计数. 计数不为0, 被引用的对象不能被清除|
+* soft ownership举例:
+1. 除*MODEL_SPACE, *PAPER_SPACE, *PAPER_SPACE0, layer 0外的其他符号表(sumbol table), 对其包含的元素都是soft ownership
+2. 字典都是
+
+
+
+
+### Deep clone和wblock, 统称深拷贝
+* 主要分2步走, 首先拷贝所有有关的对象(cloning), 然后再更新对象之间的引用为拷贝后的新id(translating).
+* 有三个主要函数来实现深拷贝:
+```c++
+AcDbDatabase::deepCloneObjects()	// 不能跨database使用
+AcDbDatabase::wblock()
+AcDbDatabase::insert()              // 配合wblock使用
+```
+* deep clone和wblock都用一样的数据填充的手段. new一个新对象, 旧对象通过dwgOut输出数据流, 新对象用dwgIn来读取该数据流
+* 
+|起作用|hard|soft|
+|-|-|-|
+|ownership|deep clone & wblock|deep clone|
+|pointer|wblock||
+
+
 
 ### 注意点
 * 宏ACRX_DXF_DEFINE_MEMBERS的倒数第二项一定要大写
