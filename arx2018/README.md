@@ -86,7 +86,7 @@ Current instruction (descriptive info) or
 |pointer|类比C中的指针|类比引用计数. 计数不为0, 被引用的对象不能被清除|
 * soft ownership举例:
 1. 除*MODEL_SPACE, *PAPER_SPACE, *PAPER_SPACE0, layer 0外的其他符号表(sumbol table), 对其包含的元素都是soft ownership
-2. 字典都是
+2. 字典都是(2018下扩展字典是hard ownership, 旧版本扩展字典也是soft. 命名字典是soft)
 
 
 

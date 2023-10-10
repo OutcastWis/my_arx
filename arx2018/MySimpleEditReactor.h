@@ -18,6 +18,13 @@ public:
     virtual void commandEnded(const TCHAR* cmdStr);
     virtual void commandWillStart(const TCHAR* cmdStr);
 
+
+    // Deep Clone Events.
+    //
+    virtual void beginDeepClone(AcDbDatabase* pTo, AcDbIdMapping& idMap);
+    virtual void beginDeepCloneXlation(AcDbIdMapping& idMap, Acad::ErrorStatus* pRetStat);
+    virtual void abortDeepClone(AcDbIdMapping& idMap);
+    virtual void endDeepClone(AcDbIdMapping& idMap);
 public:
 
     // 不同override对应不同的操作函数. first是上述override的函数名. second是操作函数, 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "icmd.h"
+#include "MySimpleEditReactor.h"
 
 namespace wzj {
     class clone_work : public icmd
@@ -18,7 +19,13 @@ namespace wzj {
         void init_impl() override;
 
         void stop_impl() override;
+
+        void clear();
+
+        void make_reactor();
     private:
+        MySimpleEditReactor* edit_reactor_;
+        
     };
 }
 

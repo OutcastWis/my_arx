@@ -261,9 +261,8 @@ Adesk::Boolean getYorN(const TCHAR* pStr)
 
 CString desktop_url() {
     TCHAR szDesktopPath[MAX_PATH] = {};
-    if (SUCCEEDED(SHGetFolderPath(NULL, CSIDL_DESKTOPDIRECTORY, NULL, SHGFP_TYPE_CURRENT, szDesktopPath))) {
-        return szDesktopPath;
-    }
+    SHGetFolderPath(NULL, CSIDL_DESKTOPDIRECTORY, NULL, SHGFP_TYPE_CURRENT, szDesktopPath);
+    return szDesktopPath;
 }
 
 void curves() {
