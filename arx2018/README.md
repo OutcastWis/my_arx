@@ -37,10 +37,11 @@
 
 
 ### 坐标系
-* WCS, World coordinate system
-* UCS, User coordinate system
-* OCS, Object coordinate system(以前版本叫ECS).
-* DCS, Display coordinate system 
+1. WCS, World coordinate system. 作为参考坐标系存在, 其他所有坐标系皆是相对于它. 不会改变
+2. UCS, User coordinate system. 用户界面交互使用的坐标. 但在DXF中, 存的是WCS
+3. OCS, Object coordinate system(以前版本叫ECS). 主要用在2D对象放到3D空间中. CAD中使用标,1.系的有:  ARC, CIRCLE, TEXT, LWPOLYLINE, HATCH, SOLID, TRACE, INSERT, IMAGE
+4. DCS, Display coordinate system. 模型再CAD内部, 经过三次转换Model coordinates + [Entity block transform] => World conordinates + [viewport/view transform] => Eye coordinates + [Perspective tranform] => Display coordinates. DCS的坐标原点被记录在系统变量TARGET中. 和viewport相关的画图, 应该使用该坐标系, 详见MyGlyph::subViewportDraw中注释
+
 
 
 ### 快捷菜单, AcEdUiContext
