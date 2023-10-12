@@ -3,7 +3,7 @@
 #include <acadstrc.h>
 #include <dbid.h>
 #include <dbmain.h>
-
+#include <type_traits>
 
 
 
@@ -27,7 +27,9 @@ Acad::ErrorStatus change_color(AcDbObjectId entId, Adesk::UInt16 newColor);
 Adesk::Boolean getYorN(const TCHAR* pStr);
 // 获取桌面的路径
 CString desktop_url();
-
+// 获取和设置CAD系统变量
+int get_int_sysvar(const TCHAR* var);
+void set_int_sysvar(const TCHAR* var, int value);
 
 
 
@@ -83,3 +85,7 @@ void docman();
 void block_order();
 // 浅拷贝和深拷贝
 void clone_work();
+// jig的简单使用. 用了drag() + AcGiDrawable, 而不是sampler()->update()->entity()的流程
+void jig();
+// 维护各文档的数据. 同时又提供了正规的jig流程, 即sampler()->update()->entity()
+void data_per_doc();

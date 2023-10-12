@@ -30,6 +30,8 @@
 #include "modeless_dialog.h"
 #include "block_order.h"
 #include "clone_work.h"
+#include "jig.h"
+#include "data_per_doc.h"
 
 
 
@@ -63,6 +65,8 @@ void unregister_class() {
     wzj::docman::instance()->stop();
     wzj::block_order::instance()->stop();
     wzj::clone_work::instance()->stop();
+    wzj::jig::instance()->stop();
+    wzj::data_per_doc::instance()->stop();
 }
 
 void init_app(void* appId) {
@@ -104,6 +108,10 @@ void init_app(void* appId) {
     acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_BLOCK_ORDER"), _T("LOCAL_BLOCK_ORDER"), ACRX_CMD_MODAL, block_order);
 
     acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_CLONE_WORK"), _T("LOCAL_CLONE_WORK"), ACRX_CMD_MODAL, clone_work);
+
+    acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_JIG"), _T("LOCAL_JIG"), ACRX_CMD_MODAL, jig);
+
+    acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_DPDOC"), _T("LOCAL_DPDOC"), ACRX_CMD_MODAL, data_per_doc);
 }
 
 
@@ -263,6 +271,21 @@ CString desktop_url() {
     TCHAR szDesktopPath[MAX_PATH] = {};
     SHGetFolderPath(NULL, CSIDL_DESKTOPDIRECTORY, NULL, SHGFP_TYPE_CURRENT, szDesktopPath);
     return szDesktopPath;
+}
+
+int get_int_sysvar(const TCHAR* var)
+{
+    struct resbuf rb;
+    acedGetVar(var, &rb);
+    return(rb.resval.rint);
+}
+
+void set_int_sysvar(const TCHAR* var, int value)
+{
+    struct resbuf rb;
+    rb.restype = RTSHORT;
+    rb.resval.rint = value;
+    acedSetVar(var, &rb);
 }
 
 void curves() {
@@ -480,4 +503,18 @@ void clone_work() {
         wzj::clone_work::instance()->stop();
     else
         wzj::clone_work::instance()->init();
+}
+
+void jig() {
+    if (wzj::jig::instance()->is_start())
+        wzj::jig::instance()->stop();
+    else
+        wzj::jig::instance()->init();
+}
+
+void data_per_doc() {
+    if (wzj::data_per_doc::instance()->is_start())
+        wzj::data_per_doc::instance()->stop();
+    else
+        wzj::data_per_doc::instance()->init();
 }

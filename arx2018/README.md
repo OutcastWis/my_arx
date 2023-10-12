@@ -36,6 +36,13 @@
 * 详见highlight_subentity
 
 
+### 坐标系
+* WCS, World coordinate system
+* UCS, User coordinate system
+* OCS, Object coordinate system(以前版本叫ECS).
+* DCS, Display coordinate system 
+
+
 ### 快捷菜单, AcEdUiContext
 * 有5种:
 1. **Hot Grip Cursor** 右键选中对象的grip

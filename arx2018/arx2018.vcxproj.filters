@@ -31,6 +31,12 @@
     <Filter Include="reactor">
       <UniqueIdentifier>{6f7a60c9-98c3-4724-a642-9efd6a7fa817}</UniqueIdentifier>
     </Filter>
+    <Filter Include="custom object">
+      <UniqueIdentifier>{7cda81b2-7305-4e55-9c96-e6c505c638dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="jig">
+      <UniqueIdentifier>{1ba57f28-f4f2-4b69-87a4-5909d37005cb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -109,6 +115,18 @@
       <Filter>high</Filter>
     </ClInclude>
     <ClInclude Include="clone_work.h">
+      <Filter>high</Filter>
+    </ClInclude>
+    <ClInclude Include="jig.h">
+      <Filter>high</Filter>
+    </ClInclude>
+    <ClInclude Include="MyJig3d.h">
+      <Filter>jig</Filter>
+    </ClInclude>
+    <ClInclude Include="MyRectangleJig.h">
+      <Filter>jig</Filter>
+    </ClInclude>
+    <ClInclude Include="data_per_doc.h">
       <Filter>high</Filter>
     </ClInclude>
   </ItemGroup>
@@ -192,6 +210,18 @@
       <Filter>high</Filter>
     </ClCompile>
     <ClCompile Include="clone_work.cpp">
+      <Filter>high</Filter>
+    </ClCompile>
+    <ClCompile Include="jig.cpp">
+      <Filter>high</Filter>
+    </ClCompile>
+    <ClCompile Include="MyJig3d.cpp">
+      <Filter>jig</Filter>
+    </ClCompile>
+    <ClCompile Include="MyRectangleJig.cpp">
+      <Filter>jig</Filter>
+    </ClCompile>
+    <ClCompile Include="data_per_doc.cpp">
       <Filter>high</Filter>
     </ClCompile>
   </ItemGroup>
