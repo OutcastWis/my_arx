@@ -28,7 +28,7 @@ Acad::ErrorStatus MyTxtStyle::subTransformBy(const AcGeMatrix3d& xfm)
 
 Adesk::Boolean MyTxtStyle::subWorldDraw(AcGiWorldDraw* pW)
 {
-    AcGePoint3d pos(0.0, 0.0, 0.0);  // 左下角
+    AcGePoint3d pos(0.0, 0.0, 0.0);  // 文字的插入点是左下角
     AcGeVector3d norm(0.0, 0.0, 1.0);
     AcGeVector3d dir(1.0, 0.2, 0.0); // 倾斜
     const TCHAR* pStr = _T("Class MyTxtStyle");

@@ -32,7 +32,7 @@
 #include "clone_work.h"
 #include "jig.h"
 #include "data_per_doc.h"
-
+#include "osnap.h"
 
 
 AC_DECLARE_EXTENSION_MODULE(theArxDLL);
@@ -67,6 +67,7 @@ void unregister_class() {
     wzj::clone_work::instance()->stop();
     wzj::jig::instance()->stop();
     wzj::data_per_doc::instance()->stop();
+    wzj::osnap::instance()->stop();
 }
 
 void init_app(void* appId) {
@@ -112,6 +113,8 @@ void init_app(void* appId) {
     acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_JIG"), _T("LOCAL_JIG"), ACRX_CMD_MODAL, jig);
 
     acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_DPDOC"), _T("LOCAL_DPDOC"), ACRX_CMD_MODAL, data_per_doc);
+
+    acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_OSNAP"), _T("LOCAL_OSNAP"), ACRX_CMD_MODAL, osnap);
 }
 
 
@@ -517,4 +520,11 @@ void data_per_doc() {
         wzj::data_per_doc::instance()->stop();
     else
         wzj::data_per_doc::instance()->init();
+}
+
+void osnap() {
+    if (wzj::osnap::instance()->is_start())
+        wzj::osnap::instance()->stop();
+    else
+        wzj::osnap::instance()->init();
 }

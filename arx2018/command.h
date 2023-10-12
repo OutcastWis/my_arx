@@ -89,3 +89,5 @@ void clone_work();
 void jig();
 // 维护各文档的数据. 同时又提供了正规的jig流程, 即sampler()->update()->entity()
 void data_per_doc();
+// 为arc和pline增加三分点作为捕捉点. 使用自定义的捕捉点显示
+void osnap();

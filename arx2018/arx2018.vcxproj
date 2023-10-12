@@ -178,8 +178,11 @@
     <ClInclude Include="MyAcUiDialog.h" />
     <ClInclude Include="MyCmdContext.h" />
     <ClInclude Include="MyDefaultContext.h" />
+    <ClInclude Include="MyGlyph.h" />
     <ClInclude Include="MyJig3d.h" />
     <ClInclude Include="MyOptionsTab.h" />
+    <ClInclude Include="MyOsnapInfo.h" />
+    <ClInclude Include="MyOsnapMode.h" />
     <ClInclude Include="MyRectangleJig.h" />
     <ClInclude Include="MySimpleDbReactor.h" />
     <ClInclude Include="MySimpleDocReactor.h" />
@@ -188,6 +191,7 @@
     <ClInclude Include="MyInventoryData.h" />
     <ClInclude Include="MySimpleModelessDialog.h" />
     <ClInclude Include="MyTxtStyle.h" />
+    <ClInclude Include="osnap.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="raster_image.h" />
     <ClInclude Include="resource.h" />
@@ -209,8 +213,11 @@
     <ClCompile Include="MyAcUiDialog.cpp" />
     <ClCompile Include="MyCmdContext.cpp" />
     <ClCompile Include="MyDefaultContext.cpp" />
+    <ClCompile Include="MyGlyph.cpp" />
     <ClCompile Include="MyJig3d.cpp" />
     <ClCompile Include="MyOptionsTab.cpp" />
+    <ClCompile Include="MyOsnapInfo.cpp" />
+    <ClCompile Include="MyOsnapMode.cpp" />
     <ClCompile Include="MyRectangleJig.cpp" />
     <ClCompile Include="MySimpleDbReactor.cpp" />
     <ClCompile Include="MySimpleDocReactor.cpp" />
@@ -220,6 +227,7 @@
     <ClCompile Include="MySimpleModelessDialog.cpp" />
     <ClCompile Include="MyTessellate.cpp" />
     <ClCompile Include="MyTxtStyle.cpp" />
+    <ClCompile Include="osnap.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
