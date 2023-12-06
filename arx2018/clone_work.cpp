@@ -6,6 +6,7 @@
 #include <acui.h>
 #include <acuiDialog.h>
 #include <dbxrecrd.h>
+#include <acestext.h>
 
 #include "command.h"
 #include "MyInventoryData.h"
@@ -288,6 +289,76 @@ namespace wzj {
                 acedAlert(_T("insert failed!"));
             delete pTempDb;
         }
+        // 和其他不同, 该函数可以只copy块定义, 而不生成块引用. 使用wblockCloneObjects
+        void clone4() {
+            CAcUiFileDialog dlg(TRUE, _T("dwg"), NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, _T("AutoCAD Files (*.dwg)|*.dwg|All Files (*.*)|*.*||"));
+            if (dlg.DoModal() != IDOK)
+                return;
+
+            CString fname = dlg.GetFileName();
+            ads_printf(_T("Dealing with file: %s\n"), fname);
+
+            AcDbDatabase extDatabase(Adesk::kFalse);
+            if (Acad::eOk != extDatabase.readDwgFile(fname))
+            {
+                acedAlert(_T("Error reading DWG!"));
+                return;
+            }
+
+            AcDbBlockTable* pBT = nullptr;
+            if (Acad::eOk != extDatabase.getSymbolTable(pBT, AcDb::kForRead))
+            {
+                acedAlert(_T("Error getting BlockTable of DWG"));
+                return;
+            }
+
+            AcDbObjectIdArray list;
+            AcDbBlockTableIterator* pBTIt;
+            pBT->newIterator(pBTIt);
+            for (; !pBTIt->done(); pBTIt->step()) {
+                AcDbBlockTableRecord* r;
+                if (pBTIt->getRecord(r) != Acad::eOk)
+                    continue;
+                TCHAR* name = nullptr;
+                if (r->getName(name) != Acad::eOk ||
+                    _tcscmp(name, ACDB_MODEL_SPACE) == 0 ||
+                    _tcsncmp(name, ACDB_PAPER_SPACE, 12) == 0) {
+                    r->close();
+                    continue;
+                }
+                r->close();
+                AcDbObjectId id;
+                pBTIt->getRecordId(id);
+                list.append(id);
+            }
+            pBT->close();
+            delete pBTIt;
+
+            if (list.isEmpty()) {
+                acedAlert(_T("No entities found in model space of DWG"));
+                return;
+            }
+
+            AcDbIdMapping mapping;
+            AcDbBlockTable* pSelfBT = nullptr;
+            if (Acad::eOk != acdbHostApplicationServices()->workingDatabase()->getSymbolTable(pSelfBT, AcDb::kForWrite))
+            {
+                acedAlert(_T("Error getting BlockTable of Current DWG"));
+                return;
+            }
+            AcDbObjectId btId = pSelfBT->objectId();
+            pSelfBT->close();
+
+            Acad::ErrorStatus es;
+            if (Acad::eOk != (es = acdbHostApplicationServices()->workingDatabase()->wblockCloneObjects(list,
+                btId, mapping, AcDb::kDrcReplace
+            ))) {
+                acedAlert(_T("wblockCloneObjects failed! "));
+                ads_printf(_T("\n%s"), acadErrorStatusText(es));
+                return;
+            }
+        }
+
         //
         void reactor() {
             if (getYorN(_T("Start reactor"))) {
@@ -477,6 +548,8 @@ namespace wzj {
             ACRX_CMD_MODAL, &detail::before_clone3);
 
         acedRegCmds->addCommand(_T("MY_COMMAND_CLONE_WORK"), _T("GLOBAL_CLONE3"), _T("LOCAL_CLONE3"), ACRX_CMD_MODAL, &detail::clone3);
+
+        acedRegCmds->addCommand(_T("MY_COMMAND_CLONE_WORK"), _T("GLOBAL_CLONE4"), _T("LOCAL_CLONE4"), ACRX_CMD_MODAL, &detail::clone4);
 
         acedRegCmds->addCommand(_T("MY_COMMAND_CLONE_WORK"), _T("GLOBAL_CLONE_REACTOR"), _T("LOCAL_CLONE_REACTOR"), ACRX_CMD_MODAL, &detail::reactor);
  
