@@ -5,7 +5,7 @@
 
 #include "highlight_subentity.h"
 
-
+#include "command.h"
 
 namespace wzj {
     namespace detail {
@@ -20,80 +20,28 @@ namespace wzj {
             }
         }
 
-        // 返回路径, 从外到内. 最里面是被选中的对象本身
-        AcDbObjectIdArray ContainerIdsAndEntity(ads_name sset, ads_point pick_point, Adesk::GsMarker* gs, AcDbObjectId* pick)
-        {
-            AcDbObjectIdArray ids;
-            ads_name eName;
-            AcDbObjectId id;
-            Adesk::Int32 len = 0;
-            acedSSLength(sset, &len);
-            for (long i = 0; i < len; i++)
-            {
-                resbuf* rb = NULL;
-                if (RTNORM == acedSSNameX(&rb, sset, i))
-                {
-                    resbuf* rbWalk = rb;
-                    int cnt = 0;
-
-                    // skip RTLB
-                    rbWalk = rbWalk->rbnext;
-                    // select method
-                    ads_printf(_T("selectin method: %d\n"), rbWalk->resval.rint);
-                    // picked entity's entity name
-                    rbWalk = rbWalk->rbnext;
-                    AddtoIdArray(rbWalk->resval.rlname, ids);
-                    acdbGetObjectId(*pick, rbWalk->resval.rlname);
-                    // GS maker
-                    rbWalk = rbWalk->rbnext;
-                    *gs = rbWalk->resval.rint;
-                    // RTLB
-                    rbWalk = rbWalk->rbnext;
-                    // point descriptor
-                    rbWalk = rbWalk->rbnext;
-                    auto pt_desc = rbWalk->resval.rint;
-                    // point on pick line (in WCS)
-                    rbWalk = rbWalk->rbnext;
-                    ads_point_set(rbWalk->resval.rpoint, pick_point);
-
-                    while (NULL != rbWalk)
-                    {
-                        if (RTENAME == rbWalk->restype)
-                        { // 这些对象, 按照嵌套深度, 由内至外
-                            eName[0] = rbWalk->resval.rlname[0];
-                            eName[1] = rbWalk->resval.rlname[1];
-                            AddtoIdArray(eName, ids);
-                        }
-                        rbWalk = rbWalk->rbnext;
-                    }
-                    acutRelRb(rb);
-                }
-            }
-            ids.reverse(); // 翻转, 为外部AcDbFullSubentPath使用
-            return ids;
-        }
-
         void highlight(AcDb::SubentType st) {
             ads_name sset = {};
             ads_point pick_point = {};
 
             int r = RTNORM;
+            AcDbObjectIdArray ids1;
             //Pick entity
             if (RTNORM == (r = acedSSGet(_T("_:s:n"), NULL, NULL, NULL, sset)))
             {
                 Adesk::GsMarker gs;
                 //Create Container and Entity ObjectIdArray
                 AcDbObjectId pick_id;
-                AcDbObjectIdArray ids;
+                
                 // 此时, ids对应的应该是 BlockReference, BlockReference,..., Entity
-                ids = ContainerIdsAndEntity(sset, pick_point, &gs, &pick_id);
+                ids1 = ContainerIdsAndEntity(sset, pick_point, &gs, &pick_id);
 
                 AcDbEntity* pOutermost;
-                if (Acad::eOk == acdbOpenObject(pOutermost, ids[0], AcDb::kForRead))
+                if (Acad::eOk == acdbOpenObject(pOutermost, ids1[0], AcDb::kForRead))
                 {
                     if (st == AcDb::kNullSubentType) {
                         AcDbSubentId subid = AcDbSubentId(st, gs);
-                        AcDbFullSubentPath path(ids, subid);
+                        AcDbFullSubentPath path(ids1, subid);
                         pOutermost->highlight(path);
                     }
                     else 
@@ -103,7 +51,7 @@ namespace wzj {
                         int numIds;
                         AcDbFullSubentPath* subentIds;
                         pOutermost->getSubentPathsAtGsMarker(st, gs, asPnt3d(pick_point), xform, numIds, subentIds,
-                            ids.length() - 1, ids.reverse().asArrayPtr()); // 这里需要注意, 获取的subentIds中的GS mark不一定和传入的gs一致
+                            ids1.length() - 1, ids1.reverse().asArrayPtr()); // 这里需要注意, 获取的subentIds中的GS mark不一定和传入的gs一致
                         for (int i = 0; i < numIds; ++i) 
                             pOutermost->highlight(subentIds[i]);    
                         delete[]subentIds;
@@ -121,20 +69,24 @@ namespace wzj {
             ads_name ent;
             ads_matrix mat;
             struct resbuf* insStack;
-            AcDbObjectIdArray ids;
+            AcDbObjectIdArray ids2;
             if (RTNORM == (r = acedNEntSelP(NULL, ent, pick_point, TRUE, mat, &insStack))) {
-                AddtoIdArray(ent, ids, _T("acedNEntSelP"));
+                AddtoIdArray(ent, ids2, _T("acedNEntSelP"));
 
                 struct resbuf* res = insStack;
                 while (res) {
                     assert(res->restype == RTENAME);
-                    AddtoIdArray(res->resval.rlname, ids, _T("acedNEntSelP"));
+                    AddtoIdArray(res->resval.rlname, ids2, _T("acedNEntSelP"));
                     res = res->rbnext;
                 }
                 if (insStack)
                     ads_relrb(insStack);
             }
-            // 此时俩者AddtoIdArray中输出的应该一致. 为由内到外
+            // 此时ids1和ids2应该相反. ids2为由内到外, ids1为由外到内
+            assert(ids1.length() == ids2.length());
+            for (int i = 0; i < ids1.length(); ++i) {
+                assert(ids1[i] == ids2[ids1.length() - 1 - i]);
+            }
         }
 
         void highlight_subentity() {

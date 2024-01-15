@@ -166,6 +166,7 @@
     <ClInclude Include="cmd_count.h" />
     <ClInclude Include="command.h" />
     <ClInclude Include="context_menu.h" />
+    <ClInclude Include="custom_geo.h" />
     <ClInclude Include="data_per_doc.h" />
     <ClInclude Include="docman.h" />
     <ClInclude Include="extend_tabs.h" />
@@ -177,6 +178,8 @@
     <ClInclude Include="modeless_dialog.h" />
     <ClInclude Include="MyAcUiDialog.h" />
     <ClInclude Include="MyCmdContext.h" />
+    <ClInclude Include="MyCustomDrawEntity.h" />
+    <ClInclude Include="MyCustomWorldDraw.h" />
     <ClInclude Include="MyDefaultContext.h" />
     <ClInclude Include="MyGlyph.h" />
     <ClInclude Include="MyJig3d.h" />
@@ -202,6 +205,7 @@
     <ClCompile Include="cmd_count.cpp" />
     <ClCompile Include="command.cpp" />
     <ClCompile Include="context_menu.cpp" />
+    <ClCompile Include="custom_geo.cpp" />
     <ClCompile Include="data_per_doc.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="docman.cpp" />
@@ -212,6 +216,7 @@
     <ClCompile Include="modeless_dialog.cpp" />
     <ClCompile Include="MyAcUiDialog.cpp" />
     <ClCompile Include="MyCmdContext.cpp" />
+    <ClCompile Include="MyCustomDrawEntity.cpp" />
     <ClCompile Include="MyDefaultContext.cpp" />
     <ClCompile Include="MyGlyph.cpp" />
     <ClCompile Include="MyJig3d.cpp" />

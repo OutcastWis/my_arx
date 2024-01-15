@@ -13,6 +13,7 @@ void unregister_class();
 void init_app(void* appId);
 void unload_app();
 /**
+* 添加对象到图纸中
 * @param objId [out]
 * @param *pEntity [in]
 * @param *pDb [in]
@@ -30,6 +31,15 @@ CString desktop_url();
 // 获取和设置CAD系统变量
 int get_int_sysvar(const TCHAR* var);
 void set_int_sysvar(const TCHAR* var, int value);
+/**
+* 解析sset中的对象. sset必须是single selection
+* @param sset [in]
+* @param pick_point [out], 选中对象的坐标
+* @param *gs [out], gs marker
+* @param *pick [out], 选中对象的id
+* @return 对于内嵌对象, 返回最外层到最内层(*pick). 对于普通对象, 返回自身(*pick)
+*/
+AcDbObjectIdArray ContainerIdsAndEntity(ads_name sset, ads_point pick_point, Adesk::GsMarker* gs, AcDbObjectId* pick);
 
 
 
@@ -91,3 +101,8 @@ void jig();
 void data_per_doc();
 // 为arc和pline增加三分点作为捕捉点. 使用自定义的捕捉点显示
 void osnap();
+
+
+// Advanced
+// 使用AcGi
+void custom_geo();

@@ -3,6 +3,10 @@
 #include <tchar.h>
 #include <dbmain.h>
 
+/**
+* @file MyInventoryData
+* 自定义数据, 配合对象的命名字典使用
+*/
 class MyInventoryData : public AcDbObject
 {
 public:

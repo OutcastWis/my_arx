@@ -33,6 +33,7 @@
 #include "jig.h"
 #include "data_per_doc.h"
 #include "osnap.h"
+#include "custom_geo.h"
 
 
 AC_DECLARE_EXTENSION_MODULE(theArxDLL);
@@ -68,6 +69,9 @@ void unregister_class() {
     wzj::jig::instance()->stop();
     wzj::data_per_doc::instance()->stop();
     wzj::osnap::instance()->stop();
+
+    // Advanced
+    wzj::custom_geo::instance()->stop();
 }
 
 void init_app(void* appId) {
@@ -290,6 +294,57 @@ void set_int_sysvar(const TCHAR* var, int value)
     rb.resval.rint = value;
     acedSetVar(var, &rb);
 }
+
+AcDbObjectIdArray ContainerIdsAndEntity(ads_name sset, ads_point pick_point, Adesk::GsMarker* gs, AcDbObjectId* pick)
+{
+    AcDbObjectIdArray ids;
+    AcDbObjectId id;
+    Adesk::Int32 len = 0;
+    acedSSLength(sset, &len);
+    for (long i = 0; i < len; i++)
+    {
+        resbuf* rb = NULL;
+        if (RTNORM == acedSSNameX(&rb, sset, i))
+        {
+            resbuf* rbWalk = rb;
+
+            // skip RTLB
+            rbWalk = rbWalk->rbnext;
+            // select method
+            ads_printf(_T("selectin method: %d\n"), rbWalk->resval.rint);
+            // picked entity's entity name
+            rbWalk = rbWalk->rbnext;
+            acdbGetObjectId(*pick, rbWalk->resval.rlname);
+            ids.append(*pick);
+            // GS maker
+            rbWalk = rbWalk->rbnext;
+            *gs = rbWalk->resval.rint;
+            // RTLB
+            rbWalk = rbWalk->rbnext;
+            // point descriptor
+            rbWalk = rbWalk->rbnext;
+            auto pt_desc = rbWalk->resval.rint;
+            // point on pick line (in WCS)
+            rbWalk = rbWalk->rbnext;
+            ads_point_set(rbWalk->resval.rpoint, pick_point);
+
+            while (NULL != rbWalk)
+            {
+                if (RTENAME == rbWalk->restype)
+                { // 这些对象, 按照嵌套深度, 由内至外
+                    AcDbObjectId nested_id;
+                    acdbGetObjectId(nested_id, rbWalk->resval.rlname);
+                    ids.append(nested_id);
+                }
+                rbWalk = rbWalk->rbnext;
+            }
+            acutRelRb(rb);
+        }
+    }
+    ids.reverse(); // 翻转, 为外部AcDbFullSubentPath使用
+    return ids;
+}
+
 
 void curves() {
     ads_name en = {};
@@ -527,4 +582,11 @@ void osnap() {
         wzj::osnap::instance()->stop();
     else
         wzj::osnap::instance()->init();
+}
+
+void custom_geo() {
+    if (wzj::custom_geo::instance()->is_start())
+        wzj::custom_geo::instance()->stop();
+    else
+        wzj::custom_geo::instance()->init();
 }

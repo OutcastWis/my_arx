@@ -37,6 +37,12 @@
     <Filter Include="custom rxobject">
       <UniqueIdentifier>{7cda81b2-7305-4e55-9c96-e6c505c638dc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="advanced">
+      <UniqueIdentifier>{097cce0d-4140-4018-bb03-b6c1c6f3005c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="custom object">
+      <UniqueIdentifier>{2a8ce606-b511-452e-8194-042dfc4de907}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -52,9 +58,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="MyTxtStyle.h">
-      <Filter>custom entity</Filter>
-    </ClInclude>
-    <ClInclude Include="MyInventoryData.h">
       <Filter>custom entity</Filter>
     </ClInclude>
     <ClInclude Include="MyAcUiDialog.h">
@@ -141,6 +144,18 @@
     <ClInclude Include="MyOsnapMode.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="custom_geo.h">
+      <Filter>advanced</Filter>
+    </ClInclude>
+    <ClInclude Include="MyInventoryData.h">
+      <Filter>custom object</Filter>
+    </ClInclude>
+    <ClInclude Include="MyCustomDrawEntity.h">
+      <Filter>custom entity</Filter>
+    </ClInclude>
+    <ClInclude Include="MyCustomWorldDraw.h">
+      <Filter>custom rxobject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -160,9 +175,6 @@
     </ClCompile>
     <ClCompile Include="test.cpp">
       <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="MyInventoryData.cpp">
-      <Filter>custom entity</Filter>
     </ClCompile>
     <ClCompile Include="MyAcUiDialog.cpp">
       <Filter>dialog</Filter>
@@ -247,6 +259,15 @@
     </ClCompile>
     <ClCompile Include="MyOsnapMode.cpp">
       <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="custom_geo.cpp">
+      <Filter>advanced</Filter>
+    </ClCompile>
+    <ClCompile Include="MyInventoryData.cpp">
+      <Filter>custom object</Filter>
+    </ClCompile>
+    <ClCompile Include="MyCustomDrawEntity.cpp">
+      <Filter>custom entity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
