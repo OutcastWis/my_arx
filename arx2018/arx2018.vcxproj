@@ -128,14 +128,14 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
       <DisableSpecificWarnings>4456;4457;</DisableSpecificWarnings>
-      <AdditionalIncludeDirectories>E:\ObjectARX2018\inc;E:\ObjectARX2018\inc-x64;E:\ObjectARX2018\utils\brep\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>E:\wzj\cad\ObjectARX2018\inc;E:\wzj\cad\ObjectARX2018\inc-x64;E:\wzj\cad\ObjectARX2018\utils\brep\inc;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>E:\ObjectARX2018\lib-x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>E:\wzj\cad\ObjectARX2018\lib-x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>accore.lib;acad.lib;acui22.lib;adui22.lib;ac1st22.lib;acdb22.lib;acge22.lib;acgiapi.lib;acISMobj22.lib;rxapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>module_default.def</ModuleDefinitionFile>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -178,8 +178,6 @@
     <ClInclude Include="modeless_dialog.h" />
     <ClInclude Include="MyAcUiDialog.h" />
     <ClInclude Include="MyCmdContext.h" />
-    <ClInclude Include="MyCustomDrawEntity.h" />
-    <ClInclude Include="MyCustomWorldDraw.h" />
     <ClInclude Include="MyDefaultContext.h" />
     <ClInclude Include="MyGlyph.h" />
     <ClInclude Include="MyJig3d.h" />
@@ -216,7 +214,6 @@
     <ClCompile Include="modeless_dialog.cpp" />
     <ClCompile Include="MyAcUiDialog.cpp" />
     <ClCompile Include="MyCmdContext.cpp" />
-    <ClCompile Include="MyCustomDrawEntity.cpp" />
     <ClCompile Include="MyDefaultContext.cpp" />
     <ClCompile Include="MyGlyph.cpp" />
     <ClCompile Include="MyJig3d.cpp" />

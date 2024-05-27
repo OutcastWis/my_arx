@@ -150,12 +150,6 @@
     <ClInclude Include="MyInventoryData.h">
       <Filter>custom object</Filter>
     </ClInclude>
-    <ClInclude Include="MyCustomDrawEntity.h">
-      <Filter>custom entity</Filter>
-    </ClInclude>
-    <ClInclude Include="MyCustomWorldDraw.h">
-      <Filter>custom rxobject</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="dllmain.cpp">
@@ -265,9 +259,6 @@
     </ClCompile>
     <ClCompile Include="MyInventoryData.cpp">
       <Filter>custom object</Filter>
-    </ClCompile>
-    <ClCompile Include="MyCustomDrawEntity.cpp">
-      <Filter>custom entity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
