@@ -13,31 +13,31 @@ void unregister_class();
 void init_app(void* appId);
 void unload_app();
 /**
-* æ·»åŠ å¯¹è±¡åˆ°å›¾çº¸ä¸­
+* Ìí¼Ó¶ÔÏóµ½Í¼Ö½ÖĞ
 * @param objId [out]
 * @param *pEntity [in]
 * @param *pDb [in]
-* @remark pEntityéœ€è¦æ‰‹åŠ¨å…³é—­. 
+* @remark pEntityĞèÒªÊÖ¶¯¹Ø±Õ. 
 */
 Acad::ErrorStatus add_to_model_space(AcDbObjectId& objId, AcDbEntity* pEntity, AcDbDatabase* pDb = nullptr);
-void create_layer(const TCHAR* layer_name);
+void create_layer(const TCHAR* layer_name, bool frozen, bool off);
 AcDbObjectId create_line();
 AcDbObjectId create_circle();
 void create_group(AcDbObjectIdArray& objIds, const TCHAR* pGroupName);
 Acad::ErrorStatus change_color(AcDbObjectId entId, Adesk::UInt16 newColor);
 Adesk::Boolean getYorN(const TCHAR* pStr);
-// è·å–æ¡Œé¢çš„è·¯å¾„
+// »ñÈ¡×ÀÃæµÄÂ·¾¶
 CString desktop_url();
-// è·å–å’Œè®¾ç½®CADç³»ç»Ÿå˜é‡
+// »ñÈ¡ºÍÉèÖÃCADÏµÍ³±äÁ¿
 int get_int_sysvar(const TCHAR* var);
 void set_int_sysvar(const TCHAR* var, int value);
 /**
-* è§£æssetä¸­çš„å¯¹è±¡. ssetå¿…é¡»æ˜¯single selection
+* ½âÎössetÖĞµÄ¶ÔÏó. sset±ØĞëÊÇsingle selection
 * @param sset [in]
-* @param pick_point [out], é€‰ä¸­å¯¹è±¡çš„åæ ‡
+* @param pick_point [out], Ñ¡ÖĞ¶ÔÏóµÄ×ø±ê
 * @param *gs [out], gs marker
-* @param *pick [out], é€‰ä¸­å¯¹è±¡çš„id
-* @return å¯¹äºå†…åµŒå¯¹è±¡, è¿”å›æœ€å¤–å±‚åˆ°æœ€å†…å±‚(*pick). å¯¹äºæ™®é€šå¯¹è±¡, è¿”å›è‡ªèº«(*pick)
+* @param *pick [out], Ñ¡ÖĞ¶ÔÏóµÄid
+* @return ¶ÔÓÚÄÚÇ¶¶ÔÏó, ·µ»Ø×îÍâ²ãµ½×îÄÚ²ã(*pick). ¶ÔÓÚÆÕÍ¨¶ÔÏó, ·µ»Ø×ÔÉí(*pick)
 */
 AcDbObjectIdArray ContainerIdsAndEntity(ads_name sset, ads_point pick_point, Adesk::GsMarker* gs, AcDbObjectId* pick);
 
@@ -45,7 +45,7 @@ AcDbObjectIdArray ContainerIdsAndEntity(ads_name sset, ads_point pick_point, Ade
 
 
 
-// å…¶ä½™å‡½æ•°, è‹¥æ— å¿…è¦, ä¸è¦æ”¹åŠ¨. çš†ä¸ºæ ‡å‡†ä½¿ç”¨. éœ€è¦ä¸´æ—¶ä¿®æ”¹, ä½¿ç”¨ä¸‹é¢è¿™ä¸ª
+// ÆäÓàº¯Êı, ÈôÎŞ±ØÒª, ²»Òª¸Ä¶¯. ½ÔÎª±ê×¼Ê¹ÓÃ. ĞèÒªÁÙÊ±ĞŞ¸Ä, Ê¹ÓÃÏÂÃæÕâ¸ö
 void test();
 
 
@@ -53,56 +53,59 @@ void test();
 // used in acedRegcmds
 
 // Beginner
-// é€‰æ‹©å¯¹è±¡. é€‰ä¸­æ¤­åœ†æç¤ºæˆåŠŸ
+// Ñ¡Ôñ¶ÔÏó. Ñ¡ÖĞÍÖÔ²ÌáÊ¾³É¹¦
 void curves();
-// æ¼”ç¤º. åˆ›å»ºå›¾å±‚, line, circle. æ”¹å˜circleé¢œè‰². å¹¶å°†ä»–ä¿©åˆ›å»ºæˆç»„
+// ÑİÊ¾. ´´½¨Í¼²ã, line, circle. ¸Ä±äcircleÑÕÉ«. ²¢½«ËûÁ©´´½¨³É×é
 void mk_ents();
-// æ˜¾ç¤ºä¸€ä¸ªMFCä¸‹æ¨¡å—å¯¹è¯æ¡†, ç»§æ‰¿è‡ªCAcUiDialog. å’Œä¸€äº›AcUiæ§ä»¶çš„ä½¿ç”¨
+// ÏÔÊ¾Ò»¸öMFCÏÂÄ£¿é¶Ô»°¿ò, ¼Ì³Ğ×ÔCAcUiDialog. ºÍÒ»Ğ©AcUi¿Ø¼şµÄÊ¹ÓÃ
 void model_dialog();
-// æ˜¾ç¤ºè¿›åº¦æ¡
+// ÏÔÊ¾½ø¶ÈÌõ
 void progress_meter();
-// è‡ªå®šä¹‰æ–‡å­—å®ä½“, æœ‰åŒ…å›´æ¡†, é‡å½±
+// ×Ô¶¨ÒåÎÄ×ÖÊµÌå, ÓĞ°üÎ§¿ò, ÖØÓ°
 void custom_text();
-// åˆ›å»ºä¸€ä¸ªæ›´åŠ å¤æ‚çš„å›¾å±‚, æŒ‡å®šäº†çº¿å‹, é¢œè‰²ç­‰
+// ´´½¨Ò»¸ö¸ü¼Ó¸´ÔÓµÄÍ¼²ã, Ö¸¶¨ÁËÏßĞÍ, ÑÕÉ«µÈ
 void complex_layer();
-// ä¸€ä¸ªé€‚åº”è§†å£, èƒ½å¤Ÿè°ƒæ•´è‡ªå·±è¾¹æ•°çš„ç”¨å¤šè¾¹å½¢æ¨¡æ‹Ÿçš„å•ä½åœ†
+// Ò»¸öÊÊÓ¦ÊÓ¿Ú, ÄÜ¹»µ÷Õû×Ô¼º±ßÊıµÄÓÃ¶à±ßĞÎÄ£ÄâµÄµ¥Î»Ô²
 void tessellate();
 
 
 
 // Medium
-// ç»Ÿè®¡å‘½ä»¤è¿è¡Œ, æ–‡æ¡£çŠ¶æ€. æœ¬è´¨æ˜¯AcEditorReactorå’ŒAcApDocManagerReactorçš„ä½¿ç”¨
+// Í³¼ÆÃüÁîÔËĞĞ, ÎÄµµ×´Ì¬. ±¾ÖÊÊÇAcEditorReactorºÍAcApDocManagerReactorµÄÊ¹ÓÃ
 void cmd_count();
-// é€‰æ‹©ä¸€ä¸ªå¯¹è±¡è¿›è¡Œé«˜äº®. å¯ä»¥æ˜¯blockçš„ä¸­å¯¹è±¡. ä½¿ç”¨acedSSGet(_T("_:s:n")...)æˆ–è€…acedNEntSelP
+// Ñ¡ÔñÒ»¸ö¶ÔÏó½øĞĞ¸ßÁÁ. ¿ÉÒÔÊÇblockµÄÖĞ¶ÔÏó. Ê¹ÓÃacedSSGet(_T("_:s:n")...)»òÕßacedNEntSelP
 void highlight();
-// ä½¿ç”¨å¯¹è±¡çš„æ‰©å±•å­—å…¸, å­˜å‚¨ä¸€ä¸ªè‡ªå®šä¹‰å¯¹è±¡MyInventoryData
+// Ê¹ÓÃ¶ÔÏóµÄÀ©Õ¹×Öµä, ´æ´¢Ò»¸ö×Ô¶¨Òå¶ÔÏóMyInventoryData
 void ex_dict();
-// å…‰æ …å›¾å½¢çš„ä½¿ç”¨
+// ¹âÕ¤Í¼ĞÎµÄÊ¹ÓÃ
 void raster_image();
-// è‡ªå®šä¹‰å³é”®èœå•
+// ×Ô¶¨ÒåÓÒ¼ü²Ëµ¥
 void context_menu(void* appId);
-// å‘optionå¯¹è¯æ¡†ä¸­æ·»åŠ tab
+// Ïòoption¶Ô»°¿òÖĞÌí¼Ótab
 void extend_tabs(void* appId);
-// éæ¨¡æ€å¯¹è¯æ¡†
+// ·ÇÄ£Ì¬¶Ô»°¿ò
 void modeless_dialog();
-
+// Ê¹ÓÃads_ssget
+void ssget();
+// AcRxProtocolReactor»úÖÆ. ÎªblockÌí¼Ó¶îÍâµÄ²åÈëµã, ÔÚINSERTÊ±, °´CTRLÇĞ»»²åÈëµã
+void pr();
 
 
 // High
-// MDIä¸‹, æ‰“å¼€, å…³é—­, æ¿€æ´»ç­‰æ–‡æ¡£æ“ä½œ. å’Œä¸€äº›application contextå’Œdocument contextçš„è§£é‡Š
+// MDIÏÂ, ´ò¿ª, ¹Ø±Õ, ¼¤»îµÈÎÄµµ²Ù×÷. ºÍÒ»Ğ©application contextºÍdocument contextµÄ½âÊÍ
 void docman();
-// ä½¿ç”¨block_order.dbx, å®ç°å—ä¸­å¯¹è±¡éå†é¡ºåºçš„æ”¹å˜
+// Ê¹ÓÃblock_order.dbx, ÊµÏÖ¿éÖĞ¶ÔÏó±éÀúË³ĞòµÄ¸Ä±ä
 void block_order();
-// æµ…æ‹·è´å’Œæ·±æ‹·è´
+// Ç³¿½±´ºÍÉî¿½±´
 void clone_work();
-// jigçš„ç®€å•ä½¿ç”¨. ç”¨äº†drag() + AcGiDrawable, è€Œä¸æ˜¯sampler()->update()->entity()çš„æµç¨‹
+// jigµÄ¼òµ¥Ê¹ÓÃ. ÓÃÁËdrag() + AcGiDrawable, ¶ø²»ÊÇsampler()->update()->entity()µÄÁ÷³Ì
 void jig();
-// ç»´æŠ¤å„æ–‡æ¡£çš„æ•°æ®. åŒæ—¶åˆæä¾›äº†æ­£è§„çš„jigæµç¨‹, å³sampler()->update()->entity()
+// Î¬»¤¸÷ÎÄµµµÄÊı¾İ. Í¬Ê±ÓÖÌá¹©ÁËÕı¹æµÄjigÁ÷³Ì, ¼´sampler()->update()->entity()
 void data_per_doc();
-// ä¸ºarcå’Œplineå¢åŠ ä¸‰åˆ†ç‚¹ä½œä¸ºæ•æ‰ç‚¹. ä½¿ç”¨è‡ªå®šä¹‰çš„æ•æ‰ç‚¹æ˜¾ç¤º
+// ÎªarcºÍplineÔö¼ÓÈı·Öµã×÷Îª²¶×½µã. Ê¹ÓÃ×Ô¶¨ÒåµÄ²¶×½µãÏÔÊ¾
 void osnap();
 
 
 // Advanced
-// ä½¿ç”¨AcGi
+// Ê¹ÓÃAcGi
 void custom_geo();

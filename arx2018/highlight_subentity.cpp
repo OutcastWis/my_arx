@@ -68,7 +68,7 @@ namespace wzj {
 
             ads_name ent;
             ads_matrix mat;
-            struct resbuf* insStack;
+            struct resbuf* insStack = nullptr;
             AcDbObjectIdArray ids2;
             if (RTNORM == (r = acedNEntSelP(NULL, ent, pick_point, TRUE, mat, &insStack))) {
                 AddtoIdArray(ent, ids2, _T("acedNEntSelP"));

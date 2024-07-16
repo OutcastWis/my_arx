@@ -9,6 +9,7 @@ public:
 
     virtual Adesk::UInt32 subSetAttributes(AcGiDrawableTraits* traits) override
     {
+        (void*)traits;
         return kDrawableIsCompoundObject;
     }
 
@@ -27,6 +28,7 @@ public:
 
     virtual void subViewportDraw(AcGiViewportDraw* vd) override
     {
+        (void*)vd;
         return;
     }
 
@@ -48,7 +50,7 @@ public:
 
 /**
 * 非常简单的橡皮绳Jig. 
-* @detail 对象在移动式, 使用橡皮绳表现. 最后退出时, 才进行对象的绘制.
+* @detail 对象在移动式, 使用橡皮绳表现. 并使用AcGsModel来管理绘制中间过程
 *      
 */
 class MyJig3d : public AcEdJig
@@ -76,7 +78,7 @@ public:
     void init(const AcDbObjectId& idEntity, const AcGePoint3d& refPoint, int viewportNumber);
 private:
     AcDbPolyline m_dummy;
-    AcGsModel* m_pModel;    // 控制图形的绘制. 在jig析构时才绘制图形
+    AcGsModel* m_pModel;    // 控制图形的绘制
     AcGePoint3d m_refPoint; // WCS
     double m_elev;			// UCS
     Intermediary m_int;

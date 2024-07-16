@@ -7,6 +7,23 @@
 #include <geassign.h>
 
 
+namespace detail {
+    static AcDbObjectId GetModelSpaceBlockID(void)
+    {
+        AcDbObjectId            ObjectId;
+        AcDbBlockTable* pBlockTable;
+        Acad::ErrorStatus       status;
+
+        status = acdbHostApplicationServices()->workingDatabase()->getBlockTable(pBlockTable, AcDb::kForRead);
+        if (status != Acad::eOk)
+            return ObjectId;
+
+        status = pBlockTable->getAt(ACDB_MODEL_SPACE, ObjectId);
+        pBlockTable->close();
+        return ObjectId;
+    }
+}
+
 MyJig3d::~MyJig3d()
 {
     if (m_pModel)
@@ -61,7 +78,9 @@ AcEdJig::DragStatus MyJig3d::sampler()
             m_int.m_mat = (m_xformTemp * m_xform);
             break;
         }
+        // 在onAdd之后, 这里可以传递nullptr
         m_pModel->onModified(&m_int, nullptr);
+        // m_pModel->onModified(&m_int, detail::GetModelSpaceBlockID().asOldId());
     }
     return status;
 }
@@ -119,24 +138,34 @@ void MyJig3d::engage(void)
 void MyJig3d::init(const AcDbObjectId& idEntity, const AcGePoint3d& refPoint, int viewportNumber) {
     m_int.m_idEntity = idEntity;
     m_refPoint = refPoint;
-    AcGsManager* pMan = acgsGetGsManager();
-    if (pMan == NULL)
-        throw CString(_T("Cannot get Gs manager"));
 
-    AcGsView* pView = acgsGetCurrent3dAcGsView(viewportNumber);
-    if (pView == 0)
-        throw CString(_T("Perform this command in a 3d View.  Use the shademode command to activate one."));
+	AcGsView* pView = acgsGetCurrent3dAcGsView(viewportNumber);
+	if (pView == 0)
+		throw CString(_T("Perform this command in a 3d View.  Use the shademode command to activate one."));
 
-    m_pModel = pMan->gsModel(acdbHostApplicationServices()->workingDatabase());
+    assert(pView->getModel(&m_int) == nullptr);
+	auto& kernel = pView->getDevice()->graphicsKernel();
+    auto& desc = kernel.getDescriptor();
+    CString info;
+    for (auto it = desc.begin(); it != desc.end(); ++it)
+        info.Format(_T("%s & %s"), (const TCHAR*)info, (const wchar_t*)(*it));
+    ads_printf(_T("GsKernel desc: %s\n"), (const TCHAR*)info);
+
+    m_pModel = acgsGetGsModel(&kernel, acdbHostApplicationServices()->workingDatabase());
     if (m_pModel == NULL)
         throw CString(_T("Unable to retrieve AcDb AcGsModel"));
-    auto check_model = acgsGetGsModel(acdbHostApplicationServices()->workingDatabase());
-    assert(m_pModel == check_model);
 
-    AcGePoint3d pt(refPoint);
-    acdbWcs2Ucs(asDblArray(pt), asDblArray(pt), Adesk::kFalse);
+	auto check_model = acgsGetCurrentGsManager2()->gsModel(&kernel, acdbHostApplicationServices()->workingDatabase());
+    assert(check_model == m_pModel);
+
+	AcGePoint3d pt(refPoint);
+	acdbWcs2Ucs(asDblArray(pt), asDblArray(pt), Adesk::kFalse);
     m_elev = pt.z;
-    m_pModel->onAdded(&m_int, nullptr);
+
+    // 这里一定要传递ModelSpaceBlockID, 否则图形不会在移动时候显示
+    m_pModel->onAdded(&m_int, detail::GetModelSpaceBlockID().asOldId());
+   // m_pModel->onAdded(&m_int, nullptr);
+
     m_mode = kMove;
 }
 

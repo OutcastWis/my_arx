@@ -32,7 +32,7 @@ namespace wzj {
                 jig.engage();
             }
             catch (const CString& err) {
-                acutPrintf(_T("ERROR:%s "), err);
+                acutPrintf(_T("ERROR:%s "), (const TCHAR*)err);
             }
         }
     }

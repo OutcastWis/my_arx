@@ -28,6 +28,8 @@
 #include "docman.h"
 #include "extend_tabs.h"
 #include "modeless_dialog.h"
+#include "ssget.h"
+#include "protocol_reactor.h"
 #include "block_order.h"
 #include "clone_work.h"
 #include "jig.h"
@@ -106,6 +108,10 @@ void init_app(void* appId) {
 
     acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_MODELESS"), _T("LOCAL_MODELESS"), ACRX_CMD_MODAL, modeless_dialog);
 
+    acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_SSGET"), _T("LOCAL_SSGET"), ACRX_CMD_MODAL, ssget);
+
+    acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_PR"), _T("LOCAL_PR"), ACRX_CMD_MODAL, pr);
+
     acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_DOCMAN"), _T("LOCAL_DOCMAN"), ACRX_CMD_MODAL, docman);
 
     context_menu(appId); // 注册用户自己的快捷菜单
@@ -148,7 +154,7 @@ Acad::ErrorStatus add_to_model_space(AcDbObjectId& objId, AcDbEntity* pEntity, A
 }
 
 
-void create_layer(const TCHAR* layer_name) {
+void create_layer(const TCHAR* layer_name, bool frozon, bool off) {
     AcDbLayerTable* pLayerTable;
     auto es = acdbHostApplicationServices()->workingDatabase()->getSymbolTable(pLayerTable, AcDb::kForWrite);
     if (es != Acad::eOk) {
@@ -156,13 +162,16 @@ void create_layer(const TCHAR* layer_name) {
     }
 
     AcDbLayerTableRecord* pLayerTableRecord = nullptr;
-    if (pLayerTable->getAt(layer_name, pLayerTableRecord, AcDb::kForRead) != Acad::eOk) {
+    if (pLayerTable->getAt(layer_name, pLayerTableRecord, AcDb::kForWrite) != Acad::eOk) {
         pLayerTableRecord = new AcDbLayerTableRecord;
         pLayerTableRecord->setName(layer_name);
         pLayerTable->add(pLayerTableRecord);
     }
 
     pLayerTable->close();
+
+    pLayerTableRecord->setIsFrozen(frozon);
+    pLayerTableRecord->setIsOff(off);
     pLayerTableRecord->close();
 }
 
@@ -373,7 +382,7 @@ void curves() {
 
 void mk_ents() {
     ads_printf(_T("\n[INFO] Create a layer called WZJ_MYLAYER"));
-    create_layer(_T("WZJ_MYLAYER"));
+    create_layer(_T("WZJ_MYLAYER"),false, false);
 
     AcDbObjectIdArray idArr;
     idArr.append(create_line());
@@ -541,6 +550,19 @@ void modeless_dialog() {
         wzj::modeless_dialog::instance()->init();
 }
 
+void ssget() {
+	if (wzj::ssget::instance()->is_start())
+		wzj::ssget::instance()->stop();
+	else
+		wzj::ssget::instance()->init();
+}
+
+void pr() {
+    if (wzj::protocol_reactor::instance()->is_start())
+        wzj::protocol_reactor::instance()->stop();
+    else
+        wzj::protocol_reactor::instance()->init();
+}
 
 void docman() {
     if (wzj::docman::instance()->is_start())

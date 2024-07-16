@@ -128,7 +128,7 @@ namespace wzj {
                 return;
 
             // 创建图层'clone', 否则不能设置对象所属图层
-            create_layer(_T("clone"));
+            create_layer(_T("clone"), false, false);
 
             ads_name cur = {};
             for (int i = 0; i < length; ++i) {
