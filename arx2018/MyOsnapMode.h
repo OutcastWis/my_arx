@@ -7,7 +7,7 @@ class MyOsnapMode : public AcDbCustomOsnapMode
 public:
     MyOsnapMode();
     virtual ~MyOsnapMode();
-    // 命名规则等价于注册命令时
+    // 鍛藉悕瑙勫垯绛変环浜庢敞鍐屽懡浠ゆ椂
     virtual const TCHAR* localModeString() const override;
     virtual const TCHAR* globalModeString() const override;
 

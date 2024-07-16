@@ -2,25 +2,25 @@
 #include <dbjig.h>
 
 /**
-* Ë«±ßÆ½ÐÐUCSµÄXYÖá, ÐÎ×´ÎªFillet»òChamferµÄ¾ØÐÎ
+* åŒè¾¹å¹³è¡ŒUCSçš„XYè½´, å½¢çŠ¶ä¸ºFilletæˆ–Chamferçš„çŸ©å½¢
 */
 class MyRectangleJig : public AcEdJig 
 {
 public:
     MyRectangleJig();
-    // Ê¹ÓÃacquirePoint»ñÈ¡×ø±ê±ä»¯
+    // ä½¿ç”¨acquirePointèŽ·å–åæ ‡å˜åŒ–
     virtual DragStatus sampler() override;
-    // Ó¦ÓÃ±ä»¯
+    // åº”ç”¨å˜åŒ–
     virtual Adesk::Boolean update() override;
-    // CADÄÚ²¿Ê¹ÓÃ¸Ã¶ÔÏó½øÐÐÍ¼ÐÎ¸üÐÂ. entity()->worldDraw()
+    // CADå†…éƒ¨ä½¿ç”¨è¯¥å¯¹è±¡è¿›è¡Œå›¾å½¢æ›´æ–°. entity()->worldDraw()
     virtual AcDbEntity* entity() const override;
 
     void doRectangle();
 
-    AcGePoint3d samplerCorner;  // ÉÏÒ»´Îm_BottomRightCorner
+    AcGePoint3d samplerCorner;  // ä¸Šä¸€æ¬¡m_BottomRightCorner
 private:
     AcDbPolyline*   m_pLWPoly;
-    // 4¸ö½Çµã, WCS
+    // 4ä¸ªè§’ç‚¹, WCS
     AcGePoint3d     m_TopLeftCorner;
     AcGePoint3d     m_TopRightCorner;
     AcGePoint3d     m_BottomLeftCorner;

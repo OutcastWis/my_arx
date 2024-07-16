@@ -39,8 +39,8 @@ AcEdJig::DragStatus MyJig3d::sampler()
     AcEdJig::DragStatus status;
     double angle;
     if (m_mode == kMove) {
-        setKeywordList(_T("Base X Y Z Exit")); // ÉèÖÃ5¸ö¹Ø¼ü×Ö, ¶ÔÓ¦drag()µÄAcEdJig::kKW1-5
-        status = acquirePoint(pt, m_refPoint); // ¸Ãº¯ÊýÒÔm_refPointÎª»ù´¡, ·µ»ØÓÃ»§ÒÆ¶¯ºóµÄ×ø±êpt. Á©ÕßÖ®¼äÉú³ÉÏðÆ¤Ïß
+        setKeywordList(_T("Base X Y Z Exit")); // è®¾ç½®5ä¸ªå…³é”®å­—, å¯¹åº”drag()çš„AcEdJig::kKW1-5
+        status = acquirePoint(pt, m_refPoint); // è¯¥å‡½æ•°ä»¥m_refPointä¸ºåŸºç¡€, è¿”å›žç”¨æˆ·ç§»åŠ¨åŽçš„åæ ‡pt. ä¿©è€…ä¹‹é—´ç”Ÿæˆæ©¡çš®çº¿
         acdbWcs2Ucs(asDblArray(pt), asDblArray(pt), Adesk::kFalse);
         pt.z = m_elev;
         acdbUcs2Wcs(asDblArray(pt), asDblArray(pt), Adesk::kFalse);
@@ -58,7 +58,7 @@ AcEdJig::DragStatus MyJig3d::sampler()
         return status;          // exit early!
     m_LastPoint = pt;
 
-    if (status == AcEdJig::kNormal) { // Õý³£ÍÏ×§
+    if (status == AcEdJig::kNormal) { // æ­£å¸¸æ‹–æ‹½
         switch (m_mode)
         {
         case kMove:
@@ -78,7 +78,7 @@ AcEdJig::DragStatus MyJig3d::sampler()
             m_int.m_mat = (m_xformTemp * m_xform);
             break;
         }
-        // ÔÚonAddÖ®ºó, ÕâÀï¿ÉÒÔ´«µÝnullptr
+        // åœ¨onAddä¹‹åŽ, è¿™é‡Œå¯ä»¥ä¼ é€’nullptr
         m_pModel->onModified(&m_int, nullptr);
         // m_pModel->onModified(&m_int, detail::GetModelSpaceBlockID().asOldId());
     }
@@ -170,7 +170,7 @@ void MyJig3d::init(const AcDbObjectId& idEntity, const AcGePoint3d& refPoint, in
 	acdbWcs2Ucs(asDblArray(pt), asDblArray(pt), Adesk::kFalse);
     m_elev = pt.z;
 
-    // ÕâÀïÒ»¶¨Òª´«µÝModelSpaceBlockID, ·ñÔòÍ¼ÐÎ²»»áÔÚÒÆ¶¯Ê±ºòÏÔÊ¾
+    // è¿™é‡Œä¸€å®šè¦ä¼ é€’ModelSpaceBlockID, å¦åˆ™å›¾å½¢ä¸ä¼šåœ¨ç§»åŠ¨æ—¶å€™æ˜¾ç¤º
     m_pModel->onAdded(&m_int, detail::GetModelSpaceBlockID().asOldId());
    // m_pModel->onAdded(&m_int, nullptr);
 

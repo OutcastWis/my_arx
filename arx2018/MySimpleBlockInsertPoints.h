@@ -8,7 +8,7 @@ public:
 	MySimpleBlockInsertPoints() {}
 	~MySimpleBlockInsertPoints() {}
 
-	// ¸ù¾İÕâ¸öÃû×ÖÀ´ÅĞ¶Ï, ÊÇ·ñÒª¶ÔBLOCK½øĞĞÀ©Õ¹
+	// æ ¹æ®è¿™ä¸ªåå­—æ¥åˆ¤æ–­, æ˜¯å¦è¦å¯¹BLOCKè¿›è¡Œæ‰©å±•
 	static const TCHAR* DynmicBlockName();
 
 	virtual Acad::ErrorStatus getInsertionPoints(

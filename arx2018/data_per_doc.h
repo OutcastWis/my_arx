@@ -8,8 +8,8 @@
 
 struct CRectInfo {
     AcGePoint3d     m_topLeftCorner;        // First point selection.
-    double          m_first = 0;            // First Chamfer distance. 切角的长
-    double          m_second = 0;           // Second Chamfer distance. 切角的宽
+    double          m_first = 0;            // First Chamfer distance. 鍒囪鐨勯暱
+    double          m_second = 0;           // Second Chamfer distance. 鍒囪鐨勫
     double          m_bulge = 0;            // Bulge value. 
     double          m_elev = 0;             // WCS, Elevation.
     double          m_thick = 0;            // Thickness.
@@ -48,7 +48,7 @@ namespace wzj {
 
         void make_reactor();
     private:
-        MySimpleDocReactor * doc_reactor_; // 响应documentToBeDestroyed
+        MySimpleDocReactor * doc_reactor_; // 鍝嶅簲documentToBeDestroyed
         std::map<AcApDocument*, CRectInfo> data_;
     };
 }

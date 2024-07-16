@@ -7,7 +7,7 @@
 
 
 /**
-* 应用于块定义(AcDbBlockTableRecord)
+* 搴旂敤浜庡潡瀹氫箟(AcDbBlockTableRecord)
 */
 class DLLIMPEXP  MyBlockOrderIndex : public AcDbIndex
 {

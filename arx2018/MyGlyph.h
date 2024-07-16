@@ -3,12 +3,12 @@
 #include <dbosnap.h>
 
 /**
-* 配合osnap使用, 自定义的osnap图形
+* 閰嶅悎osnap浣跨敤, 鑷畾涔夌殑osnap鍥惧舰
 */
 class MyGlyph : public AcGiGlyph
 {
 public:
-    // 注意dscPoint, 需要的是DSC下的坐标
+    // 娉ㄦ剰dscPoint, 闇�瑕佺殑鏄疍SC涓嬬殑鍧愭爣
     virtual Acad::ErrorStatus setLocation(const AcGePoint3d& dcsPoint) override;
     virtual void subViewportDraw(AcGiViewportDraw* vportDrawContext) override;
 

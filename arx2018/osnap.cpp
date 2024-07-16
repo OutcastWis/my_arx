@@ -34,7 +34,7 @@ namespace wzj {
         AcDbPolyline::desc()->addX(MyOsnapPolylineInfo::desc(), osnap_pline_);
 
         acdbCustomOsnapManager()->addCustomOsnapMode(&mode_);
-        acdbCustomOsnapManager()->activateOsnapMode(_T("_WZJOsnapmode")); // ¶ÔÓ¦AcDbCustomOsnapModeµÄmode string
+        acdbCustomOsnapManager()->activateOsnapMode(_T("_WZJOsnapmode")); // å¯¹åº”AcDbCustomOsnapModeçš„mode string
     }
 
     void osnap::stop_impl() {

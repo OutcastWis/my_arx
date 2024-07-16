@@ -28,13 +28,13 @@ Acad::ErrorStatus MyTxtStyle::subTransformBy(const AcGeMatrix3d& xfm)
 
 Adesk::Boolean MyTxtStyle::subWorldDraw(AcGiWorldDraw* pW)
 {
-    AcGePoint3d pos(0.0, 0.0, 0.0);  // ÎÄ×ÖµÄ²åÈëµãÊÇ×óÏÂ½Ç
+    AcGePoint3d pos(0.0, 0.0, 0.0);  // æ–‡å­—çš„æ’å…¥ç‚¹æ˜¯å·¦ä¸‹è§’
     AcGeVector3d norm(0.0, 0.0, 1.0);
-    AcGeVector3d dir(1.0, 0.2, 0.0); // ÇãÐ±
+    AcGeVector3d dir(1.0, 0.2, 0.0); // å€¾æ–œ
     const TCHAR* pStr = _T("Class MyTxtStyle");
     size_t len = _tcslen(pStr);
 
-    // µ÷Õû×ø±êÏµÎªÖ±½Ç×ø±êÏµ. dirÎªx, vecÎªy, normÎªz
+    // è°ƒæ•´åæ ‡ç³»ä¸ºç›´è§’åæ ‡ç³». dirä¸ºx, vecä¸ºy, normä¸ºz
     AcGeVector3d vec = norm;
     vec = vec.crossProduct(dir);
     dir = vec.crossProduct(norm);
@@ -42,11 +42,11 @@ Adesk::Boolean MyTxtStyle::subWorldDraw(AcGiWorldDraw* pW)
     AcGePoint2d ext1 = detail::AsdkStyle.extents(pStr, Adesk::kFalse, len, Adesk::kFalse);
     pW->geometry().text(pos, norm, dir, pStr, (int)len, Adesk::kFalse, detail::AsdkStyle);
 
-    // ´´½¨ÖØÓ°
+    // åˆ›å»ºé‡å½±
     pos.x += 0.1, pos.y += 0.1;
     AcGiTextStyle shadow_style = detail::AsdkStyle;
-    shadow_style.setTrackingPercent(0.8);   // ÉèÖÃ×Ö¼ä¾à
-    shadow_style.setObliquingAngle(0.5);    // ÉèÖÃÇãÐ±½Ç¶È. ½Ç¶ÈÎªÓë´¹Ö±·½ÏòµÄ¼Ð½Ç. ¼´Ð±Ìå×Ö
+    shadow_style.setTrackingPercent(0.8);   // è®¾ç½®å­—é—´è·
+    shadow_style.setObliquingAngle(0.5);    // è®¾ç½®å€¾æ–œè§’åº¦. è§’åº¦ä¸ºä¸Žåž‚ç›´æ–¹å‘çš„å¤¹è§’. å³æ–œä½“å­—
 
     // You must call loadStyleRec() again after changing 
     // the style's properties in order for the current style 
@@ -56,11 +56,11 @@ Adesk::Boolean MyTxtStyle::subWorldDraw(AcGiWorldDraw* pW)
     AcGePoint2d ext2 = shadow_style.extents(pStr, Adesk::kFalse, len, Adesk::kFalse);
     pW->geometry().text(pos, norm, dir, pStr, len, Adesk::kFalse, shadow_style);
 
-    // ºÏ²¢¿ò
+    // åˆå¹¶æ¡†
     ext2.x = ext2.x > ext1.x ? ext2.x : ext1.x;
     ext2.y = ext2.y > ext1.y ? ext2.y : ext1.y;
 
-    // »­¾ØÐÎ¿ò
+    // ç”»çŸ©å½¢æ¡†
     norm.normalize();
     dir.normalize();
     AcGeVector3d yAxis = norm;
@@ -72,7 +72,7 @@ Adesk::Boolean MyTxtStyle::subWorldDraw(AcGiWorldDraw* pW)
     // Create the bounding box and enlarge it somewhat.
     double offset = ext2.y / 2.0;
     AcGePoint3d verts[5];
-    verts[0] = verts[4] = AcGePoint3d(-offset, -offset, 0.0); // ×óÏÂ½Ç(0,0,0)ÎªÆðµã
+    verts[0] = verts[4] = AcGePoint3d(-offset, -offset, 0.0); // å·¦ä¸‹è§’(0,0,0)ä¸ºèµ·ç‚¹
     verts[1] = AcGePoint3d(ext2.x + offset, -offset, 0.0);
     verts[2] = AcGePoint3d(ext2.x + offset, ext2.y + offset, 0.0);
     verts[3] = AcGePoint3d(-offset, ext2.y + offset, 0.0);

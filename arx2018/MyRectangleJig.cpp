@@ -23,7 +23,7 @@ MyRectangleJig::MyRectangleJig()
         || plineInfo.m_second != 0.0
         || plineInfo.m_radius != 0.0;
 
-   // ½ö¿¼ÂÇModel Space
+   // ä»…è€ƒè™‘Model Space
    /* if (inPaperSpace()) {
         m_vecUnitX = acdbHostApplicationServices()->workingDatabase()->pucsxdir();
         m_vecUnitY = acdbHostApplicationServices()->workingDatabase()->pucsydir();
@@ -34,7 +34,7 @@ MyRectangleJig::MyRectangleJig()
     }
     m_vecUnitZ = m_vecUnitX.crossProduct(m_vecUnitY);
 
-    // addVertexAtĞèÒª´«ÈëECS( Entity Coordinate System)ÏÂµÄµã, ËùÓĞ½«UCS×ªÎªECS
+    // addVertexAtéœ€è¦ä¼ å…¥ECS( Entity Coordinate System)ä¸‹çš„ç‚¹, æ‰€æœ‰å°†UCSè½¬ä¸ºECS
     acdbUcs2Ecs(asDblArray(plineInfo.m_topLeftCorner), asDblArray(m_TopLeftCorner), asDblArray(m_vecUnitZ), Adesk::kFalse);
     acdbUcs2Ecs(asDblArray(plineInfo.m_topLeftCorner), asDblArray(plineInfo.m_topLeftCorner), asDblArray(m_vecUnitZ), Adesk::kFalse);
     AcGePoint2d initPoint;
@@ -49,19 +49,19 @@ MyRectangleJig::MyRectangleJig()
     else
         m_pLWPoly->setElevation(m_TopLeftCorner[Z]);
 
-    // Ô²½ÇĞèÒª8¸öµã, ·ÇÔ²½Ç4¸öµã
+    // åœ†è§’éœ€è¦8ä¸ªç‚¹, éåœ†è§’4ä¸ªç‚¹
     int vn = plineInfo.m_cornerTreatment ? 8 : 4;
     for (int i = 0; i < vn; i++)
         m_pLWPoly->addVertexAt(i, initPoint);
 
 
-    m_pLWPoly->setNormal(m_vecUnitZ);       // ÉèÖÃ·¨Ïò, ĞèÒªWCS
+    m_pLWPoly->setNormal(m_vecUnitZ);       // è®¾ç½®æ³•å‘, éœ€è¦WCS
     m_pLWPoly->setClosed(Adesk::kTrue);
     m_pLWPoly->setThickness(plineInfo.m_thick);
     m_pLWPoly->setConstantWidth(plineInfo.m_width);
-    // ÉèÖÃÏßĞÔ±ÈÀıËõ·ÅÒò×Ó
+    // è®¾ç½®çº¿æ€§æ¯”ä¾‹ç¼©æ”¾å› å­
     m_pLWPoly->setLinetypeScale(acdbHostApplicationServices()->workingDatabase()->celtscale());
-    // ÉèÖÃÍê±Ïºó, ±ä³ÉWCS, ÎªºóÃæµÄÒÆ¶¯×ö×¼±¸
+    // è®¾ç½®å®Œæ¯•å, å˜æˆWCS, ä¸ºåé¢çš„ç§»åŠ¨åšå‡†å¤‡
     acdbEcs2Wcs(asDblArray(m_TopLeftCorner), asDblArray(m_TopLeftCorner), asDblArray(m_vecUnitZ), Adesk::kFalse);
     acdbEcs2Wcs(asDblArray(plineInfo.m_topLeftCorner), asDblArray(plineInfo.m_topLeftCorner), asDblArray(m_vecUnitZ), Adesk::kFalse);
 }
@@ -79,7 +79,7 @@ AcEdJig::DragStatus MyRectangleJig::sampler()
     CRectInfo& plineInfo = wzj::data_per_doc::instance()->docData();
     stat = acquirePoint(m_BottomRightCorner, plineInfo.m_topLeftCorner);
 
-    // m_BottomRightCornerÍ¶Ó°µ½planeParallelToUCS
+    // m_BottomRightCorneræŠ•å½±åˆ°planeParallelToUCS
     AcGePlane planeParallelToUCS(m_TopLeftCorner, m_vecUnitZ);
     m_BottomRightCorner = m_BottomRightCorner.project(planeParallelToUCS, m_vecUnitZ);
 
@@ -112,8 +112,8 @@ Adesk::Boolean MyRectangleJig::update()
     lineX.intersectWith(lineY, m_BottomLeftCorner);
 
     // Check to see if we have flipped around the X or Y axis.
-    // ÒòÎªm_TopLeftCornerºÍm_BottomRightCorner±¾ÖÊÉÏÖ»ÊÇÓÃ»§Ñ¡ÔñµÄ2¸ö½Çµã. m_TopLeftCorner
-    // ¼´¿ÉÄÜÊÇ×óÏÂ½Ç, Ò²¿ÉÄÜÊÇÓÒÏÂ½Ç
+    // å› ä¸ºm_TopLeftCornerå’Œm_BottomRightCorneræœ¬è´¨ä¸Šåªæ˜¯ç”¨æˆ·é€‰æ‹©çš„2ä¸ªè§’ç‚¹. m_TopLeftCorner
+    // å³å¯èƒ½æ˜¯å·¦ä¸‹è§’, ä¹Ÿå¯èƒ½æ˜¯å³ä¸‹è§’
     AcGeVector3d tmpXVec, tmpYVec;
     bool bXFlip = m_vecUnitX.dotProduct(m_TopLeftCorner - m_TopRightCorner) > 0;
     bool bYFlip = m_vecUnitY.dotProduct(m_TopLeftCorner - m_BottomLeftCorner) < 0;
@@ -122,13 +122,13 @@ Adesk::Boolean MyRectangleJig::update()
 
     CRectInfo& plineInfo = wzj::data_per_doc::instance()->docData();
     if (plineInfo.m_cornerTreatment) {
-        // »­Ô²½Ç¾ØÕó
+        // ç”»åœ†è§’çŸ©é˜µ
         AcGePoint2d point_TL, point_TR, point_BL;
         MAKEOCSCOORD(point_TL, m_TopLeftCorner);
         MAKEOCSCOORD(point_TR, m_TopRightCorner);
         MAKEOCSCOORD(point_BL, m_BottomLeftCorner);
 
-        // ÅĞ¶ÏÊÇ·ñ¾àÀëÌ«½ü, ²»ÄÜÇĞ½Ç
+        // åˆ¤æ–­æ˜¯å¦è·ç¦»å¤ªè¿‘, ä¸èƒ½åˆ‡è§’
         bool tooSmall = (point_TL.distanceTo(point_TR) < plineInfo.m_first + plineInfo.m_second) ||
             (point_TL.distanceTo(point_BL) < plineInfo.m_first + plineInfo.m_second);
 
@@ -191,7 +191,7 @@ Adesk::Boolean MyRectangleJig::update()
     }
     else {
         AcGePoint2d adjustedPoint;
-        // ÆÕÍ¨¾ØÕó
+        // æ™®é€šçŸ©é˜µ
         MAKEOCSCOORD(adjustedPoint, m_TopLeftCorner);
         m_pLWPoly->setPointAt(0, adjustedPoint);
 

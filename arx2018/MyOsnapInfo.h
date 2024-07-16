@@ -3,7 +3,7 @@
 
 /**
 * @file
-* @brief ÕâÀïµÄÀà, ÓÃÀ´¸ø²¶»ñÌá¹©²¶»ñµã×ø±ê
+* @brief è¿™é‡Œçš„ç±», ç”¨æ¥ç»™æ•è·æä¾›æ•è·ç‚¹åæ ‡
 */
 
 
@@ -28,7 +28,7 @@ public:
 		m_bSnapToSegments = v;
 	}
 protected:
-	bool m_bSnapToSegments = false; // ¶ÔpolylineÆğ×÷ÓÃ. ÊÇ·ñ²¶»ñpolylineµÄ·Ö¶Î
+	bool m_bSnapToSegments = false; // å¯¹polylineèµ·ä½œç”¨. æ˜¯å¦æ•è·polylineçš„åˆ†æ®µ
 };
 
 // AcDbEntity level protocol extension
@@ -46,14 +46,14 @@ public:
 		AcArray<int>& geomIdsForPts,
 		AcArray<AcGeCurve3d*>& snapCurves,
 		AcArray<int>& geomIdsForLines) override {
-		// ²»×öÌØÊâ´¦Àí
+		// ä¸åšç‰¹æ®Šå¤„ç†
 		return Acad::eOk;
 	}
 };
 
 /**
 * AcDbCurve level protocol extension
-* »¡ÏßµÄÈı·Öµã
+* å¼§çº¿çš„ä¸‰åˆ†ç‚¹
 */
 class MyOsnapCurveInfo : public MyOsnapInfo
 {
@@ -72,7 +72,7 @@ public:
 
 /**
 * AcDbPolyline level protocol extension
-* Èç¹û¿ÉÒÔ²¶»ñ·Ö¶Î, Ôò¸÷·Ö¶ÎµÄ3·Öµã. ·ñÔò×ÜÌåµÄ3·Öµã
+* å¦‚æœå¯ä»¥æ•è·åˆ†æ®µ, åˆ™å„åˆ†æ®µçš„3åˆ†ç‚¹. å¦åˆ™æ€»ä½“çš„3åˆ†ç‚¹
 */
 class MyOsnapPolylineInfo : public MyOsnapInfo
 {

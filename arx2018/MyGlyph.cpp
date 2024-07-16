@@ -11,9 +11,9 @@ Acad::ErrorStatus MyGlyph::setLocation(const AcGePoint3d& dcsPoint)
 
 void MyGlyph::subViewportDraw(AcGiViewportDraw* vportDrawContext)
 {
-    // »ñÈ¡Ê°È¡¿ò´óÐ¡(µ¥Î»ÏñËØ). ¿ÉÓÉÓÃ»§ÔÚOptions½çÃæÉèÖÃ
+    // èŽ·å–æ‹¾å–æ¡†å¤§å°(å•ä½åƒç´ ). å¯ç”±ç”¨æˆ·åœ¨Optionsç•Œé¢è®¾ç½®
     int glyphPixels = acdbCustomOsnapManager()->osnapGlyphSize();
-    // »ñÈ¡m_centerÎªÖÐÐÄµ¥Î»Æ½·½ÄÚÏñËØµã. XÖáÉÏÏñËØÊý´æÈëglyphSize[X], YÖáÉÏµÄ´æÈëglyphSize[Y]
+    // èŽ·å–m_centerä¸ºä¸­å¿ƒå•ä½å¹³æ–¹å†…åƒç´ ç‚¹. Xè½´ä¸Šåƒç´ æ•°å­˜å…¥glyphSize[X], Yè½´ä¸Šçš„å­˜å…¥glyphSize[Y]
     AcGePoint2d glyphSize;
     vportDrawContext->viewport().getNumPixelsInUnitSquare(m_center, glyphSize);
     // Calculate the size of the glyph in WCS (use for text height factor)

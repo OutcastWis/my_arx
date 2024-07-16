@@ -13,7 +13,7 @@ namespace wzj {
             try {
                 resbuf rb;
                 ads_getvar(_T("cvport"), &rb);
-                if (rb.resval.rint == 1) // 1表示paper space, 2表示model space
+                if (rb.resval.rint == 1) // 1琛ㄧずpaper space, 2琛ㄧずmodel space
                     throw CString(_T("Jig3d cannot be used in layout mode"));
 
                 ads_name ename;

@@ -33,7 +33,7 @@ namespace wzj {
                 //Create Container and Entity ObjectIdArray
                 AcDbObjectId pick_id;
                 
-                // ´ËÊ±, ids¶ÔÓ¦µÄÓ¦¸ÃÊÇ BlockReference, BlockReference,..., Entity
+                // æ­¤æ—¶, idså¯¹åº”çš„åº”è¯¥æ˜¯ BlockReference, BlockReference,..., Entity
                 ids1 = ContainerIdsAndEntity(sset, pick_point, &gs, &pick_id);
 
                 AcDbEntity* pOutermost;
@@ -46,12 +46,12 @@ namespace wzj {
                     }
                     else 
                     {
-                        // ¶ÔÓÚface, edge, vertex, mlineĞèÒªÊ¹ÓÃgetSubentPathsAtGsMarker
+                        // å¯¹äºface, edge, vertex, mlineéœ€è¦ä½¿ç”¨getSubentPathsAtGsMarker
                         AcGeMatrix3d xform;
                         int numIds;
                         AcDbFullSubentPath* subentIds;
                         pOutermost->getSubentPathsAtGsMarker(st, gs, asPnt3d(pick_point), xform, numIds, subentIds,
-                            ids1.length() - 1, ids1.reverse().asArrayPtr()); // ÕâÀïĞèÒª×¢Òâ, »ñÈ¡µÄsubentIdsÖĞµÄGS mark²»Ò»¶¨ºÍ´«ÈëµÄgsÒ»ÖÂ
+                            ids1.length() - 1, ids1.reverse().asArrayPtr()); // è¿™é‡Œéœ€è¦æ³¨æ„, è·å–çš„subentIdsä¸­çš„GS markä¸ä¸€å®šå’Œä¼ å…¥çš„gsä¸€è‡´
                         for (int i = 0; i < numIds; ++i) 
                             pOutermost->highlight(subentIds[i]);    
                         delete[]subentIds;
@@ -62,7 +62,7 @@ namespace wzj {
                 ads_ssfree(sset);
             }
 
-            // Ê¹ÓÃacedNEntSelP
+            // ä½¿ç”¨acedNEntSelP
             if (r != RTNORM)
                 return;
 
@@ -82,7 +82,7 @@ namespace wzj {
                 if (insStack)
                     ads_relrb(insStack);
             }
-            // ´ËÊ±ids1ºÍids2Ó¦¸ÃÏà·´. ids2ÎªÓÉÄÚµ½Íâ, ids1ÎªÓÉÍâµ½ÄÚ
+            // æ­¤æ—¶ids1å’Œids2åº”è¯¥ç›¸å. ids2ä¸ºç”±å†…åˆ°å¤–, ids1ä¸ºç”±å¤–åˆ°å†…
             assert(ids1.length() == ids2.length());
             for (int i = 0; i < ids1.length(); ++i) {
                 assert(ids1[i] == ids2[ids1.length() - 1 - i]);

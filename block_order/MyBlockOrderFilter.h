@@ -5,7 +5,7 @@
 #include "config.h"
 
 /**
-* Ó¦ÓÃÓÚ¿éÒıÓÃ(AcDbBlockReference)
+* åº”ç”¨äºå—å¼•ç”¨(AcDbBlockReference)
 */
 class DLLIMPEXP MyBlockOrderFilter : public AcDbFilter
 {
@@ -22,7 +22,7 @@ public:
     //BlockOrder protocol declared virtual 
     virtual const AcDbObjectIdArray& sentToTop()const { assertReadEnabled(); return m_sentToTop; }
     virtual const AcDbObjectIdArray& sentToBottom()const { assertReadEnabled(); return m_sentToBottom; }
-    // ½«idÌí¼Óµ½m_sentToTop»òm_sentToBottomÖĞ. Í¬Ê±È·±£idÖ»»áÊôÓÚÆäÖĞÒ»¸ö
+    // å°†idæ·»åŠ åˆ°m_sentToTopæˆ–m_sentToBottomä¸­. åŒæ—¶ç¡®ä¿idåªä¼šå±äºå…¶ä¸­ä¸€ä¸ª
     virtual Acad::ErrorStatus moveToTop(const AcDbObjectId& id);
     virtual Acad::ErrorStatus moveToBottom(const AcDbObjectId& id);
 

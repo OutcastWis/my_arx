@@ -147,7 +147,7 @@ namespace wzj {
             int oldOrthoMode = rb.resval.rint;
             rb.resval.rint = 0;
             acedSetVar(_T("ORTHOMODE"), &rb);
-            // œ‘ æ–≈œ¢
+            // ÊòæÁ§∫‰ø°ÊÅØ
             if ((plineInfo.m_first != 0.0 && plineInfo.m_second != 0 && plineInfo.m_radius == 0.0) ||
                 (plineInfo.m_elev != 0) || (plineInfo.m_radius != 0) || (plineInfo.m_thick != 0) ||
                 (plineInfo.m_width != 0))

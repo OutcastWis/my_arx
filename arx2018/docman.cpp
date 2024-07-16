@@ -80,7 +80,7 @@ namespace wzj {
                 return NULL;
             }
         }
-        // ´òÓ¡ËùÓĞÎÄµµ
+        // æ‰“å°æ‰€æœ‰æ–‡æ¡£
         void listDocuments()
         {
             AcApDocument* pDoc;
@@ -94,7 +94,7 @@ namespace wzj {
             }
             delete pDocIter;
         }
-        // ¼àÊÓÎÄµµ. ÔÙ´Îµ÷ÓÃÔòÈ¡Ïû¼àÊÓ
+        // ç›‘è§†æ–‡æ¡£. å†æ¬¡è°ƒç”¨åˆ™å–æ¶ˆç›‘è§†
         void watchDocuments()
         {
             if (getYorN(_T("Start watching Documents"))) {
@@ -107,14 +107,14 @@ namespace wzj {
             }
         }
 
-        /* sendStringToExecute¿ÉÒÔÀí½âÎªÊÇ½«LOCAL_LISTDOCSÃüÁî·¢ËÍµ½pDocµÄÔËĞĞÕ»ÉÏ, µÈ´ıpDoc¼¤»îÊ±ÔËĞĞ. ·Ö¼¸ÖÖÇé¿ö:
-        *   1. Ä¬ÈÏÇé¿öÏÂ, ¼´bActivate=true, bWrapUpInactiveDoc=false. ´ËÊ±pDoc±»¼¤»î, ²¢¿ªÊ¼ÔËĞĞLOCAL_PAUSE. ¼ûsend()
-        *   2. bActivate=false, bWrapUpInactiveDoc=true. pDoc²»±»¼¤»î, µ«Ò²ÔËĞĞ, µÈ¼ÛÓÚºóÌ¨Í¬²½ÔËĞĞ. ¼ûsend2()
-        *   3. bActivate=false, bWrapUpInactiveDoc=false, pDoc²»±»¼¤»î, Ò²²»ÔËĞĞ. ÏÂ´ÎÊÖ¶¯¼¤»îpDocÊ±ÔËĞĞ, µÈ¼ÛÓÚÑÓºóÔËĞĞ. ¼ûsend3()
-        *  sendStringToExecute¿ÉÒÔ´¥·¢¶ÔÓ¦databaseÏÂµÄdbreactor. ºÍÒ»°ãÒ»Ñù, ÔÚÊµ¼ÊÃüÁîÔËĞĞÊ±¾ÍÄÜ´¥·¢. ¼´³ıÁËsend3ÓÉÓÚÊÇÑÓºóÔËĞĞ, 
-        *    send1, send2¶¼ÄÜÁ¢Âí´¥·¢dbreactor
+        /* sendStringToExecuteå¯ä»¥ç†è§£ä¸ºæ˜¯å°†LOCAL_LISTDOCSå‘½ä»¤å‘é€åˆ°pDocçš„è¿è¡Œæ ˆä¸Š, ç­‰å¾…pDocæ¿€æ´»æ—¶è¿è¡Œ. åˆ†å‡ ç§æƒ…å†µ:
+        *   1. é»˜è®¤æƒ…å†µä¸‹, å³bActivate=true, bWrapUpInactiveDoc=false. æ­¤æ—¶pDocè¢«æ¿€æ´», å¹¶å¼€å§‹è¿è¡ŒLOCAL_PAUSE. è§send()
+        *   2. bActivate=false, bWrapUpInactiveDoc=true. pDocä¸è¢«æ¿€æ´», ä½†ä¹Ÿè¿è¡Œ, ç­‰ä»·äºåå°åŒæ­¥è¿è¡Œ. è§send2()
+        *   3. bActivate=false, bWrapUpInactiveDoc=false, pDocä¸è¢«æ¿€æ´», ä¹Ÿä¸è¿è¡Œ. ä¸‹æ¬¡æ‰‹åŠ¨æ¿€æ´»pDocæ—¶è¿è¡Œ, ç­‰ä»·äºå»¶åè¿è¡Œ. è§send3()
+        *  sendStringToExecuteå¯ä»¥è§¦å‘å¯¹åº”databaseä¸‹çš„dbreactor. å’Œä¸€èˆ¬ä¸€æ ·, åœ¨å®é™…å‘½ä»¤è¿è¡Œæ—¶å°±èƒ½è§¦å‘. å³é™¤äº†send3ç”±äºæ˜¯å»¶åè¿è¡Œ, 
+        *    send1, send2éƒ½èƒ½ç«‹é©¬è§¦å‘dbreactor
         */
-        // Í£¶Ù10sºó, ×Ô¶¯ÇĞ»»µ½pDoc
+        // åœé¡¿10så, è‡ªåŠ¨åˆ‡æ¢åˆ°pDoc
         void send() {
             AcApDocument* pDoc = selectDocument();
 
@@ -122,18 +122,18 @@ namespace wzj {
                 acutPrintf(_T("No document selected.\n"));
                 return;
             }
-            // ´ËÊ±½«ÇĞ»»µ½pDocÉÏ, ²¢ÔÚpDocÉÏÔËĞĞLOCAL_PAUSEÃüÁî
+            // æ­¤æ—¶å°†åˆ‡æ¢åˆ°pDocä¸Š, å¹¶åœ¨pDocä¸Šè¿è¡ŒLOCAL_PAUSEå‘½ä»¤
             acDocManager->sendStringToExecute(pDoc, _T("LOCAL_PAUSE\n"));
             // The API inputPending() allows you to check to see if someone else has already
             // made a request via sendStringToExecute() to a target document.
             // You may not care if your command is autonomous and does not depend on the target
             // document being in a quiescent state. If not call both  isQuiescent() and inputPending()
-            // ´ËÊ±inputPendingÓ¦¸Ã·µ»Ø _T("LOCAL_LISTDOCS\n")µÄ³¤¶È, Îª12, ²»°üº¬\0
+            // æ­¤æ—¶inputPendingåº”è¯¥è¿”å› _T("LOCAL_LISTDOCS\n")çš„é•¿åº¦, ä¸º12, ä¸åŒ…å«\0
             acutPrintf(_T("\nSent String to Doc: %s Pending Input %d\n"), pDoc->fileName(), acDocManager->inputPending(pDoc));
 
-            acDocManager->sendStringToExecute(pDoc, _T("LOCAL_MKENTS\n"), false, true); // ÎªÁË´¥·¢AcDbDatabaseReactor
+            acDocManager->sendStringToExecute(pDoc, _T("LOCAL_MKENTS\n"), false, true); // ä¸ºäº†è§¦å‘AcDbDatabaseReactor
         }
-        // Í£¶Ù10sºó, ²Å¿ÉÒÔ²Ù×÷. ²»×Ô¶¯ÇĞ»»µ½pDoc
+        // åœé¡¿10så, æ‰å¯ä»¥æ“ä½œ. ä¸è‡ªåŠ¨åˆ‡æ¢åˆ°pDoc
         void send2() {
             AcApDocument* pDoc = selectDocument();
 
@@ -145,9 +145,9 @@ namespace wzj {
             acDocManager->sendStringToExecute(pDoc, _T("LOCAL_PAUSE\n"), false, true);
             acutPrintf(_T("\nSent String to Doc: %s Pending Input %d\n"), pDoc->fileName(), acDocManager->inputPending(pDoc));
 
-            acDocManager->sendStringToExecute(pDoc, _T("LOCAL_MKENTS\n"), false, true);  // ÎªÁË´¥·¢AcDbDatabaseReactor
+            acDocManager->sendStringToExecute(pDoc, _T("LOCAL_MKENTS\n"), false, true);  // ä¸ºäº†è§¦å‘AcDbDatabaseReactor
         }
-        // ¿ÉÒÔÖ±½Ó²Ù×÷. ÊÖ¶¯ÇĞ»»µ½pDocÊ±, Í£¶Ù10s
+        // å¯ä»¥ç›´æ¥æ“ä½œ. æ‰‹åŠ¨åˆ‡æ¢åˆ°pDocæ—¶, åœé¡¿10s
         void send3() {
             AcApDocument* pDoc = selectDocument();
 
@@ -159,15 +159,15 @@ namespace wzj {
             acDocManager->sendStringToExecute(pDoc, _T("LOCAL_PAUSE\n"), false, false);
             acutPrintf(_T("\nSent String to Doc: %s Pending Input %d\n"), pDoc->fileName(), acDocManager->inputPending(pDoc));
 
-            acDocManager->sendStringToExecute(pDoc, _T("LOCAL_MKENTS\n"), false, false);  // ÎªÁË´¥·¢AcDbDatabaseReactor
+            acDocManager->sendStringToExecute(pDoc, _T("LOCAL_MKENTS\n"), false, false);  // ä¸ºäº†è§¦å‘AcDbDatabaseReactor
         }
 
 
 
         /*
-        * ¼¤»îÎÄµµ. ÎÄµµµÄ¼¤»î»áÔì³ÉÉÏÏÂÎÄÇĞ»». ÔÚÔçÆÚµÄCADÖĞ, ÓÉÓÚÊ¹ÓÃÁËfiber, Õâ»áÊ¹µÃµ±Ç°ÉÏÏÂÎÄÖĞµÄÃüÁî±»¹ÒÆğ,
-        * Ö±µ½¸ÃÎÄµµ±»ÖØĞÂ¼¤»î. µ«ÏÖÔÚ²»Ê¹ÓÃfiber, ËùÒÔĞĞÎª·¢ÉúÁË¸Ä±ä: Êµ¼ÊµÄ¼¤»îĞĞÎªÔÚµ±Ç°ÃüÁîÖ´ĞĞÍê³Éºó½øĞĞ. Í¬Ê±
-        * activateDocumentµ÷ÓÃºó, ÔÚÊµ¼Ê¼¤»îÍê³ÉÇ°, Êó±ê¼üÅÌÊäÈë±»½û
+        * æ¿€æ´»æ–‡æ¡£. æ–‡æ¡£çš„æ¿€æ´»ä¼šé€ æˆä¸Šä¸‹æ–‡åˆ‡æ¢. åœ¨æ—©æœŸçš„CADä¸­, ç”±äºä½¿ç”¨äº†fiber, è¿™ä¼šä½¿å¾—å½“å‰ä¸Šä¸‹æ–‡ä¸­çš„å‘½ä»¤è¢«æŒ‚èµ·,
+        * ç›´åˆ°è¯¥æ–‡æ¡£è¢«é‡æ–°æ¿€æ´». ä½†ç°åœ¨ä¸ä½¿ç”¨fiber, æ‰€ä»¥è¡Œä¸ºå‘ç”Ÿäº†æ”¹å˜: å®é™…çš„æ¿€æ´»è¡Œä¸ºåœ¨å½“å‰å‘½ä»¤æ‰§è¡Œå®Œæˆåè¿›è¡Œ. åŒæ—¶
+        * activateDocumentè°ƒç”¨å, åœ¨å®é™…æ¿€æ´»å®Œæˆå‰, é¼ æ ‡é”®ç›˜è¾“å…¥è¢«ç¦
         */
         void activate() {
             AcApDocument* pDoc = selectDocument();
@@ -182,23 +182,23 @@ namespace wzj {
             // that started this command is activated again.
             ads_printf(_T("Glad you reactivated the document and it's up and running again. "));
 
-            // activateDocumentµ÷ÓÃºó, ÊäÈë±»½ûÓÃ
+            // activateDocumentè°ƒç”¨å, è¾“å…¥è¢«ç¦ç”¨
             int i;
             auto es = ads_getint(_T("It's disable, just return RTCAN"), &i);
             assert(es == RTCAN);
         }
-        // ¹¦ÄÜÉÏµÈ¼ÛÓÚÊ¹ÓÃNEWÃüÁî. µ«´Ëº¯Êı×ßµÄÊÇWindowsµÄÏûÏ¢»úÖÆ
+        // åŠŸèƒ½ä¸Šç­‰ä»·äºä½¿ç”¨NEWå‘½ä»¤. ä½†æ­¤å‡½æ•°èµ°çš„æ˜¯Windowsçš„æ¶ˆæ¯æœºåˆ¶
         void newdoc()
         {
             acDocManager->newDocument();
             acutPrintf(_T("New document created.\n"));
         }
-        // ¹¦ÄÜÉÏµÈ¼ÛÓÚÊ¹ÓÃOPENÃüÁî. µ«´Ëº¯Êı×ßµÄÊÇWindowsµÄÏûÏ¢»úÖÆ
+        // åŠŸèƒ½ä¸Šç­‰ä»·äºä½¿ç”¨OPENå‘½ä»¤. ä½†æ­¤å‡½æ•°èµ°çš„æ˜¯Windowsçš„æ¶ˆæ¯æœºåˆ¶
         void opendoc()
         {
             acDocManager->openDocument();
         }
-        // ¹Ø±ÕÎÄµµ. Ö»ÄÜ¶Ôµ±Ç°ÎÄµµÆğĞ§
+        // å…³é—­æ–‡æ¡£. åªèƒ½å¯¹å½“å‰æ–‡æ¡£èµ·æ•ˆ
         void closedoc()
         {
             AcApDocument* pDoc = selectDocument();
@@ -214,7 +214,7 @@ namespace wzj {
                 return;
             }
         }
-        // Ñ¡Ôñ¿ÉÒÔ½øĞĞÎÄµµµÄ¼¤»î. Äã¿ÉÒÔÔÚ²»ĞèÒª½øĞĞÎÄµµÇĞ»»µÄÊ±ºò, ½ûÓÃÎÄµµ¼¤»î¹¦ÄÜ
+        // é€‰æ‹©å¯ä»¥è¿›è¡Œæ–‡æ¡£çš„æ¿€æ´». ä½ å¯ä»¥åœ¨ä¸éœ€è¦è¿›è¡Œæ–‡æ¡£åˆ‡æ¢çš„æ—¶å€™, ç¦ç”¨æ–‡æ¡£æ¿€æ´»åŠŸèƒ½
         void toggleActivate()
         {
             if (getYorN(_T("Enable Multiple Document Activation"))) {
@@ -240,7 +240,7 @@ namespace wzj {
             }
 
         }
-        // Ê¹ÓÃapplication context´ò¿ªÎÄµµ. ºÍopendoc²»Í¬, ËüÔÚÍ¬²½´ò¿ªÎÄµµºó, »á½«¿ØÖÆÈ¨·µ»Øµ÷ÓÃ³ÌĞò. ¿É¿´×öºóÌ¨Í¬²½´ò¿ªÎÄµµ
+        // ä½¿ç”¨application contextæ‰“å¼€æ–‡æ¡£. å’Œopendocä¸åŒ, å®ƒåœ¨åŒæ­¥æ‰“å¼€æ–‡æ¡£å, ä¼šå°†æ§åˆ¶æƒè¿”å›è°ƒç”¨ç¨‹åº. å¯çœ‹åšåå°åŒæ­¥æ‰“å¼€æ–‡æ¡£
         void openSyncDoc()
         {
             static TCHAR pData[] = _T("test1.dwg");
@@ -253,7 +253,7 @@ namespace wzj {
 
             ads_printf(_T("You can see me after open sync document"));
         }
-        // Í£¶Ù10s. ÓÃÓÚsend(), send2(), send3()ÖĞ
+        // åœé¡¿10s. ç”¨äºsend(), send2(), send3()ä¸­
         void pause() {
             ads_printf(_T("sleep 10s\n"));
             std::this_thread::sleep_for(

@@ -25,10 +25,10 @@ namespace wzj {
         }
 
         /**
-        * ÓÃ»§Ñ¡È¡Ñ¡Ôñ¼¯
-        * @param ss [out], »ñÈ¡µÄÑ¡Ôñ¼¯
-        * @param *length [out], Ñ¡Ôñ¼¯³¤¶È
-        * @return true±íÊ¾·Ç¿ÕÑ¡Ôñ¼¯
+        * ç”¨æˆ·é€‰å–é€‰æ‹©é›†
+        * @param ss [out], è·å–çš„é€‰æ‹©é›†
+        * @param *length [out], é€‰æ‹©é›†é•¿åº¦
+        * @return trueè¡¨ç¤ºéç©ºé€‰æ‹©é›†
         */
         bool select_sset(ads_name ss, Adesk::Int32* length) {
             if (RTNORM != acedSSGet(_T("_x"), NULL, NULL, NULL, ss))
@@ -59,7 +59,7 @@ namespace wzj {
             pBlockTable->close();
             return ret;
         }
-        // Ìí¼ÓÒ»¸ö´øÓĞÀ©Õ¹×ÖµäµÄcircle
+        // æ·»åŠ ä¸€ä¸ªå¸¦æœ‰æ‰©å±•å­—å…¸çš„circle
         void add_a_circle(AcDbDatabase* db) {
             //
             AcDbCircle* circle = new AcDbCircle(
@@ -67,10 +67,10 @@ namespace wzj {
                 AcGeVector3d::kZAxis,
                 100
             );
-            // Ìí¼Óµ½dbÖĞ²ÅÄÜÊ¹ÓÃÀ©Õ¹×Öµä
+            // æ·»åŠ åˆ°dbä¸­æ‰èƒ½ä½¿ç”¨æ‰©å±•å­—å…¸
             AcDbObjectId id;
             add_to_model_space(id, circle, db);
-            // Ìí¼ÓÀ©Õ¹×Öµä
+            // æ·»åŠ æ‰©å±•å­—å…¸
             auto es = circle->createExtensionDictionary();
             auto dictId = circle->extensionDictionary();
             circle->close();
@@ -79,7 +79,7 @@ namespace wzj {
                 ads_printf(_T("Can't open extension dictionary"));
                 return;
             }
-            // ÎªÀ©Õ¹×ÖµäÌí¼ÓÊı¾İ
+            // ä¸ºæ‰©å±•å­—å…¸æ·»åŠ æ•°æ®
             MyInventoryData* value = new MyInventoryData;
             CString str;
             CTime curTime = CTime::GetCurrentTime();
@@ -89,7 +89,7 @@ namespace wzj {
             dict->close();
             value->close();
         }
-        // Ìí¼ÓÒ»¸öÃüÃû×Öµä, Ãû×ÖÊÇg_namedDict
+        // æ·»åŠ ä¸€ä¸ªå‘½åå­—å…¸, åå­—æ˜¯g_namedDict
         void add_a_named_dict(AcDbDatabase* db) {
             AcDbDictionary* pNamedobj;
             db->getNamedObjectsDictionary(pNamedobj, AcDb::kForRead);
@@ -101,7 +101,7 @@ namespace wzj {
                     AcDbObjectId id;
                     pNamedobj->setAt(g_namedDict, pDict, id);
 
-                    // Ìí¼ÓÊı¾İ
+                    // æ·»åŠ æ•°æ®
                     MyInventoryData* v1 = new MyInventoryData;
                     MyInventoryData* v2 = new MyInventoryData;
                     v1->setInventoryId(_T("value1"));
@@ -120,14 +120,14 @@ namespace wzj {
         // using AcDbObject::clone(). The cloned entities are inserted
         // into model space layer 'clone'. You might notice that calling clone() 
         // doesn't work for "complex entities" like Polylines or Blocks.
-        // ¸Ãº¯Êı³É¹¦ÔËĞĞºó, Äã¿ÉÒÔÍ¼²ãcloneÖĞ·¢ÏÖ±»¿½±´µÄ¶ÔÏó
+        // è¯¥å‡½æ•°æˆåŠŸè¿è¡Œå, ä½ å¯ä»¥å›¾å±‚cloneä¸­å‘ç°è¢«æ‹·è´çš„å¯¹è±¡
         void clone1() {
             ads_name ss = {};
             Adesk::Int32 length = 0;
             if (!select_sset(ss, &length))
                 return;
 
-            // ´´½¨Í¼²ã'clone', ·ñÔò²»ÄÜÉèÖÃ¶ÔÏóËùÊôÍ¼²ã
+            // åˆ›å»ºå›¾å±‚'clone', å¦åˆ™ä¸èƒ½è®¾ç½®å¯¹è±¡æ‰€å±å›¾å±‚
             create_layer(_T("clone"), false, false);
 
             ads_name cur = {};
@@ -155,7 +155,7 @@ namespace wzj {
         // using AcDbDatabase::deepCloneObjects(). The cloned entities are
         // inserted into paper space. This version works well with
         // Polylines and Blocks.
-        // ¸Ãº¯Êı³É¹¦ÔËĞĞºó, Äã¿ÉÒÔÔÚpaper spaceÖĞ·¢ÏÖ±»¿½±´¶ÔÏó
+        // è¯¥å‡½æ•°æˆåŠŸè¿è¡Œå, ä½ å¯ä»¥åœ¨paper spaceä¸­å‘ç°è¢«æ‹·è´å¯¹è±¡
         void clone2() {
             ads_name ss = {};
             Adesk::Int32 length = 0;
@@ -182,7 +182,7 @@ namespace wzj {
             else
                 ads_printf(_T("Error in getting ModelSpace ID\n"));
         }
-        // Îªclone3×¼±¸Ò»¸ödwgÎÄ¼ş, ±£´æÔÚ×ÀÃæ\\before_clone3.dwg
+        // ä¸ºclone3å‡†å¤‡ä¸€ä¸ªdwgæ–‡ä»¶, ä¿å­˜åœ¨æ¡Œé¢\\before_clone3.dwg
         void before_clone3() {
             AcDbDatabase db(Adesk::kTrue);
 
@@ -209,7 +209,7 @@ namespace wzj {
         //
         // Using this approach, all the symbol table gets merged
         // correctly into the current drawing database.
-        // ¸Ãº¯Êı³É¹¦ÔËĞĞºó, Äã¿ÉÒÔÔÚµ±Ç°Í¼Ö½ÖĞ¿´¼ûºÍ×ÀÃæ\\before_clone3.dwgµÄÄ£ĞÍ¿Õ¼äÒ»ÑùµÄÄÚÈİ
+        // è¯¥å‡½æ•°æˆåŠŸè¿è¡Œå, ä½ å¯ä»¥åœ¨å½“å‰å›¾çº¸ä¸­çœ‹è§å’Œæ¡Œé¢\\before_clone3.dwgçš„æ¨¡å‹ç©ºé—´ä¸€æ ·çš„å†…å®¹
         void clone3() {
             CAcUiFileDialog dlg(TRUE, _T("dwg"), NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, _T("AutoCAD Files (*.dwg)|*.dwg|All Files (*.*)|*.*||"));
             if (dlg.DoModal() != IDOK)
@@ -248,7 +248,7 @@ namespace wzj {
                 pIT->getEntityId(id);
                 list.append(id);
 
-                // ÒÔÏÂBUGÔÚ2018ÖĞ²»´æÔÚ. ËùÒÔ¿ÉÒÔ²»ÓÃÕâÑù´¦Àí. 2018ÖĞ×ÖµäÄ¬ÈÏ±»ÆäÔªËØÓ²ÒıÓÃ
+                // ä»¥ä¸‹BUGåœ¨2018ä¸­ä¸å­˜åœ¨. æ‰€ä»¥å¯ä»¥ä¸ç”¨è¿™æ ·å¤„ç†. 2018ä¸­å­—å…¸é»˜è®¤è¢«å…¶å…ƒç´ ç¡¬å¼•ç”¨
                 /*
                 // There is a bug in ARX that causes extension dictionaries
                 // to appear to be soft owners of their contents.  This causes
@@ -289,7 +289,7 @@ namespace wzj {
                 acedAlert(_T("insert failed!"));
             delete pTempDb;
         }
-        // ºÍÆäËû²»Í¬, ¸Ãº¯Êı¿ÉÒÔÖ»copy¿é¶¨Òå, ¶ø²»Éú³É¿éÒıÓÃ. Ê¹ÓÃwblockCloneObjects
+        // å’Œå…¶ä»–ä¸åŒ, è¯¥å‡½æ•°å¯ä»¥åªcopyå—å®šä¹‰, è€Œä¸ç”Ÿæˆå—å¼•ç”¨. ä½¿ç”¨wblockCloneObjects
         void clone4() {
             CAcUiFileDialog dlg(TRUE, _T("dwg"), NULL, OFN_HIDEREADONLY | OFN_OVERWRITEPROMPT, _T("AutoCAD Files (*.dwg)|*.dwg|All Files (*.*)|*.*||"));
             if (dlg.DoModal() != IDOK)
@@ -370,12 +370,12 @@ namespace wzj {
                 acutPrintf(_T("  Removed reactor.\n"));
             }
         }
-        // ÏìÓ¦WBLOCKºÍINSERTÃüÁî. µ±²»×ö´¦ÀíÊ±, WBLOCKºÍINSERT¶¼²»»á¶ÔÃüÃû×Öµä½øĞĞ´¦Àí.
-        // ÈçºÎ²Ù×÷:    1. µ÷ÓÃbefore_clone3Éú³ÉĞèÒªµÄÎÄ¼şA
-        //              2. ´ò¿ª¸ÃÎÄ¼şA,  µ÷ÓÃclone_reactor Y, ¼ÓÔØreactor
-        //              3. Ê¹ÓÃWBLOCKÃüÁî, Êä³öµ½ÎÄ¼şB
-        //              4. ¼ì²éÎÄ¼şB, ¿ÉÒÔ¿´µ½ÀïÃæÓĞg_namedDictµÄÃüÃû×Öµä. ÈçÎŞ²Ù×÷2, ÔòÎÄ¼şBÖĞÎŞg_namedDictÃüÃû×Öµä
-        // INSERTÍ¬Àí
+        // å“åº”WBLOCKå’ŒINSERTå‘½ä»¤. å½“ä¸åšå¤„ç†æ—¶, WBLOCKå’ŒINSERTéƒ½ä¸ä¼šå¯¹å‘½åå­—å…¸è¿›è¡Œå¤„ç†.
+        // å¦‚ä½•æ“ä½œ:    1. è°ƒç”¨before_clone3ç”Ÿæˆéœ€è¦çš„æ–‡ä»¶A
+        //              2. æ‰“å¼€è¯¥æ–‡ä»¶A,  è°ƒç”¨clone_reactor Y, åŠ è½½reactor
+        //              3. ä½¿ç”¨WBLOCKå‘½ä»¤, è¾“å‡ºåˆ°æ–‡ä»¶B
+        //              4. æ£€æŸ¥æ–‡ä»¶B, å¯ä»¥çœ‹åˆ°é‡Œé¢æœ‰g_namedDictçš„å‘½åå­—å…¸. å¦‚æ— æ“ä½œ2, åˆ™æ–‡ä»¶Bä¸­æ— g_namedDictå‘½åå­—å…¸
+        // INSERTåŒç†
         void beginDeepCloneXlation(void* data) {
             std::pair< AcDbIdMapping&, Acad::ErrorStatus*> *tmp = (std::pair< AcDbIdMapping&, Acad::ErrorStatus*>*)(data);
             AcDbIdMapping& idMap = tmp->first;
@@ -558,7 +558,7 @@ namespace wzj {
 
     void clone_work::stop_impl() {
         acedRegCmds->removeGroup(_T("MY_COMMAND_CLONE_WORK"));
-        // ÒÆ³ıÁÙÊ±ÎÄ¼ş
+        // ç§»é™¤ä¸´æ—¶æ–‡ä»¶
         if (_taccess(detail::tempDwgUrl(), 0) != -1)
             CFile::Remove(detail::tempDwgUrl());
         //

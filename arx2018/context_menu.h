@@ -30,7 +30,7 @@ namespace wzj {
 
     private:
 
-        void* appId_; // 仅在初始化时有效. 随后失效. 为acrxEntryPoint的第二个参数
+        void* appId_; // 浠呭湪鍒濆鍖栨椂鏈夋晥. 闅忓悗澶辨晥. 涓篴crxEntryPoint鐨勭浜屼釜鍙傛暟
 
         MyCmdContext* cc_;
         MyDefaultContext* dc_;

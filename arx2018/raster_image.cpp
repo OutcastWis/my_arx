@@ -10,29 +10,29 @@
 namespace wzj {
 
     namespace detail {
-        const TCHAR image_name[] = _T("atoll");     // Í¼Æ¬ÔÚ×ÖµäÖĞµÄÃû×Ö
-        const TCHAR image_path[] = _T("atoll.jpg"); // Êµ¼ÊÍ¼Æ¬Â·¾¶. Çë½«¸ÃÍ¼Æ¬·ÅÖÃÔÚAUTOCADµÄÑ°ÕÒÂ·¾¶ÖĞ
+        const TCHAR image_name[] = _T("atoll");     // å›¾ç‰‡åœ¨å­—å…¸ä¸­çš„åå­—
+        const TCHAR image_path[] = _T("atoll.jpg"); // å®é™…å›¾ç‰‡è·¯å¾„. è¯·å°†è¯¥å›¾ç‰‡æ”¾ç½®åœ¨AUTOCADçš„å¯»æ‰¾è·¯å¾„ä¸­
 
-        // ĞŞ¼ôid±íÊ¾µÄimage. Ä¬ÈÏimageµÄ¶¨Î»µãÎª×óÏÂ½Ç, ¿íx¸ß=·Ö±æÂÊ. ¿íÎª+xÖá, ¸ßÎª+yÖá
+        // ä¿®å‰ªidè¡¨ç¤ºçš„image. é»˜è®¤imageçš„å®šä½ç‚¹ä¸ºå·¦ä¸‹è§’, å®½xé«˜=åˆ†è¾¨ç‡. å®½ä¸º+xè½´, é«˜ä¸º+yè½´
         Acad::ErrorStatus manipulate(AcDbObjectId id) {
             AcDbRasterImage* rid;
             auto es = acdbOpenObject(rid, id, AcDb::kForWrite);
             if (es != Acad::eOk)
                 return es;
 
-            // ¶ÔÍ¼ĞÎÉèÖÃ×ø±ê, È·¶¨´óĞ¡, ½øĞĞ±ä»¯. Á÷³ÌÓ¦¸ÃÊÇÏÈ½«Í¼ĞÎ×óÏÂ½ÇÆ½ÒÆµ½ĞÂµÄ×ø±ê, È»ºó±ä»»³¤¿í. ÔÙ½øĞĞ±ß½ç´¦Àí
+            // å¯¹å›¾å½¢è®¾ç½®åæ ‡, ç¡®å®šå¤§å°, è¿›è¡Œå˜åŒ–. æµç¨‹åº”è¯¥æ˜¯å…ˆå°†å›¾å½¢å·¦ä¸‹è§’å¹³ç§»åˆ°æ–°çš„åæ ‡, ç„¶åå˜æ¢é•¿å®½. å†è¿›è¡Œè¾¹ç•Œå¤„ç†
             {
-                // ÉèÖÃ×ø±êµã, ¿í, ¸ß.
+                // è®¾ç½®åæ ‡ç‚¹, å®½, é«˜.
                 if (!rid->setOrientation(AcGePoint3d(100, 100, 100), AcGeVector3d(500, 0, 0), AcGeVector3d(0, 200, 0)))
                     ads_printf(_T("Error: Set orientation failed.\n"));
 
-                // ±äĞÎ. ÕâÀïµÄ×ø±êÊÇÏñËØµã, ¶øÏñËØµãµÄ×ø±êÔ­µãÊÇÍ¼ĞÎµÄ×óÉÏ½Ç, xÖáÏòÓÒ+, yÖáÏòÏÂ+. µÈ¼ÛÓÚUI½çÃæµÄ×ø±ê
+                // å˜å½¢. è¿™é‡Œçš„åæ ‡æ˜¯åƒç´ ç‚¹, è€Œåƒç´ ç‚¹çš„åæ ‡åŸç‚¹æ˜¯å›¾å½¢çš„å·¦ä¸Šè§’, xè½´å‘å³+, yè½´å‘ä¸‹+. ç­‰ä»·äºUIç•Œé¢çš„åæ ‡
                 AcGePoint2dArray boundry;
                 AcGePoint2d pts[5] = { {100, 100}, {300, 0}, {600, 200}, {100, 400}, {100, 100} };
                 for (int i = 0; i < 5; ++i)
                     boundry.append(pts[i]);
 
-                // ¿ÉÒÔÊ¹ÓÃgetPixelToModelTransformÀ´»ñÈ¡ÊÀ½ç×ø±ê
+                // å¯ä»¥ä½¿ç”¨getPixelToModelTransformæ¥è·å–ä¸–ç•Œåæ ‡
                 {
                     AcGeMatrix3d mtx;
                     rid->getPixelToModelTransform(mtx);
@@ -44,7 +44,7 @@ namespace wzj {
                     }
                 }
 
-                // Í¼ĞÎ»á±äĞÎÎªÓÉboundaryÎª±ß½çµÄÑùÊ½. ×¢Òâ²»ÊÇ²Ã¼ô
+                // å›¾å½¢ä¼šå˜å½¢ä¸ºç”±boundaryä¸ºè¾¹ç•Œçš„æ ·å¼. æ³¨æ„ä¸æ˜¯è£å‰ª
                 es = rid->setClipBoundary(AcDbRasterImage::kPoly, boundry); 
                 if (es != Acad::eOk)
                     ads_printf(_T("Error: Set orientation failed.\n"));
@@ -54,7 +54,7 @@ namespace wzj {
             rid->close();
         }
         /**
-        * ´´½¨reactor. Æä×÷ÓÃÊÇÔÚdefinition¸Ä±äµÄÊ±ºòÍ¨ÖªimageÖØ»­
+        * åˆ›å»ºreactor. å…¶ä½œç”¨æ˜¯åœ¨definitionæ”¹å˜çš„æ—¶å€™é€šçŸ¥imageé‡ç”»
         */
         Acad::ErrorStatus create_image_reactor(AcDbObjectId def_id, AcDbObjectId id) {
             // Disable image definition notification while changing the definition reactor list
@@ -99,9 +99,9 @@ namespace wzj {
         }
 
         /**
-        * ´´½¨Ò»¸ö¹âÕ¤Í¼ĞÎ. 
-        * @param [in] def_id, ¹âÕ¤¶¨Òå¶ÔÏóµÄid
-        * @param [out] *id, Ëù´´½¨µÄ¹âÕ¤Í¼ĞÎid
+        * åˆ›å»ºä¸€ä¸ªå…‰æ …å›¾å½¢. 
+        * @param [in] def_id, å…‰æ …å®šä¹‰å¯¹è±¡çš„id
+        * @param [out] *id, æ‰€åˆ›å»ºçš„å…‰æ …å›¾å½¢id
         */
         Acad::ErrorStatus create_image(AcDbObjectId def_id, AcDbObjectId* id) {
             AcDbRasterImage* ri = new AcDbRasterImage;
@@ -126,11 +126,11 @@ namespace wzj {
         }
 
         /**
-        * ´´½¨Ò»¸ödefinition, ±£´æµ½×ÖµäÖĞ. ×ÖµäÓÉAcDbRasterImageDef::createImageDictionaryÈ·¶¨
-        * @param [out] id, ¹âÕ¤¶¨Òå¶ÔÏóid
-        * @param [in] image_name, ¹âÕ¤¶¨Òå¶ÔÏóÔÚ×ÖµäÖĞµÄkey. valueÎª¶ÔÏó±¾Éí
-        * @param [in] image_path, Êµ¼ÊÍ¼ĞÎÎÄ¼şµÄÂ·¾¶
-        * @remark Èç¹ûimage_nameÒÑ´æÔÚÔÚ×ÖµäÖĞ, Ôò·µ»ØAcad::eHandleInUse, ²¢²»»á·¢Éú¸²¸Ç
+        * åˆ›å»ºä¸€ä¸ªdefinition, ä¿å­˜åˆ°å­—å…¸ä¸­. å­—å…¸ç”±AcDbRasterImageDef::createImageDictionaryç¡®å®š
+        * @param [out] id, å…‰æ …å®šä¹‰å¯¹è±¡id
+        * @param [in] image_name, å…‰æ …å®šä¹‰å¯¹è±¡åœ¨å­—å…¸ä¸­çš„key. valueä¸ºå¯¹è±¡æœ¬èº«
+        * @param [in] image_path, å®é™…å›¾å½¢æ–‡ä»¶çš„è·¯å¾„
+        * @remark å¦‚æœimage_nameå·²å­˜åœ¨åœ¨å­—å…¸ä¸­, åˆ™è¿”å›Acad::eHandleInUse, å¹¶ä¸ä¼šå‘ç”Ÿè¦†ç›–
         */
         Acad::ErrorStatus create_def(AcDbObjectId* id, const TCHAR* image_name, const TCHAR* image_path, bool overwrite) {
             AcDbRasterImageDef* rid = new AcDbRasterImageDef;
@@ -180,16 +180,16 @@ namespace wzj {
         }
 
         /**
-        * Éú³Édefinition, ºÍ2×éimageºÍreactor. ·µ»ØµÚ2×éimageµÄid
+        * ç”Ÿæˆdefinition, å’Œ2ç»„imageå’Œreactor. è¿”å›ç¬¬2ç»„imageçš„id
         */
         Acad::ErrorStatus attach(AcDbObjectId* image_id, bool overwrite) {
-            // ÔØÈëÍ¼ĞÎ,Éú³É¹âÕ¤¶¨Òå
+            // è½½å…¥å›¾å½¢,ç”Ÿæˆå…‰æ …å®šä¹‰
             AcDbObjectId def_id;
             auto es = create_def(&def_id, image_name, image_path, overwrite);
             if (es != Acad::eOk)
                 return es;
 
-            // ÒÀ¾İ¹âÕ¤¶¨Òå, ´´½¨2¸ö¶ÔÏó
+            // ä¾æ®å…‰æ …å®šä¹‰, åˆ›å»º2ä¸ªå¯¹è±¡
             const int count = 2;
             for (int i = 0; i < count; ++i) {
                 es = create_image(def_id, image_id);
@@ -217,7 +217,7 @@ namespace wzj {
             if (es != Acad::eOk)
                 ads_printf(_T("Error: Manipulate example image failed.\n"));
         }
-        // ºÍaccess_image±¾ÖÊÏàÍ¬. µ«¿ÉÒÔ¸²¸ÇdefinitionÔÚ×ÖµäÖĞµÄkey, ¶øÇ°Õß²»ĞĞ
+        // å’Œaccess_imageæœ¬è´¨ç›¸åŒ. ä½†å¯ä»¥è¦†ç›–definitionåœ¨å­—å…¸ä¸­çš„key, è€Œå‰è€…ä¸è¡Œ
         void access_image_overwrite() {
             AcDbObjectId id;
             auto es = attach(&id, true);
@@ -226,7 +226,7 @@ namespace wzj {
                 ads_printf(_T("Error: Attach example image failed.\n"));
                 return;
             }
-            // ¶ÔattachÖĞµÚ¶ş¸öÍ¼ĞÎ½øĞĞ±ä»¯
+            // å¯¹attachä¸­ç¬¬äºŒä¸ªå›¾å½¢è¿›è¡Œå˜åŒ–
             es = manipulate(id);
             if (es != Acad::eOk)
                 ads_printf(_T("Error: Manipulate example image failed.\n"));
@@ -235,7 +235,7 @@ namespace wzj {
 
     void raster_image::init_impl()
     {
-        acrxDynamicLinker->loadModule(_T("acISMobj22.dbx"), true); // ĞèÒªÔØÈë, ·ñÔòAcDbRasterImage*ÕâĞ©Àà¶¼²»ÈÏÊ¶
+        acrxDynamicLinker->loadModule(_T("acISMobj22.dbx"), true); // éœ€è¦è½½å…¥, å¦åˆ™AcDbRasterImage*è¿™äº›ç±»éƒ½ä¸è®¤è¯†
 
         acedRegCmds->addCommand(_T("WZJ_COMMAND_RASTER_IMAGE"), _T("GLOBAL_RI"), _T("LOCAL_RI"), ACRX_CMD_MODAL, detail::access_image);
 
@@ -246,6 +246,6 @@ namespace wzj {
     {
         acedRegCmds->removeGroup(_T("WZJ_COMMAND_RASTER_IMAGE"));
 
-        acrxDynamicLinker->unloadModule(_T("acISMobj22.dbx"), true); // ÈçºÎÔØÈë, ÈçºÎĞ¶ÔØ. ¼´±£³ÖµÚ¶ş¸ö²ÎÊıÒ»ÖÂ
+        acrxDynamicLinker->unloadModule(_T("acISMobj22.dbx"), true); // å¦‚ä½•è½½å…¥, å¦‚ä½•å¸è½½. å³ä¿æŒç¬¬äºŒä¸ªå‚æ•°ä¸€è‡´
     }
 }

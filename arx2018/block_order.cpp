@@ -29,7 +29,7 @@ namespace wzj {
 
             bool commit_ = false;
         };
-        // Ô­Ê¼Ë³Ğò, ¼´Ê¹ÓÃAcDbBlockTableRecordIterator
+        // åŸå§‹é¡ºåº, å³ä½¿ç”¨AcDbBlockTableRecordIterator
         void normal_order(const AcDbObjectPointer<AcDbBlockReference>& pBlkRef, const AcDbBlockTableRecordPointer& pBTR) {
             AcDbBlockTableRecordIterator* pIter = nullptr;
             CString info = _T("normal order = [");
@@ -49,7 +49,7 @@ namespace wzj {
             info += _T("]\n");
             ads_printf((const TCHAR*)info);
         }
-        // ÒÀÀµMyBlockOrderFilterµÄË³Ğò. ·µ»Øfalse±íÊ¾Ã»ÓĞMyBlockOrderFilter
+        // ä¾èµ–MyBlockOrderFilterçš„é¡ºåº. è¿”å›falseè¡¨ç¤ºæ²¡æœ‰MyBlockOrderFilter
         bool my_order(const AcDbObjectPointer<AcDbBlockReference>& pBlkRef, const AcDbBlockTableRecordPointer& pBTR) {
             MyBlockOrderIndex* pMyIdx = nullptr;
             AcDbObjectPointer<MyBlockOrderIndex> pIndex;
@@ -79,7 +79,7 @@ namespace wzj {
             return true;
         }
         /**
-        * ¶ÔµÚÒ»²ãÄÚÇ¶µÄ¶ÔÏó(¿ÉÒÔÊÇÆÕÍ¨¶ÔÏó, Ò²¿ÉÒÔÊÇÄÚÇ¶µÄblock reference)½øĞĞÏòÇ°»òÏòºóÅÅĞò
+        * å¯¹ç¬¬ä¸€å±‚å†…åµŒçš„å¯¹è±¡(å¯ä»¥æ˜¯æ™®é€šå¯¹è±¡, ä¹Ÿå¯ä»¥æ˜¯å†…åµŒçš„block reference)è¿›è¡Œå‘å‰æˆ–å‘åæ’åº
         */
         void block_order() {
             resbuf* res = nullptr;
@@ -186,7 +186,7 @@ namespace wzj {
             }
         }
         /**
-        * ²é¿´µ±Ç°¶ÔÏóµÄÑ­Ğò
+        * æŸ¥çœ‹å½“å‰å¯¹è±¡çš„å¾ªåº
         */
         void see_order() {
             ads_point xform[4] = {}, pt = {};
@@ -198,7 +198,7 @@ namespace wzj {
                     return;
 
             } while (res == nullptr);
-            // »ñÈ¡×îÍâ²ãblock reference
+            // è·å–æœ€å¤–å±‚block reference
             resbuf* last = res;
             while (last != NULL && last->rbnext != NULL) {
                 last = last->rbnext;

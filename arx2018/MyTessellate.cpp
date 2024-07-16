@@ -42,7 +42,7 @@ Adesk::Boolean MyTessellate::subWorldDraw(AcGiWorldDraw *pW) {
     // If regenType is kAcGiSaveWorldDrawForProxy then we
     // must return Adesk::kTrue, otherwise we need to return
     // Adesk::kFalse to trigger calls to our viewportDraw().
-    return (pW->regenType() == kAcGiSaveWorldDrawForProxy); // kAcGiSaveWorldDrawForProxy是对proxy对象而言. 这种对象不支持viewportDraw
+    return (pW->regenType() == kAcGiSaveWorldDrawForProxy); // kAcGiSaveWorldDrawForProxy鏄proxy瀵硅薄鑰岃█. 杩欑瀵硅薄涓嶆敮鎸乿iewportDraw
 }
 
 void MyTessellate::subViewportDraw(AcGiViewportDraw* pV)

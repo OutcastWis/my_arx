@@ -11,20 +11,20 @@ namespace wzj {
 
 	namespace detail {
 		/**
-		* ÿ��ͼ��һ������. ͼ�����:
-		*	LY_CIRCLE1, ���ز�����. �뾶Ϊ10��Բ
-		*	LY_CIRCLE2, ����. �뾶Ϊ8��Բ
-		*	LY_CIRCLE3, ����. �뾶Ϊ6��Բ
-		*	LY_LINE1, ����. �����µ����ϵ�ֱ��
-		*	LY_LINE2, ���᲻����. �����ϵ����µ�ֱ��
-		*	LY_LINE3, ����. ���ϽǵĶ�ֱ��, ��LY_LINE1��ֱ
-		*	LY_LINE4, ����. ���½ǵĶ�ֱ��, ��LY_LINE1��ֱ, ��ʾ��ɫ(����1)
+		* 每个图层一个对象. 图层见下:
+		*	LY_CIRCLE1, 隐藏不冻结. 半径为10的圆
+		*	LY_CIRCLE2, 正常. 半径为8的圆
+		*	LY_CIRCLE3, 正常. 半径为6的圆
+		*	LY_LINE1, 正常. 从左下到右上的直线
+		*	LY_LINE2, 冻结不隐藏. 从左上到右下的直线
+		*	LY_LINE3, 正常. 右上角的短直线, 和LY_LINE1垂直
+		*	LY_LINE4, 正常. 左下角的短直线, 和LY_LINE1垂直, 显示红色(索引1)
 		*
-		* ��:
-		*	GROUP_LINE1. ����LY_LINE1, LY_LINE2, LY_LINE3
-		*	GROUP_LINE2. ����LY_LINE1, LY_LINE4
+		* 组:
+		*	GROUP_LINE1. 含有LY_LINE1, LY_LINE2, LY_LINE3
+		*	GROUP_LINE2. 含有LY_LINE1, LY_LINE4
 		*
-		* ���ж��󱻴�����, ��ΪPICKFIRST
+		* 所有对象被创建后, 设为PICKFIRST
 		*/
 		void make_fake_data() {
 			Acad::ErrorStatus es;
@@ -88,11 +88,11 @@ namespace wzj {
 			line4->close();
 
 
-			// group. ��1����line1, line2, line3
+			// group. 组1包含line1, line2, line3
 			auto ids1 = AcDbObjectIdArray();
 			ids1.append(id2), ids1.append(id3), ids1.append(id5);
 			create_group(ids1, _T("GROUP_LINE1"));
-			// ��2����lin1, line4
+			// 组2包含lin1, line4
 			auto ids2 = AcDbObjectIdArray();
 			ids2.append(id2), ids2.append(id6);
 			create_group(ids2, _T("GROUP_LINE2"));
@@ -161,44 +161,44 @@ namespace wzj {
 		* ssget
 		* 
 		* Selection Method Mode Options:
-		*	NULL		PICKFIRST. ����ṩ��pt1, ���ǵ�ѡ. û��PICKFIRSTʱ, ���н���
-		*	I			PICKFIRST. ��Ҫ������ACRX_CMD_REDRAW. û��PICKFIRSTʱ,���ش���
-		*	C, W		��ѡ. C��ʾ�ཻ����, W����Ҫ��Χ. ��Ҫͼ������ͼ�ڿɼ�
-		*	CP, WP		��ѡ�Ķ���ΰ汾. ��Ҫͼ������ͼ�ڿɼ�
-		*	F			��դ. ��ȡ��pt1��ʾ��ֱ���ཻ�Ķ���. ��Ҫͼ������ͼ�ڿɼ�
-		*	L			��󴴽���Entity. �����GROUP, ����ȫ�����
-		*	P			��һ�ε�ѡ��
-		*	X			����. filter==nullptr, ����ȫͼ. ������������ݿ�,����ͼֽ�ռ�
+		*	NULL		PICKFIRST. 如果提供了pt1, 则是点选. 没有PICKFIRST时, 进行交互
+		*	I			PICKFIRST. 需要命令有ACRX_CMD_REDRAW. 没有PICKFIRST时,返回错误
+		*	C, W		框选. C表示相交即可, W则需要包围. 需要图形在试图内可见
+		*	CP, WP		框选的多边形版本. 需要图形在试图内可见
+		*	F			格栅. 获取和pt1表示的直线相交的对象. 需要图形在试图内可见
+		*	L			最后创建的Entity. 如果是GROUP, 则是全组对象
+		*	P			上一次的选择集
+		*	X			过滤. filter==nullptr, 则是全图. 会遍历整个数据库,包括图纸空间
 		*
 		* Colon Mode Options
-		*	:$	��ʾ, pt1����2���ַ�������. 0��Addʱ����ʾ, 1��Removeʱ��ʾ
-		*   :?  ���acedSSSetOtherCallbackPtr, ��������ʶ�Ĺؼ���
-		*	:A	ȫ��
-		*	:D	���ظ�ѡ��
-		*	:K	pt2�����ùؼ���. ���acedSSSetKwordCallbackPtr, �����ؼ���
-		*	:N	Ƕ��. ��������ͨѡ��ûɶ����. ����acedSSNameX����ȷ��ѡ�е�Ƕ�׶���. ���highlight(). ʵ��ʹ����Ҳ����ѡ���Ӷ���
-		*	:S	��ѡ
-		*	:E  �ɼ�����
-		*	:U	��סCTRL����ѡ���Ӷ���, ��������ͨѡ��. �Ӷ����ǿ��Ƕ�׶���, ��������Poly�еĸ��߶�, 3Dͼ�ε���ͱ�.
-		*	:V	ǿ��ѡ���Ӷ���. ����ö���û���Ӷ���, ����ѡ��
+		*	:$	提示, pt1长度2的字符串数组. 0是Add时的提示, 1是Remove时提示
+		*   :?  配合acedSSSetOtherCallbackPtr, 处理不认识的关键字
+		*	:A	全部
+		*	:D	可重复选择
+		*	:K	pt2可设置关键字. 配合acedSSSetKwordCallbackPtr, 处理关键字
+		*	:N	嵌套. 交互和普通选择没啥区别. 借助acedSSNameX才能确定选中的嵌套对象. 详见highlight(). 实际使用它也可以选择子对象
+		*	:S	单选
+		*	:E  可见对象
+		*	:U	按住CTRL可以选择子对象, 否则是普通选择. 子对象不是块的嵌套对象, 而是例如Poly中的各线段, 3D图形的面和边.
+		*	:V	强制选择子对象. 如果该对象没有子对象, 则不能选择
 		*
 		* Keyword Filter Mode Options
-		*	+	���ӹؼ���. ��ʱĬ��Ϊ"Add/Remove/Undo/Single"
-		*	-   ���ٹؼ���. ��ʱĬ��Ϊ"Window/Last/Crossing/BOX/ALL/Fence/WPolygon/CPolygon/Group/Add/Remove/Multiple/Previous/Undo/AUto/Single"
-		*	#	-ʱ����ȥ��"Last|All|Group|Previous". +ʱ��������"Last|All|Previous"
-		*	B	-ʱȥ��"Box|AUTO". +ʱ����"Window|Crossing|BOX|WPolygon|CPolygon"
-		*	D	-ʱȥ��"Add/Remove". +ʱ������
-		*	A	��Ӧ"ALL"
-		*	M	��Ӧ"Multiple"
-		*   C	��Ӧ"Crossing|CPolygon"
-		*   F	��Ӧ"Fence"
-		*   L	��Ӧ"Last"
-		*	P	��Ӧ"Previous"
-		*	W	��Ӧ"Window|WPolygon"
-		*	G	��Ӧ"Group"
-		*	.   ����+, �û�����ѡ. ���û��'.', ��Ҫ��ָ��������ʽ, ����ѡ�����
+		*	+	增加关键字. 此时默认为"Add/Remove/Undo/Single"
+		*	-   减少关键字. 此时默认为"Window/Last/Crossing/BOX/ALL/Fence/WPolygon/CPolygon/Group/Add/Remove/Multiple/Previous/Undo/AUto/Single"
+		*	#	-时代表去掉"Last|All|Group|Previous". +时代表增加"Last|All|Previous"
+		*	B	-时去掉"Box|AUTO". +时增加"Window|Crossing|BOX|WPolygon|CPolygon"
+		*	D	-时去掉"Add/Remove". +时无作用
+		*	A	对应"ALL"
+		*	M	对应"Multiple"
+		*   C	对应"Crossing|CPolygon"
+		*   F	对应"Fence"
+		*   L	对应"Last"
+		*	P	对应"Previous"
+		*	W	对应"Window|WPolygon"
+		*	G	对应"Group"
+		*	.   用于+, 用户鼠标点选. 如果没有'.', 需要先指定交互方式, 才能选择对象
 		*
-		* @remark  Keyword Filter Mode OptionsӦ�÷���һ��, �����ַ�������ǰ��. ����"_+.+F+G+W"
+		* @remark  Keyword Filter Mode Options应该放在一起, 并在字符串的最前面. 例如"_+.+F+G+W"
 		*/
 		void ssget() {
 			make_fake_data();
@@ -214,22 +214,22 @@ namespace wzj {
 			// NULL. str, pt1, ptr2, filer are all null.
 			res = ssget(nullptr, nullptr, nullptr, nullptr);
 
-			// C. "W"�ȼ�. ֻ����������Ҫ�����������, �������ཻ����
+			// C. "W"等价. 只不过后者需要包含对象才算, 而不是相交就行
 			{
 				AcDbPolyline* poly = new AcDbPolyline();
 				poly->addVertexAt(0, AcGePoint2d(-1, 11));
 				poly->addVertexAt(0, AcGePoint2d(3, 11));
 				poly->addVertexAt(0, AcGePoint2d(3, 7));
 				poly->addVertexAt(0, AcGePoint2d(-1, 7));
-				poly->setClosed(true); // poly��pt1��pt2�����ľ��ο�
+				poly->setClosed(true); // poly是pt1和pt2决定的矩形框
 				other_ents.push_back(poly);
-				// ���Կ���: 
-				//		1. pt1��pt2��˳������ν. 
-				//		2. poly��GROUP_LINE1, CIRCLE2�ཻ, ����ѡ��������4��ͼ��(GROUP_LINE1 �е� LINE1 �� LINE3, CIRCLE2)
+				// 可以看到: 
+				//		1. pt1和pt2的顺序无所谓. 
+				//		2. poly和GROUP_LINE1, CIRCLE2相交, 所以选择集里面有4个图形(GROUP_LINE1 中的 LINE1 和 LINE3, CIRCLE2)
 				res = ssget(_T("C"), POINT(pt1, -1, 7, 0), POINT(pt2, 3, 11, 0), nullptr);
 			}
 
-			// "CP". "WP"�ȼ�. ֻ����������Ҫ�����������, �������ཻ����
+			// "CP". "WP"等价. 只不过后者需要包含对象才算, 而不是相交就行
 			{
 				double pts[12] = {
 				0, 0, 0,
@@ -245,10 +245,10 @@ namespace wzj {
 				}
 				poly->setClosed(true);
 				other_ents.push_back(poly);
-				// ���Կ���: 
-				//		1. poly��CIRCLE2, CIRCLE3�ཻ. ѡ�������ٺ�����2��
-				//		2. (0,0)����LINE1����, Ϊ�������, ������Ҳ���ܲ���. ����(-0.01, 0.01)����LINE1��, �Ƴ���GROUP1��GROUP2��,
-				//			��ʱ, ѡ���ж��⺬��LINE1, LINE3, LINE4
+				// 可以看到: 
+				//		1. poly与CIRCLE2, CIRCLE3相交. 选择集中至少含有这2个
+				//		2. (0,0)点与LINE1相切, 为极端情况, 可能算也可能不算. 若是(-0.01, 0.01)则与LINE1交, 推出与GROUP1和GROUP2交,
+				//			此时, 选择集中额外含有LINE1, LINE3, LINE4
 				res = ssget(_T("CP"), list_pts1, nullptr, nullptr);
 				ads_relrb(list_pts1);
 			}
@@ -264,21 +264,21 @@ namespace wzj {
 				line->setStartPoint(asPnt3d(list_pts2->resval.rpoint));
 				line->setEndPoint(asPnt3d(list_pts2->rbnext->resval.rpoint));
 				other_ents.push_back(line);
-				// ��ֱ��, ����CIRCLE2, CIRCLE3�ཻ, ����ѡ����ֻ����2��
+				// 该直线, 仅与CIRCLE2, CIRCLE3相交, 所以选择集中只有这2个
 				res = ssget(_T("F"), list_pts2, nullptr, nullptr);
 				ads_relrb(list_pts2);
 			}
 
-			// "P". ��һ�ε�ѡ�񼯽��
+			// "P". 上一次的选择集结果
 			res = ssget(_T("P"), nullptr, nullptr, nullptr);
 
-			// "L". ����������ݿ�Ķ���. ���������GROUP2, ����ѡ������GROUP2�еĶ���
+			// "L". 最近进入数据库的对象. 由于最近是GROUP2, 所以选择集中是GROUP2中的对象
 			res = ssget(_T("L"), nullptr, nullptr, nullptr);
 
 			// "X". 
 			{
-				// Ѱ������CIRCLE�ͷǺ�ɫLINE. ��ǰ�治ͬ, X��Զ��������ͼ����д���. 
-				// ���ѡ����Ϊ6������. 3��CIRCLE, 3��LINE(LINE4Ϊ��ɫ, ���ų�)
+				// 寻找所有CIRCLE和非红色LINE. 和前面不同, X会对冻结和隐藏图层进行处理. 
+				// 结果选择集中为6个对象. 3个CIRCLE, 3个LINE(LINE4为红色, 被排除)
 				auto filter = ads_buildlist(
 					-4, _T("<or"),
 					RTDXF0, _T("CIRCLE"),
@@ -293,24 +293,24 @@ namespace wzj {
 			}
 
 			// ":$:?:K"
-			acedSSSetKwordCallbackPtr(keywork_cb); // :K����. ʶ��Ĺؼ���global�����callback
-			acedSSSetOtherCallbackPtr(other_cb); // :?����. ����ʶ�Ĺؼ��ֽ����callback
-			const TCHAR* prompts[2] = { _T("Add��ʾ:[KAey1 KBey2 KCey3]"), _T("Remove��ʾ") };
+			acedSSSetKwordCallbackPtr(keywork_cb); // :K控制. 识别的关键字global进入该callback
+			acedSSSetOtherCallbackPtr(other_cb); // :?控制. 不认识的关键字进入该callback
+			const TCHAR* prompts[2] = { _T("Add提示:[KAey1 KBey2 KCey3]"), _T("Remove提示") };
 			res = ssget(_T(":$:?:K"), prompts, _T("KAey1 KBey2 KCey3 _ GK1 GK2 GK3"), nullptr, true);
 
-			// ����. ����?���ɿ����ؼ����б�. Ӧ����"����(W)/��ѡ(F)/ȦΧ(WP)/����(G)/����(A)/ɾ��(R)/����(U)/����(SI)"
-			// �����"_+F+W+G", ����Ҫ������ؼ��ֺ���ܽ��ж���ѡ��
+			// 交互. 输入?即可看到关键字列表. 应该是"窗口(W)/栏选(F)/圈围(WP)/编组(G)/添加(A)/删除(R)/放弃(U)/单个(SI)"
+			// 如果是"_+F+W+G", 则需要先输入关键字后才能进行对象选择
 			res = ssget(_T("_+F+W+G+."), nullptr, nullptr, nullptr);
 #undef POINT
 
 			{
-				create_layer(_T("����"), false, false);
+				create_layer(_T("辅助"), false, false);
 
 				int i = 1;
 				AcDbObjectId id;
 				for (auto ent : other_ents) {
 					ent->setColorIndex(i++);
-					ent->setLayer(_T("����"));
+					ent->setLayer(_T("辅助"));
 					if (i > 6) i = 1;
 					add_to_model_space(id, ent, nullptr);
 					ent->close();

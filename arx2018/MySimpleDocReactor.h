@@ -5,7 +5,7 @@
 
 #include <acdocman.h>
 
-// ´´½¨Ê±, ×Ô¶¯¼ÓÈëacDocManagerÖĞ. Îö¹¹Ê±, ×Ô¶¯½â³ı
+// åˆ›å»ºæ—¶, è‡ªåŠ¨åŠ å…¥acDocManagerä¸­. ææ„æ—¶, è‡ªåŠ¨è§£é™¤
 class MySimpleDocReactor : public AcApDocManagerReactor
 {
 public:
@@ -24,8 +24,8 @@ public:
 
 public:
 
-    // ²»Í¬override¶ÔÓ¦²»Í¬µÄ²Ù×÷º¯Êı. firstÊÇÉÏÊöoverrideµÄº¯ÊıÃû. secondÊÇ²Ù×÷º¯Êı, 
-    // const TCHAR*×÷ÎªĞÅÏ¢, void* ±íÊ¾×Ô¶¨ÒåÊı¾İ
+    // ä¸åŒoverrideå¯¹åº”ä¸åŒçš„æ“ä½œå‡½æ•°. firstæ˜¯ä¸Šè¿°overrideçš„å‡½æ•°å. secondæ˜¯æ“ä½œå‡½æ•°, 
+    // const TCHAR*ä½œä¸ºä¿¡æ¯, void* è¡¨ç¤ºè‡ªå®šä¹‰æ•°æ®
     std::map < CString, std::function<void(const TCHAR*, void*)>> ops_;
 };
 

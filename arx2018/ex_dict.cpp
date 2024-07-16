@@ -12,7 +12,7 @@ namespace wzj {
         AcDbObject* selectObject(AcDbObjectId& eId, AcDb::OpenMode openMode) {
             ads_name en = {};
             ads_point pt = {};
-            ads_initget(RSG_OTHER, _T("Handle _Handle")); // RSG_OTHERÔÊÐíÓÃ»§ÊäÈëÈÎÒâÖµ
+            ads_initget(RSG_OTHER, _T("Handle _Handle")); // RSG_OTHERå…è®¸ç”¨æˆ·è¾“å…¥ä»»æ„å€¼
             int ss = ads_entsel(_T("Select an Entity or enter 'H' to any enter object handle: "), en, pt);
 
             TCHAR hdl[16] = {};
@@ -22,7 +22,7 @@ namespace wzj {
                 break;
             case RTKWORD:
                 if ((ads_getstring(FALSE, _T("Enter Valid Object Handle: "), hdl) == RTNORM) && (ads_handent(hdl, en) == RTNORM))
-                    break; // FALSE±íÊ¾ÊäÈë×Ö·û´®¿ÉÒÔ°üº¬¿Õ¸ñ. ·ñÔò¿Õ¸ñ»á´ò¶ÏÊäÈë
+                    break; // FALSEè¡¨ç¤ºè¾“å…¥å­—ç¬¦ä¸²å¯ä»¥åŒ…å«ç©ºæ ¼. å¦åˆ™ç©ºæ ¼ä¼šæ‰“æ–­è¾“å…¥
             default:
                 ads_printf(_T("Nothing Selected, Return Code=%d\n"), ss);
                 return nullptr;
@@ -45,12 +45,12 @@ namespace wzj {
         }
 
         /**
-        * Ñ¡Ôñ¶ÔÏó, È»ºó´ò¿ªËü
-        * @param [out] pObjId, ËùÑ¡¶ÔÏóid
-        * @param [in] mode, ´ò¿ª·½Ê½. pObj, pXDict, pIObj¶¼ÊÇÓÃ¸Ã·½Ê½´ò¿ª
-        * @param [out] pObj, ËùÑ¡¶ÔÏó
-        * @param [out] pXDict, ËùÑ¡¶ÔÏóµÄÀ©Õ¹×Öµä
-        * @param [out] pIObj, pXDictÖÐµÄ"inventory_id"¶ÔÓ¦µÄ´æ´¢¶ÔÏó
+        * é€‰æ‹©å¯¹è±¡, ç„¶åŽæ‰“å¼€å®ƒ
+        * @param [out] pObjId, æ‰€é€‰å¯¹è±¡id
+        * @param [in] mode, æ‰“å¼€æ–¹å¼. pObj, pXDict, pIObjéƒ½æ˜¯ç”¨è¯¥æ–¹å¼æ‰“å¼€
+        * @param [out] pObj, æ‰€é€‰å¯¹è±¡
+        * @param [out] pXDict, æ‰€é€‰å¯¹è±¡çš„æ‰©å±•å­—å…¸
+        * @param [out] pIObj, pXDictä¸­çš„"inventory_id"å¯¹åº”çš„å­˜å‚¨å¯¹è±¡
         */
         void commonOpen(AcDbObjectId& pObjId, AcDb::OpenMode  mode, AcDbObject*& pObj, AcDbDictionary*& pXDict,
                 MyInventoryData*& pIObj)
@@ -92,7 +92,7 @@ namespace wzj {
             pXDict->getAt(key, ((AcDbObject*&)pIObj), mode);
         }
 
-        // Ñ¡Ôñ¶ÔÏó,ÏÔÊ¾¸Ã¶ÔÏóÀ©Õ¹×ÖµäÖÐ, "inventory_id"¶ÔÓ¦µÄid
+        // é€‰æ‹©å¯¹è±¡,æ˜¾ç¤ºè¯¥å¯¹è±¡æ‰©å±•å­—å…¸ä¸­, "inventory_id"å¯¹åº”çš„id
         void listInventoryId() {
             AcDbObjectId pObjId;
             AcDbObject* pObj = NULL;
@@ -123,7 +123,7 @@ namespace wzj {
             if (pObj != NULL)
                 pObj->close();
         }
-        // Ñ¡Ôñ¶ÔÏó, Îª¸Ã¶ÔÏóµÄÀ©Õ¹×ÖµäÌí¼Ó{"inventory_id", value}
+        // é€‰æ‹©å¯¹è±¡, ä¸ºè¯¥å¯¹è±¡çš„æ‰©å±•å­—å…¸æ·»åŠ {"inventory_id", value}
         void setInventoryId() {
             AcDbObjectId pObjId;
             AcDbObject* pObj = NULL;

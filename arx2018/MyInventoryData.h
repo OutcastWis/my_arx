@@ -5,7 +5,7 @@
 
 /**
 * @file MyInventoryData
-* ×Ô¶¨ÒåÊı¾İ, ÅäºÏ¶ÔÏóµÄÃüÃû×ÖµäÊ¹ÓÃ
+* è‡ªå®šä¹‰æ•°æ®, é…åˆå¯¹è±¡çš„å‘½åå­—å…¸ä½¿ç”¨
 */
 class MyInventoryData : public AcDbObject
 {

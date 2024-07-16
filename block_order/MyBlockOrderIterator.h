@@ -4,7 +4,7 @@
 #include "MyBlockOrderFilter.h"
 
 /**
-* @remark ¸ÃÀàÃ»ÓĞ¼Ì³Ğ×ÔAcDbObject. ÇÒ²»ĞèÒª¿çdll¶ÔÍâ¿ª·Å
+* @remark è¯¥ç±»æ²¡æœ‰ç»§æ‰¿è‡ªAcDbObject. ä¸”ä¸éœ€è¦è·¨dllå¯¹å¤–å¼€æ”¾
 */
 class MyBlockOrderIterator : public AcDbFilteredBlockIterator
 {
@@ -22,15 +22,15 @@ public:
     virtual Acad::ErrorStatus accepts(AcDbObjectId id, Adesk::Boolean& idPassesFilter) const override;
 
     virtual Adesk::Boolean    buffersForComposition() const override;
-    // id¼ÓÈëmBuffer
+    // idåŠ å…¥mBuffer
     virtual Acad::ErrorStatus addToBuffer(AcDbObjectId id) override;
 
 private:
-    const MyBlockOrderFilter* mpFilter;     // ¾ö¶¨ÁËmIdsÖĞµÄÅÅĞò
-    AcDbObjectId midBTR;        // Ö¸ÏòAcDbBlockTableRecord
-    AcDbObjectIdArray mIds;     // ÅÅĞòºóµÄ¶ÔÏó. ¸Ã¼¯ºÏºÍmBufferÒ»ÖÂ, Ö»²»¹ıË³Ğò²»Ò»
-    AcDbObjectIdArray mBuffer;  // ´æÖümidBTR¿éÖĞµÄËùÓĞ¶ÔÏó. ´æ´¢Ë³ĞòÊ¹ÓÃAcDbBlockTableRecordIterator
-    int mPos;                   // µ±Ç°±éÀúµ½mIdsµÄÄÄ¸öÎ»ÖÃ. ¼´Êı×éË÷Òı
-    bool mbMain;                // ÊÇ·ñÎ´³õÊ¼»¯, false±íÊ¾ÒÑ³õÊ¼»¯. ³õÊ¼»¯µÄÊ±ºò, ĞèÒª´ÓmidBTRÖĞ¶ÁÈ¡mBuffer.
+    const MyBlockOrderFilter* mpFilter;     // å†³å®šäº†mIdsä¸­çš„æ’åº
+    AcDbObjectId midBTR;        // æŒ‡å‘AcDbBlockTableRecord
+    AcDbObjectIdArray mIds;     // æ’åºåçš„å¯¹è±¡. è¯¥é›†åˆå’ŒmBufferä¸€è‡´, åªä¸è¿‡é¡ºåºä¸ä¸€
+    AcDbObjectIdArray mBuffer;  // å­˜è´®midBTRå—ä¸­çš„æ‰€æœ‰å¯¹è±¡. å­˜å‚¨é¡ºåºä½¿ç”¨AcDbBlockTableRecordIterator
+    int mPos;                   // å½“å‰éå†åˆ°mIdsçš„å“ªä¸ªä½ç½®. å³æ•°ç»„ç´¢å¼•
+    bool mbMain;                // æ˜¯å¦æœªåˆå§‹åŒ–, falseè¡¨ç¤ºå·²åˆå§‹åŒ–. åˆå§‹åŒ–çš„æ—¶å€™, éœ€è¦ä»midBTRä¸­è¯»å–mBuffer.
 };
 

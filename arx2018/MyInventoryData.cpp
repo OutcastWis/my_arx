@@ -42,7 +42,7 @@ Acad::ErrorStatus MyInventoryData::dwgInFields(AcDbDwgFiler* filer)
     assert(es == Acad::eOk);
 
     setInventoryId(nullptr);
-    es = filer->readString(&mId); // readString ×Ô¶¯¿ª±Ù¿Õ¼ä
+    es = filer->readString(&mId); // readString è‡ªåŠ¨å¼€è¾Ÿç©ºé—´
     assert(es == Acad::eOk);
 
     return es;

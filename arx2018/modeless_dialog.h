@@ -25,23 +25,23 @@ namespace wzj {
         void init_impl() override;
 
         void stop_impl() override;
-        // ³õÊ¼»¯edit_reactor_, doc_reactor_
+        // åˆå§‹åŒ–edit_reactor_, doc_reactor_
         void attach();
-        // Ğ¶ÔØedit_reactor_, doc_reactor_
+        // å¸è½½edit_reactor_, doc_reactor_
         void detach();
-        // ¸ù¾İdisplay_dialog_, ¹Ø±Õ»òÕß³õÊ¼»¯db_reactor_
+        // æ ¹æ®display_dialog_, å…³é—­æˆ–è€…åˆå§‹åŒ–db_reactor_
         void attachDbReactor(AcDbDatabase* pDb);
-        // Ğ¶ÔØ
+        // å¸è½½
         void detachDbReactor(AcDbDatabase* pDb);
 
         void startDlg();
 
         void endDlg();
-        // dlgÉÏÏÔÊ¾×îºóÒ»¸ö±ä»¯µÄ¶ÔÏó, Àà,ËùÔÚÎÄ¼ş
+        // dlgä¸Šæ˜¾ç¤ºæœ€åä¸€ä¸ªå˜åŒ–çš„å¯¹è±¡, ç±»,æ‰€åœ¨æ–‡ä»¶
         void objDisplay(const TCHAR* file, const TCHAR* pWhat, const AcDbObject* pDbObj);
 
     public:
-        // falseÔòËùÓĞ¶¼²»ÏÔÊ¾. trueÔòĞèÒªÔÙµ±Ç°ÎÄ¼ş´æÔÚdbReactorÊ±²ÅÏÔÊ¾, ·ñÔò²»ÏÔÊ¾
+        // falseåˆ™æ‰€æœ‰éƒ½ä¸æ˜¾ç¤º. trueåˆ™éœ€è¦å†å½“å‰æ–‡ä»¶å­˜åœ¨dbReactoræ—¶æ‰æ˜¾ç¤º, å¦åˆ™ä¸æ˜¾ç¤º
         bool display_dialog_;
 
         MySimpleModelessDialog* dlg_;
@@ -50,7 +50,7 @@ namespace wzj {
 
         struct DocData {
             bool undoBtnAvailable; 
-            bool undoCmd; // true±íÊ¾ÕıÔÚUndoÃüÁîÖĞ
+            bool undoCmd; // trueè¡¨ç¤ºæ­£åœ¨Undoå‘½ä»¤ä¸­
             MySimpleDbReactor* dbReactor;
         };
 

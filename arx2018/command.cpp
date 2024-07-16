@@ -103,7 +103,7 @@ void init_app(void* appId) {
     acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_EXDICT"), _T("LOCAL_EXDICT"), ACRX_CMD_MODAL, ex_dict);
     
     acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_RASTER"), _T("LOCAL_RASTER"), ACRX_CMD_MODAL, raster_image);
-    // ����extend_tabs,��ǰ��. Ϊoption�Ի���ע��. ��ߵĵ�һ��������д��ע����е�ǰ������OptionsDialog\TabExtensions��. ������֮�ⲻ֪���к�����, �ƺ���������ȡ��
+    // 函数extend_tabs,的前提. 为option对话框注册. 这边的第一个参数会写入注册表中当前配置下OptionsDialog\TabExtensions中. 但除此之外不知道有何作用, 似乎可以任意取名
     acedRegisterExtendedTab(_T("arx2018.arx"), _T("OptionsDialog"));
 
     acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_MODELESS"), _T("LOCAL_MODELESS"), ACRX_CMD_MODAL, modeless_dialog);
@@ -114,7 +114,7 @@ void init_app(void* appId) {
 
     acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_DOCMAN"), _T("LOCAL_DOCMAN"), ACRX_CMD_MODAL, docman);
 
-    context_menu(appId); // ע���û��Լ��Ŀ�ݲ˵�
+    context_menu(appId); // 注册用户自己的快捷菜单
 
     acedRegCmds->addCommand(_T("WZJ_COMMAND_GROUP"), _T("GLOBAL_BLOCK_ORDER"), _T("LOCAL_BLOCK_ORDER"), ACRX_CMD_MODAL, block_order);
 
@@ -266,7 +266,7 @@ Adesk::Boolean getYorN(const TCHAR* pStr)
     // specific prompt.
     acutPrintf(_T("\n%s"), pStr);
 
-    acedInitGet(0, _T("�� �� _No Yes"));
+    acedInitGet(0, _T("否 是 _No Yes"));
 
     yorn_str[0] = _T('Y');
     yorn_str[1] = _T('\0');
@@ -340,7 +340,7 @@ AcDbObjectIdArray ContainerIdsAndEntity(ads_name sset, ads_point pick_point, Ade
             while (NULL != rbWalk)
             {
                 if (RTENAME == rbWalk->restype)
-                { // ��Щ����, ����Ƕ�����, ��������
+                { // 这些对象, 按照嵌套深度, 由内至外
                     AcDbObjectId nested_id;
                     acdbGetObjectId(nested_id, rbWalk->resval.rlname);
                     ids.append(nested_id);
@@ -350,7 +350,7 @@ AcDbObjectIdArray ContainerIdsAndEntity(ads_name sset, ads_point pick_point, Ade
             acutRelRb(rb);
         }
     }
-    ids.reverse(); // ��ת, Ϊ�ⲿAcDbFullSubentPathʹ��
+    ids.reverse(); // 翻转, 为外部AcDbFullSubentPath使用
     return ids;
 }
 
@@ -415,7 +415,7 @@ void progress_meter() {
 
 
 void custom_text() {
-    // ��ȡtext style
+    // 获取text style
     AcDbTextStyleTable* pStyleTable;
     acdbHostApplicationServices()->workingDatabase()->getSymbolTable(pStyleTable, AcDb::kForRead);
 
@@ -427,7 +427,7 @@ void custom_text() {
     delete pIterator;
     pStyleTable->close();
 
-    // AcDbTextStyleTableRecord ת AcGiTextStyle
+    // AcDbTextStyleTableRecord 转 AcGiTextStyle
     AcGiTextStyle ts;
     {
         const TCHAR* pTmpStr;
@@ -442,7 +442,7 @@ void custom_text() {
         ts.setObliquingAngle(style->obliquingAngle());
 
         style->close();
-        ts.loadStyleRec(); // �ú���������
+        ts.loadStyleRec(); // 该函数最后调用
     }
 
 

@@ -18,7 +18,7 @@ Acad::ErrorStatus MySimpleBlockInsertPoints::getInsertionPoints(const AcDbBlockT
 	if (_tcsicmp(sName, DynmicBlockName()) != 0)
 		return Acad::eNotApplicable;
 
-	// INSERTÃüÁîÊ±, °´CTRL»áµ¼ÖÂblockµÄ²åÈëµã°´Ë³Ğò±ä»¯. ´ÓÄ¬ÈÏ(0,0,0)¿ªÊ¼, ÑØinsPts
+	// INSERTå‘½ä»¤æ—¶, æŒ‰CTRLä¼šå¯¼è‡´blockçš„æ’å…¥ç‚¹æŒ‰é¡ºåºå˜åŒ–. ä»é»˜è®¤(0,0,0)å¼€å§‹, æ²¿insPts
 
 	insPts.append(AcGePoint3d(1.0, 0.0, 0.0)); //midpoint of side
 	insPts.append(AcGePoint3d(1.0, -1.0, 0.0)); //buffered midpoint
@@ -31,7 +31,7 @@ Acad::ErrorStatus MySimpleBlockInsertPoints::getInsertionPoints(const AcDbBlockT
 	insPts.append(AcGePoint3d(0.0, 2.0, 0.0)); //endpoint
 	insPts.append(AcGePoint3d(0.0, 1.0, 0.0)); //midpoint of side
 	insPts.append(AcGePoint3d(-1.0, 1.0, 0.0)); //buffered midpoint
-	// ²»Í¬²åÈëµãµÄ²åÈë·½Ïò. ÔÚ²åÈëÊ±»áÓ°ÏìblockµÄ·­×ªµÈ
+	// ä¸åŒæ’å…¥ç‚¹çš„æ’å…¥æ–¹å‘. åœ¨æ’å…¥æ—¶ä¼šå½±å“blockçš„ç¿»è½¬ç­‰
 	alignmentDirections.append(AcGeVector3d(0.0, 1.0, 0.0));
 	alignmentDirections.append(AcGeVector3d(0.0, 1.0, 0.0));
 	alignmentDirections.append(AcGeVector3d(-1.0, 0.0, 0.0));

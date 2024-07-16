@@ -48,7 +48,7 @@ Acad::ErrorStatus MyBlockOrderIterator::start()
     }
     // note where we stop with 'sent back' items
     int bottomHalf = mIds.length();
-    // ·´Ïò
+    // åå‘
     pOrder = &(mpFilter->sentToBottom());
     for (int i = pOrder->length() - 1; i >= 0; --i) {
         int pos;

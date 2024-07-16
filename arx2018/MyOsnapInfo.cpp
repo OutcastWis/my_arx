@@ -14,12 +14,12 @@ Acad::ErrorStatus MyOsnapCurveInfo::getOsnapInfo(AcDbEntity* pickedObject, Adesk
     double startParam, endParam;
     auto es = pCurve->getStartParam(startParam);
     es = pCurve->getEndParam(endParam);
-    // »ñÈ¡1/3´¦»¡ÉÏ×ø±ê
+    // èŽ·å–1/3å¤„å¼§ä¸Šåæ ‡
     AcGePoint3d pt;
     es = pCurve->getPointAtParam(startParam + ((endParam - startParam) / 3), pt);
     assert(Acad::eOk == es);
     snapPoints.append(pt);
-    // »ñÈ¡2/3´¦»¡ÉÏ×ø±ê
+    // èŽ·å–2/3å¤„å¼§ä¸Šåæ ‡
     es = pCurve->getPointAtParam(startParam + ((endParam - startParam) * 2 / 3), pt);
     assert(Acad::eOk == es);
     snapPoints.append(pt);

@@ -38,7 +38,7 @@ namespace wzj {
         double elapsedTime() const;
 
     protected:
-        // {stat, record}. statÊÇÃüÁîĞĞ×´Ì¬, ÓÉdetail::getCurrentStateFlags()ËùµÃ
+        // {stat, record}. statæ˜¯å‘½ä»¤è¡ŒçŠ¶æ€, ç”±detail::getCurrentStateFlags()æ‰€å¾—
         std::map<int, MyCommandSubRecord> m_subRecords;
     };
 
@@ -96,7 +96,7 @@ namespace wzj {
         void stop_impl() override;
 
         void init_impl() override;
-        // ÔÚdocDataÖĞÑ°ÕÒpDoc, Èô²»´æÔÚ, Ôò¼ÓÈë. ·µ»ØË÷Òı
+        // åœ¨docDataä¸­å¯»æ‰¾pDoc, è‹¥ä¸å­˜åœ¨, åˆ™åŠ å…¥. è¿”å›ç´¢å¼•
         int lookupDoc(AcApDocument* pDoc);
 
         void recordCommandDuration(const TCHAR* pszCmdStr);

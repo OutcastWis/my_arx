@@ -22,7 +22,7 @@ namespace wzj {
 
 
     namespace detail {
-        // ¿ªÆôedit, document reactor. ²¢Îªµ±Ç°ÎÄµµÌí¼Ódb reactor, ÏÔÊ¾½çÃæ
+        // å¼€å¯edit, document reactor. å¹¶ä¸ºå½“å‰æ–‡æ¡£æ·»åŠ db reactor, æ˜¾ç¤ºç•Œé¢
         void display() {
             global_one->display_dialog_ = true;
 
@@ -30,13 +30,13 @@ namespace wzj {
             global_one->attach();
             global_one->startDlg();
         }
-        // È¡Ïûµ±Ç°ÎÄµµµÄreactor, ²¢Òþ²Ø½çÃæ
+        // å–æ¶ˆå½“å‰æ–‡æ¡£çš„reactor, å¹¶éšè—ç•Œé¢
         void conceal() {
             global_one->detachDbReactor(curDoc()->database());
             if (global_one->dlg_)
                 global_one->dlg_->ShowWindow(SW_HIDE);
         }
-        // È¡ÏûËùÓÐÎÄµµµÄreactor, É¾³ý½çÃæ. µ«edit, docµÄreactorÒÀ¾É´æÔÚ
+        // å–æ¶ˆæ‰€æœ‰æ–‡æ¡£çš„reactor, åˆ é™¤ç•Œé¢. ä½†edit, docçš„reactorä¾æ—§å­˜åœ¨
         void conceal_all() {
             global_one->display_dialog_ = false;
             global_one->endDlg();
@@ -87,7 +87,7 @@ namespace wzj {
         };
         edit_reactor_->ops_[_T("commandEnded")] = [&](const TCHAR*, void* data) {
             auto& dd = data_[curDoc()];
-            if (dlg_) // ÒòÎª¹Ø±ÕconcealºÍconceal_all¶¼²»»áÉ¾³ýedit_reactor, ËùÒÔÕâÀïÒªÅÐ¶Ï
+            if (dlg_) // å› ä¸ºå…³é—­concealå’Œconceal_alléƒ½ä¸ä¼šåˆ é™¤edit_reactor, æ‰€ä»¥è¿™é‡Œè¦åˆ¤æ–­
                 dlg_->m_undoBtn.EnableWindow(dd.undoBtnAvailable);
             dd.undoBtnAvailable = false;
             dd.undoCmd = false; //undo is finished

@@ -49,8 +49,8 @@ public:
 
 
 /**
-* ·Ç³£¼òµ¥µÄÏğÆ¤ÉşJig. 
-* @detail ¶ÔÏóÔÚÒÆ¶¯Ê½, Ê¹ÓÃÏğÆ¤Éş±íÏÖ. ²¢Ê¹ÓÃAcGsModelÀ´¹ÜÀí»æÖÆÖĞ¼ä¹ı³Ì
+* éå¸¸ç®€å•çš„æ©¡çš®ç»³Jig. 
+* @detail å¯¹è±¡åœ¨ç§»åŠ¨å¼, ä½¿ç”¨æ©¡çš®ç»³è¡¨ç°. å¹¶ä½¿ç”¨AcGsModelæ¥ç®¡ç†ç»˜åˆ¶ä¸­é—´è¿‡ç¨‹
 *      
 */
 class MyJig3d : public AcEdJig
@@ -59,13 +59,13 @@ public:
     MyJig3d() :m_pModel(0), m_LastPoint(0.0, 0.0, 0.0) {}
     ~MyJig3d();
 
-    // ÕûÌåÁ÷³ÌÓÉengage()¿ªÊ¼, ²»¶Ïµ÷ÓÃdrag()È¥´¥·¢sampler().Í¬Ê±½«
-    // Ô­±¾¸üĞÂ²Ù×÷ÓÉupdate·Åµ½ÁËengageÖĞ, ËùÒÔupdate²»ÓÃ¸ÉÊÂ
+    // æ•´ä½“æµç¨‹ç”±engage()å¼€å§‹, ä¸æ–­è°ƒç”¨drag()å»è§¦å‘sampler().åŒæ—¶å°†
+    // åŸæœ¬æ›´æ–°æ“ä½œç”±updateæ”¾åˆ°äº†engageä¸­, æ‰€ä»¥updateä¸ç”¨å¹²äº‹
     virtual Adesk::Boolean  update() override
     {
         return Adesk::kFalse;
     }
-    // ¼ÇÂ¼ÔÚm_intÖĞ, Õâ±ßÎŞÓÃ
+    // è®°å½•åœ¨m_intä¸­, è¿™è¾¹æ— ç”¨
     virtual AcDbEntity* entity() const override
     {
         return const_cast<AcDbPolyline*>(&m_dummy);
@@ -78,7 +78,7 @@ public:
     void init(const AcDbObjectId& idEntity, const AcGePoint3d& refPoint, int viewportNumber);
 private:
     AcDbPolyline m_dummy;
-    AcGsModel* m_pModel;    // ¿ØÖÆÍ¼ĞÎµÄ»æÖÆ
+    AcGsModel* m_pModel;    // æ§åˆ¶å›¾å½¢çš„ç»˜åˆ¶
     AcGePoint3d m_refPoint; // WCS
     double m_elev;			// UCS
     Intermediary m_int;
