@@ -136,7 +136,7 @@
       <EnableUAC>false</EnableUAC>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalLibraryDirectories>E:\wzj\cad\ObjectARX2018\lib-x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>accore.lib;acad.lib;acui22.lib;adui22.lib;ac1st22.lib;acdb22.lib;acge22.lib;acgiapi.lib;acISMobj22.lib;rxapi.lib;acpal.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>accore.lib;acad.lib;acui22.lib;adui22.lib;ac1st22.lib;acdb22.lib;acge22.lib;acgiapi.lib;acISMobj22.lib;rxapi.lib;acpal.lib;AcDrawBridge.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ModuleDefinitionFile>module_default.def</ModuleDefinitionFile>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
     </Link>
