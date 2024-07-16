@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "MySimpleBlockInsertPoints.h"
 
+#include <AcString.h>
+
 const TCHAR* MySimpleBlockInsertPoints::DynmicBlockName()
 {
 	return _T("WZJ_DYN_BLOCK");
@@ -9,6 +11,7 @@ const TCHAR* MySimpleBlockInsertPoints::DynmicBlockName()
 Acad::ErrorStatus MySimpleBlockInsertPoints::getInsertionPoints(const AcDbBlockTableRecord* pBlock,
 	const AcDbBlockReference* pBlkRef, AcGePoint3dArray& insPts, AcGeVector3dArray& alignmentDirections)
 {
+	(void*)pBlkRef;
 
 	AcString sName;
 	Acad::ErrorStatus es = pBlock->getName(sName);

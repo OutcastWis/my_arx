@@ -1,7 +1,9 @@
 #include "pch.h"
 #include "ssget.h"
 
+#include <vector>
 #include <geassign.h>
+#include <AcString.h>
 
 #include "command.h"
 
@@ -129,7 +131,11 @@ namespace wzj {
 							info.Format(_T("%s%s, "), (const TCHAR*)info, ee->layer());
 						}
 						else {
+#ifdef CAD2022
 							info.Format(_T("%s%s, "), (const TCHAR*)info, obj->desc()->className());
+#else
+							info.Format(_T("%s%s, "), (const TCHAR*)info, obj->desc()->dxfName());
+#endif
 						}
 						obj->close();
 					}
