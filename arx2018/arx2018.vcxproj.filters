@@ -43,6 +43,15 @@
     <Filter Include="custom object">
       <UniqueIdentifier>{2a8ce606-b511-452e-8194-042dfc4de907}</UniqueIdentifier>
     </Filter>
+    <Filter Include="script">
+      <UniqueIdentifier>{31d6796e-3dc9-4034-b368-5a8dbff395e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="lisp">
+      <UniqueIdentifier>{f010d4c3-bb55-46be-8fcf-435d89a99e7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="protocol_reactor">
+      <UniqueIdentifier>{bf53cc40-ad8e-4458-bbd2-36768c620e29}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -149,6 +158,21 @@
     </ClInclude>
     <ClInclude Include="MyInventoryData.h">
       <Filter>custom object</Filter>
+    </ClInclude>
+    <ClInclude Include="MyCustomDrawEntity.h">
+      <Filter>custom entity</Filter>
+    </ClInclude>
+    <ClInclude Include="MyCustomWorldDraw.h">
+      <Filter>custom rxobject</Filter>
+    </ClInclude>
+    <ClInclude Include="ssget.h">
+      <Filter>medium</Filter>
+    </ClInclude>
+    <ClInclude Include="protocol_reactor.h">
+      <Filter>medium</Filter>
+    </ClInclude>
+    <ClInclude Include="MySimpleBlockInsertPoints.h">
+      <Filter>protocol_reactor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -260,11 +284,29 @@
     <ClCompile Include="MyInventoryData.cpp">
       <Filter>custom object</Filter>
     </ClCompile>
+    <ClCompile Include="MyCustomDrawEntity.cpp">
+      <Filter>custom entity</Filter>
+    </ClCompile>
+    <ClCompile Include="ssget.cpp">
+      <Filter>medium</Filter>
+    </ClCompile>
+    <ClCompile Include="protocol_reactor.cpp">
+      <Filter>medium</Filter>
+    </ClCompile>
+    <ClCompile Include="MySimpleBlockInsertPoints.cpp">
+      <Filter>protocol_reactor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="module_default.def" />
     <None Include="MyTessellate.h">
       <Filter>custom entity</Filter>
+    </None>
+    <None Include="start.scr">
+      <Filter>script</Filter>
+    </None>
+    <None Include="tool.lsp">
+      <Filter>lisp</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
