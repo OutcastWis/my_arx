@@ -151,11 +151,19 @@ void MyJig3d::init(const AcDbObjectId& idEntity, const AcGePoint3d& refPoint, in
         info.Format(_T("%s & %s"), (const TCHAR*)info, (const wchar_t*)(*it));
     ads_printf(_T("GsKernel desc: %s\n"), (const TCHAR*)info);
 
+#ifdef CAD2022
     m_pModel = acgsGetGsModel(&kernel, acdbHostApplicationServices()->workingDatabase());
+#else 
+    m_pModel = acgsGetGsManager()->gsModel(acdbHostApplicationServices()->workingDatabase());
+#endif 
     if (m_pModel == NULL)
         throw CString(_T("Unable to retrieve AcDb AcGsModel"));
 
+#ifdef CAD2022
 	auto check_model = acgsGetCurrentGsManager2()->gsModel(&kernel, acdbHostApplicationServices()->workingDatabase());
+#else
+    auto check_model = acgsGetGsModel(acdbHostApplicationServices()->workingDatabase());
+#endif
     assert(check_model == m_pModel);
 
 	AcGePoint3d pt(refPoint);
