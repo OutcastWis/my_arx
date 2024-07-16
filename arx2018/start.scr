@@ -1,0 +1,4 @@
+(arxload "C:/wzj/git_clone/my_arx_2018/x64/Debug/block_order.dbx")
+(arxload "C:/wzj/git_clone/my_arx_2018/x64/Debug/arx2018.arx")
+(arxload "C:/wzj/ARX2022/samples/database/ARXDBG/x64/Debug/ArxDbg.arx")
+(load "C:/wzj/git_clone/my_arx_2018/arx2018/tool.lsp")
