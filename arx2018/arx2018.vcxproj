@@ -178,6 +178,8 @@
     <ClInclude Include="modeless_dialog.h" />
     <ClInclude Include="MyAcUiDialog.h" />
     <ClInclude Include="MyCmdContext.h" />
+    <ClInclude Include="MyCustomDrawEntity.h" />
+    <ClInclude Include="MyCustomWorldDraw.h" />
     <ClInclude Include="MyDefaultContext.h" />
     <ClInclude Include="MyGlyph.h" />
     <ClInclude Include="MyJig3d.h" />
@@ -185,6 +187,7 @@
     <ClInclude Include="MyOsnapInfo.h" />
     <ClInclude Include="MyOsnapMode.h" />
     <ClInclude Include="MyRectangleJig.h" />
+    <ClInclude Include="MySimpleBlockInsertPoints.h" />
     <ClInclude Include="MySimpleDbReactor.h" />
     <ClInclude Include="MySimpleDocReactor.h" />
     <ClInclude Include="MyEditContext.h" />
@@ -194,8 +197,10 @@
     <ClInclude Include="MyTxtStyle.h" />
     <ClInclude Include="osnap.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="protocol_reactor.h" />
     <ClInclude Include="raster_image.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="ssget.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="block_order.cpp" />
@@ -214,6 +219,7 @@
     <ClCompile Include="modeless_dialog.cpp" />
     <ClCompile Include="MyAcUiDialog.cpp" />
     <ClCompile Include="MyCmdContext.cpp" />
+    <ClCompile Include="MyCustomDrawEntity.cpp" />
     <ClCompile Include="MyDefaultContext.cpp" />
     <ClCompile Include="MyGlyph.cpp" />
     <ClCompile Include="MyJig3d.cpp" />
@@ -221,6 +227,7 @@
     <ClCompile Include="MyOsnapInfo.cpp" />
     <ClCompile Include="MyOsnapMode.cpp" />
     <ClCompile Include="MyRectangleJig.cpp" />
+    <ClCompile Include="MySimpleBlockInsertPoints.cpp" />
     <ClCompile Include="MySimpleDbReactor.cpp" />
     <ClCompile Include="MySimpleDocReactor.cpp" />
     <ClCompile Include="MyEditContext.cpp" />
@@ -237,7 +244,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="highlight_subentity.cpp" />
+    <ClCompile Include="protocol_reactor.cpp" />
     <ClCompile Include="raster_image.cpp" />
+    <ClCompile Include="ssget.cpp" />
     <ClCompile Include="test.cpp" />
     <Text Include="README.md">
       <FileType>Document</FileType>
@@ -246,6 +255,8 @@
   <ItemGroup>
     <None Include="module_default.def" />
     <None Include="MyTessellate.h" />
+    <None Include="start.scr" />
+    <None Include="tool.lsp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="resource.rc" />
