@@ -44,7 +44,7 @@
 ) 
 
 
-; 炸开选中的块. 由于存在嵌套块, 所以会一直炸, 直到不能
+; 炸开块定义bname中的嵌套块. 本质是修改块定义
 (defun wzj_explode_block (bname / i b blocks count explode_ents next)
     (setq blocks (vla-get-Blocks (vla-get-ActiveDocument (vlax-get-acad-object))))
 
@@ -60,33 +60,36 @@
    
     (if (= i count) 
         (print (strcat "Not found blocks called: " bname)) 
-        (progn
+        (progn  ; 找打了块定义b
             (setq count (vla-get-Count b))
             (print (strcat "The count of entities in block is: " (itoa count)))
 
-            (while (/= count (length next))
+            (setq _cnt 1)
+            (while (> _cnt 0)
                 (setq next (list))
+                (setq _cnt 0)
                 ; 子对象炸开, 会直接影响块本身. 所以这边使用b就行
                 (vlax-for i b
-                    (if (vlax-method-applicable-p i 'Explode)
-                        (setq explode_ents 
+                    (if (= "AcDbBlockReference" (vla-get-ObjectName i))
+                    ;(if (vlax-method-applicable-p i 'Explode) ; 不要使用这个, 因为Polyline, Region等也有Explode函数, 会它们导致炸开, 并且变得很慢
+                        (progn
+                            (setq _cnt (1+ _cnt))
                             ; vla-Explode返回的是variant类型. 使用vlax-variant-value获取内置的safearray
-                            (vlax-safearray->list (vlax-variant-value (vla-Explode i)))
+                            ; (vlax-safearray->list (vlax-variant-value (vla-Explode i)))
+                            (vla-Explode i)
+                            (vla-delete i)
                         )
-                        ; else
-                        (setq explode_ents (list i))
                     )
-                   
-                    (setq next (append next explode_ents))
                 )
-
-                (print (strcat "after explode, has sub entities: " (itoa (length next))))
+                (print (strcat "block refs finded: " (itoa _cnt)))
+                (print (strcat "after explode, has sub entities: " (itoa (vla-get-Count b))))
             )
         )
     )
-    (print done)
+    (print "done")
     (princ)
 )
+
 
 
 ; 显示块中块, 仅一层
@@ -171,5 +174,45 @@
     )
 
     (print "done") 
+    (princ)
+)
+
+
+; 炸开预选集中的所有INSERT, 以及内嵌的INSERT
+(defun wzj_ss_explode_insert ()
+    (setq _ss (ssget "I"))
+    (setq _len (sslength _ss))
+    (setq _i 0)
+    (repeat _len
+        (setq _ent (ssname _ss _i))
+        (setq _i (1+ _i))
+      
+        (if (= "INSERT" (cdr (assoc 0 (entget _ent))))
+            (progn
+                (setq _o (vlax-ename->vla-object _ent))
+                (setq _cur (list _o))
+                (setq _nxt (list))
+                ; 循环炸开
+                (while (> (length _cur) 0)
+                    (foreach _o _cur
+                        (if (= "AcDbBlockReference" (vla-get-ObjectName _o))
+                            (setq _subs 
+                                ; vla-Explode返回的是variant类型. 使用vlax-variant-value获取内置的safearray
+                                (vlax-safearray->list (vlax-variant-value (vla-Explode _o)))
+                            )
+                            (setq _subs nil)
+                        )
+                        (setq _nxt (append _nxt _subs))
+                    )
+                    (print (strcat "after explode, add sub entities: " (itoa (length _nxt))))
+                    (setq _cur _nxt)
+                    (setq _nxt (list))
+                )
+                (entdel _ent) ; 删除源对象
+            )
+        )
+    )
+    
+    (print "done")
     (princ)
 )
